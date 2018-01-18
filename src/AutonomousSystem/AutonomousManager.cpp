@@ -5,9 +5,11 @@
  *      Author: Matthew
  */
 #include "AutonomousManager.h"
-class AutonomousManager
+namespace Autonomous
 {
-	AutonomousManager::AutonomousManager() {}
-};
-
+	class AutonomousManager
+	{
+		AutonomousManager::AutonomousManager() {}
+	};
+}
 

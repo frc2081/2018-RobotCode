@@ -5,7 +5,10 @@
  *      Author: Matthew
  */
 #include "CubeManager.h"
-class CubeManager
+namespace Cube
 {
-	CubeManager::CubeManager() {}
-};
+	class CubeManager
+	{
+		CubeManager::CubeManager() {}
+	};
+}

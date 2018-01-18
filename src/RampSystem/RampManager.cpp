@@ -5,7 +5,10 @@
  *      Author: Matthew
  */
 #include "RampManager.h"
-class RampManager
+namespace Ramp
 {
-	RampManager::RampManager() {}
-};
+	class RampManager
+	{
+		RampManager::RampManager() {}
+	};
+}

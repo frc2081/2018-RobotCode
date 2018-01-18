@@ -5,7 +5,10 @@
  *      Author: Matthew
  */
 #include "DriveManager.h"
-class DriveManager
+namespace Drive
 {
-	DriveManager::DriveManager() {}
-};
+	class DriveManager
+	{
+		DriveManager::DriveManager() {}
+	};
+}

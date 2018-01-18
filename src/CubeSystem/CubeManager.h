@@ -8,6 +8,19 @@
 #ifndef SRC_CUBESYSTEM_CUBEMANAGER_H_
 #define SRC_CUBESYSTEM_CUBEMANAGER_H_ 1
 
+namespace Cube
+{
+	class CubeManager
+	{
+	public:
+		void Intake();
+		void HighShot();
+		void LowShot();
+		void Delivery();
+	private:
+		bool _isidle;
+	};
+}
 
 
 

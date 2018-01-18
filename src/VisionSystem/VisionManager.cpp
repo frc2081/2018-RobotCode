@@ -5,7 +5,10 @@
  *      Author: Matthew
  */
 #include "VisionManager.h"
-class VisionManager
+namespace Vision
 {
-	VisionManager::VisionManager() {}
-};
+	class VisionManager
+	{
+		VisionManager::VisionManager() {}
+	};
+}
