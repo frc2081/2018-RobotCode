@@ -5,9 +5,6 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include <iostream>
-#include <string>
-
 #include <IterativeRobot.h>
 #include "Robot.h"
 
