@@ -7,5 +7,5 @@
 #include "RampManager.h"
 class RampManager
 {
-
+	RampManager::RampManager() {}
 };

@@ -7,5 +7,5 @@
 #include "DriveManager.h"
 class DriveManager
 {
-
+	DriveManager::DriveManager() {}
 };

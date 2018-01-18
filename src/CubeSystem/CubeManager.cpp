@@ -7,5 +7,5 @@
 #include "CubeManager.h"
 class CubeManager
 {
-
+	CubeManager::CubeManager() {}
 };

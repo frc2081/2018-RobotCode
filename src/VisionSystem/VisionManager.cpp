@@ -7,5 +7,5 @@
 #include "VisionManager.h"
 class VisionManager
 {
-
+	VisionManager::VisionManager() {}
 };

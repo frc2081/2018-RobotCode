@@ -7,7 +7,7 @@
 #include "AutonomousManager.h"
 class AutonomousManager
 {
-
+	AutonomousManager::AutonomousManager() {}
 };
 
 
