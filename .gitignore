@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Our Stuff
+*.xml
+*.cproject
+*.project
+*.properties
