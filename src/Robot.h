@@ -8,6 +8,11 @@
 #ifndef SRC_ROBOT_H_
 #define SRC_ROBOT_H_ 1
 
+#include "AutonomousSystem/AutonomousManager.h"
+#include "CubeSystem/CubeManager.h"
+#include "DriveSystem/DriveManager.h"
+#include "RampSystem/RampManager.h"
+#include "VisionSystem/VisionManager.h"
 
 
 
