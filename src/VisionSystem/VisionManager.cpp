@@ -7,8 +7,5 @@
 #include "VisionManager.h"
 namespace Vision
 {
-	class VisionManager
-	{
-		VisionManager::VisionManager() {}
-	};
+	VisionManager::VisionManager() {}
 }

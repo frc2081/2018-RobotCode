@@ -7,8 +7,5 @@
 #include "DriveManager.h"
 namespace Drive
 {
-	class DriveManager
-	{
-		DriveManager::DriveManager() {}
-	};
+	DriveManager::DriveManager() {}
 }

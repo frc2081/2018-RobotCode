@@ -13,6 +13,7 @@ namespace Cube
 	class CubeManager
 	{
 	public:
+		CubeManager();
 		void Intake();
 		void HighShot();
 		void LowShot();

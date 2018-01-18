@@ -8,6 +8,13 @@
 #ifndef SRC_VISIONSYSTEM_VISIONMANAGER_H_
 #define SRC_VISIONSYSTEM_VISIONMANAGER_H_
 
+namespace Vision {
+
+	class VisionManager {
+	public:
+		VisionManager();
+	};
+}
 
 
 

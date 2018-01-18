@@ -8,6 +8,13 @@
 #ifndef SRC_DRIVESYSTEM_DRIVEMANAGER_H_
 #define SRC_DRIVESYSTEM_DRIVEMANAGER_H_ 1
 
+namespace Drive {
+
+	class DriveManager {
+	public:
+		DriveManager();
+	};
+}
 
 
 

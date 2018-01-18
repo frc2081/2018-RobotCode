@@ -7,8 +7,5 @@
 #include "RampManager.h"
 namespace Ramp
 {
-	class RampManager
-	{
-		RampManager::RampManager() {}
-	};
+	RampManager::RampManager() {}
 }

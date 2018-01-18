@@ -8,6 +8,13 @@
 #ifndef SRC_RAMPSYSTEM_RAMPMANAGER_H_
 #define SRC_RAMPSYSTEM_RAMPMANAGER_H_ 1
 
+namespace Ramp {
+
+	class RampManager {
+	public:
+		RampManager();
+	};
+}
 
 
 

@@ -7,9 +7,6 @@
 #include "AutonomousManager.h"
 namespace Autonomous
 {
-	class AutonomousManager
-	{
-		AutonomousManager::AutonomousManager() {}
-	};
+	AutonomousManager::AutonomousManager() {}
 }
 

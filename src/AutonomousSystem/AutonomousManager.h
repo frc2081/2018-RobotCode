@@ -8,6 +8,13 @@
 #ifndef SRC_AUTONOMOUSSYSTEM_AUTONOMOUSMANAGER_H_
 #define SRC_AUTONOMOUSSYSTEM_AUTONOMOUSMANAGER_H_ 1
 
+namespace Autonomous
+{
+	class AutonomousManager {
+	public:
+		AutonomousManager();
+	};
+}
 
 
 

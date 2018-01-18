@@ -7,8 +7,5 @@
 #include "CubeManager.h"
 namespace Cube
 {
-	class CubeManager
-	{
-		CubeManager::CubeManager() {}
-	};
+	CubeManager::CubeManager() {}
 }
