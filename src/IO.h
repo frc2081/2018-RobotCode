@@ -8,14 +8,37 @@
 #ifndef SRC_IO_H_
 #define SRC_IO_H_
 
+#define NUM_ENCODERS 10
+
+#include "WPILib.h"
 /*
  * Contains an instance of all sensors, motors, and actuators to be passed
  * throughout the entire program
  */
 class IO {
 public:
-	IO();
 	virtual ~IO();
+
+	void g_Initialize();
+
+	IO *GetInstance();
+
+	Encoder GetEncoder(double);
+
+	Compressor GetCompressor();
+
+	Solenoid GetSolenoid(double);
+
+private:
+	IO();
+	void _InitSensors();
+	void _InitMotorControllers();
+	void _InitPneumatics();
+	static IO *Instance;
+	Encoder *encoders [10]; /* we have 10 encoders on the robot */
+	Compressor *compressor;
+	Solenoid *solenoids[10]; /*placeholder 10 */
+
 };
 
 #endif /* SRC_IO_H_ */

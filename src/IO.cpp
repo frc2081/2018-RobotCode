@@ -11,7 +11,18 @@ IO::IO() {
 	// TODO Auto-generated constructor stub
 
 }
+/* Instanciate all motor controllers here */
+void IO::InitMotorControllers() {
 
+}
+/* Instanciate all sensors here */
+void IO::InitSensors() {
+
+}
+/* Instanciate all pneumatics here */
+void IO::InitPneumatics() {
+
+}
 IO::~IO() {
 	// TODO Auto-generated destructor stub
 }
