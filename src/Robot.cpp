@@ -9,6 +9,7 @@
 #include <string>
 
 #include <IterativeRobot.h>
+#include "Robot.h"
 
 class Robot : public frc::IterativeRobot {
 public:
