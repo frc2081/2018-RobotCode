@@ -9,6 +9,7 @@
 #define SRC_IO_H_
 
 #define NUM_ENCODERS 10
+#define NUM_SOLENOIDS 10
 
 #include "WPILib.h"
 /*
@@ -35,9 +36,9 @@ private:
 	void _InitMotorControllers();
 	void _InitPneumatics();
 	static IO *Instance;
-	Encoder *encoders [10]; /* we have 10 encoders on the robot */
+	Encoder *encoders [NUM_ENCODERS]; /* we have 10 encoders on the robot */
 	Compressor *compressor;
-	Solenoid *solenoids[10]; /*placeholder 10 */
+	Solenoid *solenoids[NUM_SOLENOIDS]; /*placeholder 10 */
 
 };
 
