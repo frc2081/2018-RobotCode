@@ -27,27 +27,11 @@ public:
 
 	IO *GetInstance();
 
-	Encoder GetEncoder(double);
-
-	Compressor GetCompressor();
-
-	Solenoid GetSolenoid(double);
-
-	WPI_TalonSRX GetTalon(double);
-
-	WPI_VictorSPX GetVictor(double);
+	/* put all declarations here */
 
 private:
 	IO();
-	void _InitSensors();
-	void _InitMotorControllers();
-	void _InitPneumatics();
 	static IO *_instance;
-	Encoder *_encoders [NUM_ENCODERS];
-	Compressor *_compressor;
-	Solenoid *_solenoids[NUM_SOLENOIDS];
-	WPI_TalonSRX *_talons [NUM_TALONS];
-	WPI_VictorSPX *_victors[NUM_VICTORS];
 
 
 };
