@@ -7,13 +7,24 @@
 
 #ifndef SRC_DRIVESYSTEM_DRIVEMANAGER_H_
 #define SRC_DRIVESYSTEM_DRIVEMANAGER_H_ 1
-
+#include <Robot.h>
+/* temp includes */
+#include "Dependencies/SwerveLib.h"
 namespace Drive {
 
 	class DriveManager {
 	public:
-		DriveManager();
+		DriveManager(SwerveLib *swervelib);
+
+		void DriveMotors();
+
+	private:
+		SwerveLib *_swervelib;
+		cntl *_drivercntl;
+		double comangle, commagnitude, comrotation;
 	};
+
+
 }
 
 

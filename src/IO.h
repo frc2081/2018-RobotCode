@@ -15,6 +15,7 @@
 
 #include "WPILib.h"
 #include <Dependencies/Phoenix.h>
+#include <Dependencies/SwerveLib.h>
 /*
  * Contains an instance of all sensors, motors, and actuators to be passed
  * throughout the entire program
