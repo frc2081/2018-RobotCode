@@ -10,6 +10,7 @@
 #include <Robot.h>
 /* temp includes */
 #include "Dependencies/SwerveLib.h"
+#include "Dependencies/Phoenix.h"
 namespace Drive {
 
 	class DriveManager {
@@ -21,7 +22,23 @@ namespace Drive {
 	private:
 		SwerveLib *_swervelib;
 		cntl *_drivercntl;
-		double comangle, commagnitude, comrotation;
+		double _comangle, _commagnitude, _comrotation;
+		PIDController *lfdrvpid, rfdrvpid, lbdrvpid, rbdrvpid;
+		PIDController *lfturnpid, rfturnpid, rbturnpid, lbturnpid;
+		double lfdrvi, lfdrvp, lfdrvd;
+		double rfdrvi, rfdrvp, rfdrvd;
+		double lbdrvi, lbdrvp, lbdrvd;
+		double rbdrvi, rbdrvp, rbdrvd;
+		double lfturni, lfturnp, lfturnd;
+		double rfturni, rfturnp, rfturnd;
+		double lbturni, lbturnp, lbturnd;
+		double rbturni, rbturnp, rbturnd;
+		double pidpollrate;
+		/* temp varaibles */
+		Encoder lfdrvenc, rfdrvenc, lbdrvenc, rbdrvenc;
+		AnalogPotentiometer lfturnenc, rfturnenc, lbturnenc, rbturnenc;
+		WPI_VictorSPX lfdrv, rfdrv, lbdrv, rbdrv;
+		WPI_TalonSRX lfturn, rfturn, lbturn, rbturn;
 	};
 
 
