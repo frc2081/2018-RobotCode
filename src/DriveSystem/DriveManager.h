@@ -23,16 +23,10 @@ namespace Drive {
 		SwerveLib *_swervelib;
 		cntl *_drivercntl;
 		double _comangle, _commagnitude, _comrotation;
-		PIDController *lfdrvpid, rfdrvpid, lbdrvpid, rbdrvpid;
-		PIDController *lfturnpid, rfturnpid, rbturnpid, lbturnpid;
-		double lfdrvi, lfdrvp, lfdrvd;
-		double rfdrvi, rfdrvp, rfdrvd;
-		double lbdrvi, lbdrvp, lbdrvd;
-		double rbdrvi, rbdrvp, rbdrvd;
-		double lfturni, lfturnp, lfturnd;
-		double rfturni, rfturnp, rfturnd;
-		double lbturni, lbturnp, lbturnd;
-		double rbturni, rbturnp, rbturnd;
+		PIDController *lfdrvpid, *rfdrvpid, *lbdrvpid, *rbdrvpid;
+		PIDController *lfturnpid, *rfturnpid, *rbturnpid, *lbturnpid;
+		double drvpidi, drvpidp, drvpidd;
+		double turnpidi, turnpidp, turnpidd;
 		double pidpollrate;
 		/* temp varaibles */
 		Encoder lfdrvenc, rfdrvenc, lbdrvenc, rbdrvenc;

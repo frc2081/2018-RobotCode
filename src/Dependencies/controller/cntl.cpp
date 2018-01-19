@@ -4,7 +4,7 @@
  *  Created on: Oct 6, 2016
  *      Author: Lunar Dust
  */
-#include "cntl.h"
+#include <cntl.h>
 
 btn::btn(int button, frc::Joystick **s) {
 	_raw = new Btn_t(*s, button);
