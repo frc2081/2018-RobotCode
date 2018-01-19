@@ -37,3 +37,4 @@
 *.project
 *.properties
 /Debug/
+.DS_Store
