@@ -36,5 +36,7 @@
 *.cproject
 *.project
 *.properties
-/Debug/
+*.prefs
+language.settings.xml
 .DS_Store
+
