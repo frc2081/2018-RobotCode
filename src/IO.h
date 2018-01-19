@@ -26,7 +26,24 @@ public:
 	void Initialize();
 
 	IO *GetInstance();
-
+	WPI_VictorSPX *drvlb;
+	WPI_VictorSPX *drvrb;
+	WPI_VictorSPX *drvlf;
+	WPI_VictorSPX *drvrf;
+	WPI_VictorSPX *intakel;
+	WPI_VictorSPX *intaker;
+	WPI_VictorSPX *shooterl;
+	WPI_VictorSPX *shooterr;
+	WPI_VictorSPX *shooterangl;
+	WPI_VictorSPX *shooterangr;
+	Compressor *compressor;
+	Solenoid *solenoidrampl;
+	Solenoid *solenoidrampr;
+	WPI_TalonSRX *turnlb;
+	WPI_TalonSRX *turnlrb;
+	WPI_TalonSRX *turnlf;
+	WPI_TalonSRX *turnrf;
+	WPI_TalonSRX *turnlb;
 	/* put all declarations here */
 
 private:

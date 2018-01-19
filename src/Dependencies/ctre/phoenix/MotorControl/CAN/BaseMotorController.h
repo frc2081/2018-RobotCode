@@ -10,7 +10,7 @@
 #include <Dependencies/ctre/phoenix/MotorControl/StickyFaults.h>
 #include <Dependencies/ctre/phoenix/MotorControl/VelocityMeasPeriod.h>
 #include <Dependencies/ctre/phoenix/paramEnum.h>
-#include "ctre/phoenix/paramEnum.h"
+#include "Dependencies/ctre/phoenix/paramEnum.h"
 #include "SpeedController.h"
 
 /* forward proto's */
