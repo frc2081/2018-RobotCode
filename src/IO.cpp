@@ -17,7 +17,7 @@ void IO::Initialize() {
 		/* put all other instanciations here */
 	}
 }
-
+asdflk
 IO *IO::GetInstance() {
 	return _instance;
 }
