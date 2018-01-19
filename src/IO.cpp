@@ -17,11 +17,11 @@ void IO::Initialize() {
 		/* put all other instanciations here */
 	}
 }
-asdflk
+
 IO *IO::GetInstance() {
 	return _instance;
 }
-}
+
 IO::~IO() {
 	// TODO Auto-generated destructor stub
 }
