@@ -14,7 +14,7 @@
 #define NUM_VICTORS 8 /* we use victorSPX's everywhere else */
 
 #include "WPILib.h"
-#include "Dependancies/Phoenix.h"
+#include <Dependencies/Phoenix.h>
 /*
  * Contains an instance of all sensors, motors, and actuators to be passed
  * throughout the entire program
