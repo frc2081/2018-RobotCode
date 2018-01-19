@@ -21,7 +21,7 @@ void IO::Initialize() {
 IO *IO::GetInstance() {
 	return _instance;
 }
-}
+
 IO::~IO() {
 	// TODO Auto-generated destructor stub
 }
