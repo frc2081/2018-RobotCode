@@ -39,11 +39,10 @@ public:
 	Compressor *compressor;
 	Solenoid *solenoidrampl;
 	Solenoid *solenoidrampr;
-	WPI_TalonSRX *turnlb;
-	WPI_TalonSRX *turnlrb;
-	WPI_TalonSRX *turnlf;
-	WPI_TalonSRX *turnrf;
-	WPI_TalonSRX *turnlb;
+	WPI_VictorSPX *turnlb;
+	WPI_VictorSPX *turnrb;
+	WPI_VictorSPX *turnlf;
+	WPI_VictorSPX *turnrf;
 	/* put all declarations here */
 
 private:
