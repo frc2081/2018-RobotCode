@@ -40,3 +40,4 @@
 language.settings.xml
 .DS_Store
 
+/Debug/

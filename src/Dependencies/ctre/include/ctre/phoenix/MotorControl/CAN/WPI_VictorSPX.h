@@ -31,7 +31,7 @@ public:
 	WPI_VictorSPX(int deviceNumber);
 	virtual ~WPI_VictorSPX();
 
-	WPI_VictorSPX() = delete;
+	//WPI_VictorSPX() = delete;
 	WPI_VictorSPX(WPI_VictorSPX const&) = delete;
 	WPI_VictorSPX& operator=(WPI_VictorSPX const&) = delete;
 
