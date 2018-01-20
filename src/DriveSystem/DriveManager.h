@@ -19,16 +19,18 @@ namespace Drive {
 
 		void DriveMotors();
 
+		void CalculateVectors();
+
 	private:
 		SwerveLib *_swervelib;
-		cntl *_drivercntl;
 		double _comangle, _commagnitude, _comrotation;
-		PIDController *lfdrvpid, *rfdrvpid, *lbdrvpid, *rbdrvpid;
-		PIDController *lfturnpid, *rfturnpid, *rbturnpid, *lbturnpid;
-		double drvpidi, drvpidp, drvpidd;
-		double turnpidi, turnpidp, turnpidd;
-		double pidpollrate;
+		PIDController *_lfdrvpid, *_rfdrvpid, *_lbdrvpid, *_rbdrvpid;
+		PIDController *_lfturnpid, *_rfturnpid, *_rbturnpid, *_lbturnpid;
+		double _drvpidi, _drvpidp, _drvpidd;
+		double _turnpidi, _turnpidp, _turnpidd;
+		double _pidpollrate;
 		/* temp varaibles */
+		cntl *_drivercntl;
 		Encoder lfdrvenc, rfdrvenc, lbdrvenc, rbdrvenc;
 		AnalogPotentiometer lfturnenc, rfturnenc, lbturnenc, rbturnenc;
 		WPI_VictorSPX lfdrv, rfdrv, lbdrv, rbdrv;

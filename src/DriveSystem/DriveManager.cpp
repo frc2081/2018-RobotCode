@@ -9,14 +9,13 @@ namespace Drive
 {
 	DriveManager::DriveManager(SwerveLib *swervelib) {
 		_swervelib = swervelib;
-		_drivercntl = new cntl(0, 0.05); /* deadband value subject to change */
-		drvpidi = 0;
-		drvpidd = 0;
-		drvpidp = 0;
-		turnpidi = 0;
-		turnpidp = 0;
-		turnpidd = 0;
-		pidpollrate = 0.01;
+		_drvpidi = 0;
+		_drvpidd = 0;
+		_drvpidp = 0;
+		_turnpidi = 0;
+		_turnpidp = 0;
+		_turnpidd = 0;
+		_pidpollrate = 0.01;
 		/* temp */
 		lfdrvenc = new Encoder(0);
 		rfdrvenc = new Encoder(1);
@@ -27,18 +26,19 @@ namespace Drive
 		lbturnenc = new AnalogPotentiometer(2);
 		rbturnenc = new AnalogPotentiometer(3);
 		/* end temp */
-		lfdrvpid = new PIDController(drvpidp, drvpidi, drvpidd, lfdrvenc, lfdrv, pidpollrate);
-		rfdrvpid = new PIDController(drvpidp, drvpidi, drvpidp, rfdrvenc, rfdrv, pidpollrate);
-		lbdrvpid = new PIDController(drvpidp, drvpidi, drvpidp, lbdrvenc, lbdrv, pidpollrate);
-		rbdrvpid = new PIDController(drvpidp, drvpidi, drvpidp, rbdrvenc, rbdrv, pidpollrate);
-		lfturnpid = new PIDController(turnpidp, turnpidi, turnpidp, lfturnenc, lfturn, pidpollrate);
-		rfturnpid = new PIDController(turnpidp, turnpidi, turnpidp, rfturnenc, rfturn, pidpollrate);
-		rbturnpid = new PIDController(turnpidp, turnpidi, turnpidp, rbturnenc, rbturn, pidpollrate);
-		lbturnpid = new PIDController(turnpidp, turnpidi, turnpidp, lbturnenc, lbturn, pidpollrate);
+		_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, lfdrvenc, lfdrv, _pidpollrate);
+		_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, rfdrvenc, rfdrv, _pidpollrate);
+		_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, lbdrvenc, lbdrv, _pidpollrate);
+		_rbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, rbdrvenc, rbdrv, _pidpollrate);
+		_lfturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, lfturnenc, lfturn, _pidpollrate);
+		_rfturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, rfturnenc, rfturn, _pidpollrate);
+		_rbturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, rbturnenc, rbturn, _pidpollrate);
+		_lbturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, lbturnenc, lbturn, _pidpollrate);
 		_comangle = 0;
 		_commagnitude = 0;
 		_comrotation = 0;
 		/* temp variables */
+		_drivercntl = new cntl(0, 0.05); /* deadband value subject to change */
 		lfdrv = new WPI_VictorSPX(0);
 		rfdrv = new WPI_VictorSPX(1);
 		lbdrv = new WPI_VictorSPX(2);
@@ -57,10 +57,10 @@ namespace Drive
 		rbdrv.Set(_swervelib->whl->speedRB);
 		lbdrv.Set(_swervelib->whl->speedLB);
 
-		lfturnpid->SetSetpoint(_swervelib->whl->angleLF);
-		rfturnpid->SetSetpoint(_swervelib->whl->angleRF);
-		lbturnpid->SetSetpoint(_swervelib->whl->angleLB);
-		rbturnpid->SetSetpoint(_swervelib->whl->angleRB);
+		_lfturnpid->SetSetpoint(_swervelib->whl->angleLF);
+		_rfturnpid->SetSetpoint(_swervelib->whl->angleRF);
+		_lbturnpid->SetSetpoint(_swervelib->whl->angleLB);
+		_rbturnpid->SetSetpoint(_swervelib->whl->angleRB);
 
 	}
 }
