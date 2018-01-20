@@ -4,7 +4,7 @@
 #define SWERVELIB_H_
 
 #include <math.h>
-#include <algorithm.h>
+#include <algorithm>
 
 const double PI = 3.14159265;
 

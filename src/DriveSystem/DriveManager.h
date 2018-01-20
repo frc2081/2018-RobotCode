@@ -11,15 +11,20 @@
 /* temp includes */
 #include "Dependencies/SwerveLib.h"
 #include "Dependencies/Phoenix.h"
+#include "Dependencies/cntl.h"
+#include "WPILib.h"
+#include "IO.h"
 namespace Drive {
 
 	class DriveManager {
 	public:
-		DriveManager(SwerveLib *swervelib);
-
-		void DriveMotors();
+		DriveManager(SwerveLib *swervelib, IO *io);
 
 		void CalculateVectors();
+
+		void ApplyIntellegintSwerve();
+
+		void ApplyPIDControl();
 
 	private:
 		SwerveLib *_swervelib;
@@ -29,12 +34,13 @@ namespace Drive {
 		double _drvpidi, _drvpidp, _drvpidd;
 		double _turnpidi, _turnpidp, _turnpidd;
 		double _pidpollrate;
+		double _currangrf, _curranglf, _curranglb, _currangrb;
 		/* temp varaibles */
 		cntl *_drivercntl;
-		Encoder lfdrvenc, rfdrvenc, lbdrvenc, rbdrvenc;
-		AnalogPotentiometer lfturnenc, rfturnenc, lbturnenc, rbturnenc;
-		WPI_VictorSPX lfdrv, rfdrv, lbdrv, rbdrv;
-		WPI_TalonSRX lfturn, rfturn, lbturn, rbturn;
+		Encoder *lfdrvenc, *rfdrvenc, *lbdrvenc, *rbdrvenc;
+		AnalogPotentiometer *lfturnenc, *rfturnenc, *lbturnenc, *rbturnenc;
+		WPI_VictorSPX *lfdrv, *rfdrv, *lbdrv, *rbdrv;
+		WPI_VictorSPX *lfturn, *rfturn, *lbturn, *rbturn;
 	};
 
 

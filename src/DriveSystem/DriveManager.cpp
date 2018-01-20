@@ -7,7 +7,7 @@
 #include "DriveManager.h"
 namespace Drive
 {
-	DriveManager::DriveManager(SwerveLib *swervelib) {
+	DriveManager::DriveManager(SwerveLib *swervelib, IO *io) {
 		_swervelib = swervelib;
 		_drvpidi = 0;
 		_drvpidd = 0;
@@ -16,11 +16,15 @@ namespace Drive
 		_turnpidp = 0;
 		_turnpidd = 0;
 		_pidpollrate = 0.01;
+		_currangrf = 0;
+		_curranglf = 0;
+		_curranglb = 0;
+		_currangrb = 0;
 		/* temp */
-		lfdrvenc = new Encoder(0);
-		rfdrvenc = new Encoder(1);
-		lbdrvenc = new Encoder(2);
-		rbdrvenc = new Encoder(3);
+		lfdrvenc = new Encoder(0, 1, false);
+		rfdrvenc = new Encoder(2, 3, false);
+		lbdrvenc = new Encoder(4, 5, false);
+		rbdrvenc = new Encoder(6, 7, false);
 		lfturnenc = new AnalogPotentiometer(0);
 		rfturnenc = new AnalogPotentiometer(1);
 		lbturnenc = new AnalogPotentiometer(2);
@@ -45,22 +49,53 @@ namespace Drive
 		rbdrv = new WPI_VictorSPX(3);
 	}
 
-	void DriveManager::DriveMotors() {
+	void DriveManager::CalculateVectors() {
 		_drivercntl->UpdateCntl();
-		_comangle = (atan2(-_drivercntl->LX, _drivercntl->LY) * 180/PI);// + currentFacing;
+		_comangle = (atan2(-_drivercntl->LX, _drivercntl->LY) * 180/PI);
 		_commagnitude = sqrt(pow(_drivercntl->LX, 2) + pow(_drivercntl->LY, 2));
 		_comrotation = _drivercntl->RX;
 		_swervelib->CalcWheelVect(_commagnitude, _comangle, _comrotation);
+	}
 
-		lfdrv.Set(_swervelib->whl->speedLF);
-		rfdrv.Set(_swervelib->whl->speedRF);
-		rbdrv.Set(_swervelib->whl->speedRB);
-		lbdrv.Set(_swervelib->whl->speedLB);
+	void DriveManager::ApplyIntellegintSwerve() {
+		if (fabs(_swervelib->whl->angleRF - _currangrf) > 90 &&
+				(_swervelib->whl->angleRF - _currangrf < 270)) {
+			_swervelib->whl->angleRF = ((int)_swervelib->whl->angleRF + 180) % 360;
+			_swervelib->whl->speedRF *= -1;
+		}
+		if (fabs(_swervelib->whl->angleLF - _curranglf) > 90 &&
+				(_swervelib->whl->angleLF - _curranglf < 270)) {
+			_swervelib->whl->angleLF = ((int)_swervelib->whl->angleLF + 180) % 360;
+			_swervelib->whl->speedLF *= -1;
+		}
+		if (fabs(_swervelib->whl->angleRB - _currangrb) > 90 &&
+				(_swervelib->whl->angleRB - _currangrb < 270)) {
+			_swervelib->whl->angleRB = ((int)_swervelib->whl->angleRB + 180) % 360;
+			_swervelib->whl->speedRB *= -1;
+		}
+		if (fabs(_swervelib->whl->angleLB - _curranglb) > 90 &&
+				(_swervelib->whl->angleLB - _curranglb < 270)) {
+			_swervelib->whl->angleLB = ((int)_swervelib->whl->angleLB + 180) % 360;
+			_swervelib->whl->speedLB *= -1;
+		}
+	}
+
+	void DriveManager::ApplyPIDControl() {
+
+		/* Not PID for testing purposes */
+		lfdrv->Set(_swervelib->whl->speedLF);
+		rfdrv->Set(_swervelib->whl->speedRF);
+		rbdrv->Set(_swervelib->whl->speedRB);
+		lbdrv->Set(_swervelib->whl->speedLB);
 
 		_lfturnpid->SetSetpoint(_swervelib->whl->angleLF);
 		_rfturnpid->SetSetpoint(_swervelib->whl->angleRF);
 		_lbturnpid->SetSetpoint(_swervelib->whl->angleLB);
 		_rbturnpid->SetSetpoint(_swervelib->whl->angleRB);
 
+
+		/* will add speed pid control for the wheels later, after encoder pulses are measured */
+		//_lfdrvpid->SetSetpoint(0);
+
+		}
 	}
-}
