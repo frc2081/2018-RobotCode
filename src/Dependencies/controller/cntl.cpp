@@ -1,51 +1,54 @@
 /*
- *  cntl.cpp
+ * 	WPILib Controller library
+ * 	cntl.cpp
  *
- *  Created on: Oct 6, 2016
- *      Author: Lunar Dust
+ * 	Organization: FRC2081
+ *
+ *  @author Lunar Dust
+ *  @version 1.1 12/12/17
+ *
+ *  Do not redistribute this library without the permission of the author.
  */
-#include "Dependencies/cntl.h"
+
+#include "cntl.h"
 
 btn::btn(int button, frc::Joystick **s) {
 	_raw = new Btn_t(*s, button);
-	_Hld = false;
-	_State = false;
-	_RE = false;
+	_held = false;
+	_state = false;
+	_re = false;
 }
 
 void btn::Update() {
-	_Hld = _State;
-	_State = _raw->Grab();
-	_RE = false;
-	if(_Hld != _State && !_Hld) {
-		_RE = true;
+	_held = _state;
+	_state = _raw->Grab();
+	_re = false;
+	if(_held != _state && !_held) {
+		_re = true;
 	}
 }
 
 cntl::cntl(int port, double deadzone) {
 	_stick = new frc::Joystick(port);
-	RX = 0.0;
-	RY = 0.0;
-	LX = 0.0;
-	LY = 0.0;
-	RTrig = 0.0;
-	LTrig = 0.0;
+	RX = RY = 0.0;
+	LX = LY = 0.0;
+	RTrig = LTrig = 0.0;
 
-	M_deadzone = deadzone;
+	_deadzone = deadzone;
 
-	bA = new btn(_bA, &_stick);
-	bB = new btn(_bB, &_stick);
-	bX = new btn(_bX, &_stick);
-	bY = new btn(_bY, &_stick);
-	bLB = new btn(_bLB, &_stick);
-	bRB = new btn(_bRB, &_stick);
-	bBack = new btn(_bBack, &_stick);
-	bStart = new btn(_bStart, &_stick);
-	bLS = new btn(_bLS, &_stick);
-	bRS = new btn(_bRS, &_stick);
+	bA = new btn(kbA, &_stick);
+	bB = new btn(kbB, &_stick);
+	bX = new btn(kbX, &_stick);
+	bY = new btn(kbY, &_stick);
+	bLB = new btn(kbLB, &_stick);
+	bRB = new btn(kbRB, &_stick);
+	bBack = new btn(kbBack, &_stick);
+	bStart = new btn(kbStart, &_stick);
+	bLS = new btn(kbLS, &_stick);
+	bRS = new btn(kbRS, &_stick);
 }
 
-const double applyDeadzone(double input, double zone) {
+const void ApplyDeadzone(double *joystick, double input, double zone) {
 	double o = fabs(input) - zone;
 	o /= (1 - zone);
 	if(o < 0) {
@@ -57,18 +60,27 @@ const double applyDeadzone(double input, double zone) {
 	if((o + 0.0) == 0.0) {
 		o = 0.0;
 	}
-	return o;
+	*joystick = o;
+}
+
+const void ApplyLimit(double *joystick, int limit)
+{
+	double o = (double)limit / 100.0;
+	if(*joystick > o)
+		*joystick = o;
 }
 
 void cntl::UpdateCntl() {
-	LX = applyDeadzone(_stick->GetX(), M_deadzone);
-	LY = applyDeadzone(_stick->GetY(), M_deadzone);
-	RX = applyDeadzone(_stick->GetRawAxis(4), M_deadzone);
-	RY = applyDeadzone(_stick->GetRawAxis(5), M_deadzone);
+	ApplyDeadzone(&LX, _stick->GetX(), _deadzone);
+	ApplyDeadzone(&LY, _stick->GetY(), _deadzone);
+	ApplyDeadzone(&RX, _stick->GetRawAxis(4), _deadzone);
+	ApplyDeadzone(&RY, _stick->GetRawAxis(5), _deadzone);
 
-	//Commented for testing
-	//RTrig = applyDeadzone(_stick->GetRawAxis(3), M_deadzone);
-	//LTrig = applyDeadzone(_stick->GetRawAxis(2), M_deadzone);
+	ApplyLimit(&LX, kLX);
+	ApplyLimit(&LY, kLY);
+	ApplyLimit(&RX, kRX);
+	ApplyLimit(&RY, kRY);
+
 	RY *= -1;
 	LY *= -1;
 

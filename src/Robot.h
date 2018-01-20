@@ -13,7 +13,7 @@
 #include "DriveSystem/DriveManager.h"
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
-#include "Dependencies/SwerveLib.h"
+#include "SwerveLib.h"
 #include "IO.h"
 
 DriveManager *drive;

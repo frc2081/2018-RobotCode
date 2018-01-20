@@ -7,12 +7,11 @@
 
 #ifndef SRC_DRIVESYSTEM_DRIVEMANAGER_H_
 #define SRC_DRIVESYSTEM_DRIVEMANAGER_H_ 1
-#include <Robot.h>
 /* temp includes */
-#include "Dependencies/SwerveLib.h"
-#include "Dependencies/Phoenix.h"
-#include "Dependencies/cntl.h"
-#include "WPILib.h"
+#include "SwerveLib.h"
+#include "ctre/Phoenix.h"
+#include "cntl.h"
+#include <Encoder.h>
 #include "IO.h"
 
 
@@ -35,7 +34,7 @@
 		double _turnpidi, _turnpidp, _turnpidd;
 		double _pidpollrate;
 		double _currangrf, _curranglf, _curranglb, _currangrb;
-		/* temp varaibles */
+		/* temp variables */
 		cntl *_drivercntl;
 		Encoder *lfdrvenc, *rfdrvenc, *lbdrvenc, *rbdrvenc;
 		AnalogPotentiometer *lfturnenc, *rfturnenc, *lbturnenc, *rbturnenc;
