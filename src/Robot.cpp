@@ -31,6 +31,12 @@ public:
 
 	void DisabledPeriodic() {}
 
+	void DisabledInit() {}
+
+	void TestInit() {}
+
+	void RobotPeriodic() {}
+
 };
 
 START_ROBOT_CLASS(Robot)
