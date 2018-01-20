@@ -13,27 +13,28 @@
 #define NUM_TALONS 4 /* we only use talons to control steering for the swerve drive */
 #define NUM_VICTORS 8 /* we use victorSPX's everywhere else */
 
-#include "WPILib.h"
-#include <Dependencies/Phoenix.h>
+#include <WPILib.h>
+#include <ctre/Phoenix.h>
 /*
  * Contains an instance of all sensors, motors, and actuators to be passed
  * throughout the entire program
  */
 class IO {
 public:
-	virtual ~IO();
+	static IO& GetInstance()
+	{
+		static IO instance;
+		return instance;
+	}
 
-	void Initialize();
-
-	IO *GetInstance();
+	/* These make sure the class can't be copied */
+	IO(IO const&) = delete;
+	void operator=(IO const&) = delete;
 
 	/* put all declarations here */
 
 private:
-	IO();
-	static IO *_instance;
-
-
+	IO() {}
 };
 
 #endif /* SRC_IO_H_ */
