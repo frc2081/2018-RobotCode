@@ -28,10 +28,10 @@ public:
 
 	IO *GetInstance();
 
+	IO();
 	/* put all declarations here */
 
 private:
-	IO();
 	static IO *_instance;
 
 

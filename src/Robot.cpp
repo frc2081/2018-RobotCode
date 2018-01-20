@@ -7,10 +7,14 @@
 //#include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-
+#include "Dependencies/SwerveLib.h"
+#include "IO.h"
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
+		swervelib = new SwerveLib(25, 25);
+		io = new IO();
+		drive = new DriveManager(swervelib, io);
 
 	}
 
@@ -21,10 +25,13 @@ public:
 	void AutonomousPeriodic() {
 
 	}
-
 	void TeleopInit() {}
 
-	void TeleopPeriodic() {}
+	void TeleopPeriodic() {
+		drive->CalculateVectors();
+		drive->ApplyIntellegintSwerve();
+		drive->ApplyPIDControl();
+	}
 
 	/* Unused */
 	void TestPeriodic() {}

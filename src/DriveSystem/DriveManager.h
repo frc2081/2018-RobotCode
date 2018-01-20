@@ -14,7 +14,7 @@
 #include "Dependencies/cntl.h"
 #include "WPILib.h"
 #include "IO.h"
-namespace Drive {
+
 
 	class DriveManager {
 	public:
@@ -39,12 +39,12 @@ namespace Drive {
 		cntl *_drivercntl;
 		Encoder *lfdrvenc, *rfdrvenc, *lbdrvenc, *rbdrvenc;
 		AnalogPotentiometer *lfturnenc, *rfturnenc, *lbturnenc, *rbturnenc;
-		WPI_VictorSPX *lfdrv, *rfdrv, *lbdrv, *rbdrv;
-		WPI_VictorSPX *lfturn, *rfturn, *lbturn, *rbturn;
+		WPI_VictorSPX *_lfdrv, *_rfdrv, *_lbdrv, *_rbdrv;
+		WPI_VictorSPX *_lfturn, *_rfturn, *_lbturn, *_rbturn;
 	};
 
 
-}
+
 
 
 
