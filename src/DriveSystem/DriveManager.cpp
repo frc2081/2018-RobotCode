@@ -19,6 +19,10 @@ DriveManager::DriveManager(SwerveLib *swervelib) {
 	_curranglf = 0;
 	_curranglb = 0;
 	_currangrb = 0;
+	_lfwhlangoffset = 0;
+	_rfwhlangoffset = 0;
+	_lbwhlangoffset = 0;
+	_rbwhlangoffset = 0;
 	/* temp */
 	lfdrvenc = new Encoder(4, 5, false);
 	rfdrvenc = new Encoder(2, 3, false);
@@ -77,12 +81,28 @@ DriveManager::DriveManager(SwerveLib *swervelib) {
 	_comrotation = 0;
 }
 
+void DriveManager::ZeroEncoders() {
+	_lfwhlangoffset = lfturnenc->Get();
+	_rfwhlangoffset = rfturnenc->Get();
+	_lbwhlangoffset = lbturnenc->Get();
+	_rbwhlangoffset = rbturnenc->Get();
+}
+
+double DriveManager::WhlAngCalcOffset(double command, double offset) {
+	double target = command + offset;
+	if (target > 360) target -= 360;
+	return target;
+}
+
 void DriveManager::CalculateVectors() {
 	_drivercntl->UpdateCntl();
 	_comangle = (atan2(-_drivercntl->LX, _drivercntl->LY) * 180/PI);
 	_commagnitude = sqrt(pow(_drivercntl->LX, 2) + pow(_drivercntl->LY, 2));
 	_comrotation = _drivercntl->RX;
-
+	_currangrf = _swervelib->whl->angleRF;
+	_curranglf = _swervelib->whl->angleLF;
+	_currangrb = _swervelib->whl->angleRB;
+	_curranglb = _swervelib->whl->angleLB;
 	if (_drivercntl->LX != 0 || _drivercntl->LY != 0 || _drivercntl->RX != 0) {
 		_swervelib->CalcWheelVect(_commagnitude, _comangle, _comrotation);
 	} else {
@@ -134,10 +154,11 @@ void DriveManager::ApplyPIDControl() {
 	_lbdrvt->Set(_swervelib->whl->speedLB);
 
 
-	_lfturnpid->SetSetpoint(_swervelib->whl->angleLF);
-	_rfturnpid->SetSetpoint(_swervelib->whl->angleRF);
-	_lbturnpid->SetSetpoint(_swervelib->whl->angleLB);
-	_rbturnpid->SetSetpoint(_swervelib->whl->angleRB);
+
+	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
+	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
+	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
+	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
 
 	printf("Right Front Speed Set To: %.2f\n", _lfdrvt->Get());
 	printf("Left Front Speed Set To: %.2f\n", _lfdrvt->Get());

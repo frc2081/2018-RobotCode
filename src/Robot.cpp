@@ -14,6 +14,7 @@ public:
 		printf("ROBOT STARTING\n");
 		swervelib = new SwerveLib(25, 25);
 		drive = new DriveManager(swervelib);
+		drive->ZeroEncoders();
 
 	}
 
@@ -27,9 +28,9 @@ public:
 	void TeleopInit() {}
 
 	void TeleopPeriodic() {
-		//drive->CalculateVectors();
-		//drive->ApplyIntellegintSwerve();
-		//drive->ApplyPIDControl();
+		drive->CalculateVectors();
+		drive->ApplyIntellegintSwerve();
+		drive->ApplyPIDControl();
 	}
 
 	/* Unused */
