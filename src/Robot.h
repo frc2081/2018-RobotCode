@@ -14,10 +14,6 @@
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
 #include "SwerveLib.h"
-#include "IO.h"
-
 DriveManager *drive;
 SwerveLib *swervelib;
-IO *io;
-
 #endif /* SRC_ROBOT_H_ */

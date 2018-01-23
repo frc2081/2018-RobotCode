@@ -11,8 +11,9 @@
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
+		printf("ROBOT STARTING\n");
 		swervelib = new SwerveLib(25, 25);
-		drive = new DriveManager(swervelib, io);
+		drive = new DriveManager(swervelib);
 
 	}
 
@@ -26,9 +27,9 @@ public:
 	void TeleopInit() {}
 
 	void TeleopPeriodic() {
-		drive->CalculateVectors();
-		drive->ApplyIntellegintSwerve();
-		drive->ApplyPIDControl();
+		//drive->CalculateVectors();
+		//drive->ApplyIntellegintSwerve();
+		//drive->ApplyPIDControl();
 	}
 
 	/* Unused */

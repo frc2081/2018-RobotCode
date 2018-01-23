@@ -6,13 +6,13 @@
 */
 #include "DriveManager.h"
 
-DriveManager::DriveManager(SwerveLib *swervelib, IO *io) {
+DriveManager::DriveManager(SwerveLib *swervelib) {
 	_swervelib = swervelib;
-	_drvpidi = 0;
-	_drvpidd = 0;
-	_drvpidp = 0;
+	//_drvpidi = 0;
+	//_drvpidd = 0;
+	//_drvpidp = 0;
 	_turnpidi = 0;
-	_turnpidp = 0;
+	_turnpidp = 0.04;
 	_turnpidd = 0;
 	_pidpollrate = 0.01;
 	_currangrf = 0;
@@ -20,15 +20,23 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO *io) {
 	_curranglb = 0;
 	_currangrb = 0;
 	/* temp */
-	lfdrvenc = new Encoder(0, 1, false);
+	lfdrvenc = new Encoder(4, 5, false);
 	rfdrvenc = new Encoder(2, 3, false);
-	lbdrvenc = new Encoder(4, 5, false);
-	rbdrvenc = new Encoder(6, 7, false);
-	lfturnenc = new AnalogPotentiometer(0);
-	rfturnenc = new AnalogPotentiometer(1);
-	lbturnenc = new AnalogPotentiometer(2);
-	rbturnenc = new AnalogPotentiometer(3);
-	_drivercntl = new cntl(0, 0.05); /* deadband value subject to change */
+	lbdrvenc = new Encoder(6, 7, false);
+	rbdrvenc = new Encoder(8, 9, false);
+	lfturnenc = new AnalogPotentiometer(0, 360, 0);
+	rfturnenc = new AnalogPotentiometer(2, 360, 0);
+	lbturnenc = new AnalogPotentiometer(1, 360, 0);
+	rbturnenc = new AnalogPotentiometer(3, 360, 0);
+	_drivercntl = new cntl(0, 0.1); /* deadband value subject to change */
+	_lfdrvt = new VictorSP(9);
+	_rfdrvt = new VictorSP(13);
+	_lbdrvt = new VictorSP(4);
+	_rbdrvt = new VictorSP(7);
+	_lfturnt = new VictorSP(8);
+	_rfturnt = new VictorSP(12);
+	_lbturnt = new VictorSP(3);
+	_rbturnt = new VictorSP(6);
 	/*
 	_lfdrv = new WPI_VictorSPX(0);
 	_rfdrv = new WPI_VictorSPX(1);
@@ -37,17 +45,33 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO *io) {
 	_lbturn = new WPI_VictorSPX(4);
 	_lfturn = new WPI_VictorSPX(5);
 	_rfturn = new WPI_VictorSPX(6);
-	_lbturn = new WPI_VictorSPX(7);
+	_rbturn = new WPI_VictorSPX(7);
 	*/
 	/* end temp */
-	_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, lfdrvenc, _lfdrv, _pidpollrate);
-	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, rfdrvenc, _rfdrv, _pidpollrate);
-	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, lbdrvenc, _lbdrv, _pidpollrate);
-	_rbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, rbdrvenc, _rbdrv, _pidpollrate);
-	_lfturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, lfturnenc, _lfturn, _pidpollrate);
-	_rfturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, rfturnenc, _rfturn, _pidpollrate);
-	_rbturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, rbturnenc, _rbturn, _pidpollrate);
-	_lbturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, lbturnenc, _lbturn, _pidpollrate);
+//	_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, lfdrvenc, _lfdrvt, _pidpollrate);
+//	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, rfdrvenc, _rfdrvt, _pidpollrate);
+//	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, lbdrvenc, _lbdrvt, _pidpollrate);
+//	_rbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, rbdrvenc, _rbdrvt, _pidpollrate);
+	_lfturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, lfturnenc, _lfturnt, _pidpollrate);
+	_rfturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, rfturnenc, _rfturnt, _pidpollrate);
+	_rbturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, rbturnenc, _rbturnt, _pidpollrate);
+	_lbturnpid = new PIDController(_turnpidp, _turnpidi, _turnpidp, lbturnenc, _lbturnt, _pidpollrate);
+	_lfturnpid->SetInputRange(0, 360);
+	_lfturnpid->SetOutputRange(-1, 1);
+	_lfturnpid->SetContinuous();
+	_lfturnpid->Enable();
+	_rfturnpid->SetInputRange(0, 360);
+	_rfturnpid->SetOutputRange(-1, 1);
+	_rfturnpid->SetContinuous();
+	_rfturnpid->Enable();
+	_lbturnpid->SetInputRange(0, 360);
+	_lbturnpid->SetOutputRange(-1, 1);
+	_lbturnpid->SetContinuous();
+	_lbturnpid->Enable();
+	_rbturnpid->SetInputRange(0, 360);
+	_rbturnpid->SetOutputRange(-1, 1);
+	_rbturnpid->SetContinuous();
+	_rbturnpid->Enable();
 	_comangle = 0;
 	_commagnitude = 0;
 	_comrotation = 0;
@@ -58,7 +82,19 @@ void DriveManager::CalculateVectors() {
 	_comangle = (atan2(-_drivercntl->LX, _drivercntl->LY) * 180/PI);
 	_commagnitude = sqrt(pow(_drivercntl->LX, 2) + pow(_drivercntl->LY, 2));
 	_comrotation = _drivercntl->RX;
-	_swervelib->CalcWheelVect(_commagnitude, _comangle, _comrotation);
+
+	if (_drivercntl->LX != 0 || _drivercntl->LY != 0 || _drivercntl->RX != 0) {
+		_swervelib->CalcWheelVect(_commagnitude, _comangle, _comrotation);
+	} else {
+		_swervelib->whl->speedLF = 0;
+		_swervelib->whl->speedRF = 0;
+		_swervelib->whl->speedLB = 0;
+		_swervelib->whl->speedRB = 0;
+	}
+
+	printf("Commanded Angle: %.2f\n", _comangle);
+	printf("Commanded Magnitude: %.2f\n", _commagnitude);
+	printf("Commanded Rotation: %.2f\n", _comrotation);
 }
 
 void DriveManager::ApplyIntellegintSwerve() {
@@ -82,20 +118,36 @@ void DriveManager::ApplyIntellegintSwerve() {
 		_swervelib->whl->angleLB = ((int)_swervelib->whl->angleLB + 180) % 360;
 		_swervelib->whl->speedLB *= -1;
 	}
+
+	printf("Right Front Angle: %.2f\n", _swervelib->whl->angleRF);
+	printf("Left Front Angle: %.2f\n", _swervelib->whl->angleLF);
+	printf("Right Back Angle: %.2f\n", _swervelib->whl->angleRB);
+	printf("Left Back Angle: %.2f\n", _swervelib->whl->angleLB);
 }
 
 void DriveManager::ApplyPIDControl() {
 
 	/* Not PID for testing purposes */
-	_lfdrv->Set(_swervelib->whl->speedLF);
-	_rfdrv->Set(_swervelib->whl->speedRF);
-	_rbdrv->Set(_swervelib->whl->speedRB);
-	_lbdrv->Set(_swervelib->whl->speedLB);
+	_lfdrvt->Set(_swervelib->whl->speedLF);
+	_rfdrvt->Set(_swervelib->whl->speedRF);
+	_rbdrvt->Set(_swervelib->whl->speedRB);
+	_lbdrvt->Set(_swervelib->whl->speedLB);
+
 
 	_lfturnpid->SetSetpoint(_swervelib->whl->angleLF);
 	_rfturnpid->SetSetpoint(_swervelib->whl->angleRF);
 	_lbturnpid->SetSetpoint(_swervelib->whl->angleLB);
 	_rbturnpid->SetSetpoint(_swervelib->whl->angleRB);
+
+	printf("Right Front Speed Set To: %.2f\n", _lfdrvt->Get());
+	printf("Left Front Speed Set To: %.2f\n", _lfdrvt->Get());
+	printf("Right Back Speed Set To: %.2f\n", _rbdrvt->Get());
+	printf("Left Back Speed Set To: %.2f\n", _lbdrvt->Get());
+
+	printf("Right Front Angle PID: %.2f\n", _rfturnpid->Get());
+	printf("Left Front Angle PID: %.2f\n", _lfturnpid->Get());
+	printf("Right Back Angle: %.2f\n", _rbturnpid->Get());
+	printf("Left Back Angle: %.2f\n", _lbturnpid->Get());
 
 
 	/* will add speed pid control for the wheels later, after encoder pulses are measured */
