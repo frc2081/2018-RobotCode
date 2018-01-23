@@ -37,6 +37,6 @@
 *.project
 *.properties
 *.prefs
-language.settings.xml
+.settings/
 .DS_Store
 
