@@ -30,9 +30,9 @@
 	private:
 		SwerveLib *_swervelib;
 		double _comangle, _commagnitude, _comrotation;
-		//PIDController *_lfdrvpid, *_rfdrvpid, *_lbdrvpid, *_rbdrvpid;
+		PIDController *_lfdrvpid, *_rfdrvpid, *_lbdrvpid, *_rbdrvpid;
 		PIDController *_lfturnpid, *_rfturnpid, *_lbturnpid, *_rbturnpid;
-		//double _drvpidi, _drvpidp, _drvpidd;
+		double _drvpidi, _drvpidp, _drvpidd, _drvpidf;
 		double _turnpidi, _turnpidp, _turnpidd;
 		double _pidpollrate;
 		double _currangrf, _curranglf, _curranglb, _currangrb;
