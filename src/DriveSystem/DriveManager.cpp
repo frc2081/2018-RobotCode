@@ -6,7 +6,7 @@
 */
 #include "DriveManager.h"
 
-DriveManager::DriveManager(SwerveLib *swervelib) {
+DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	_swervelib = swervelib;
 	//_drvpidi = 0;
 	//_drvpidd = 0;

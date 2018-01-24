@@ -13,7 +13,7 @@ public:
 	void RobotInit() {
 		printf("ROBOT STARTING\n");
 		swervelib = new SwerveLib(25, 25);
-		drive = new DriveManager(swervelib);
+		drive = new DriveManager(swervelib, IO::GetInstance());
 		drive->ZeroEncoders();
 
 	}

@@ -17,7 +17,7 @@
 
 	class DriveManager {
 	public:
-		DriveManager(SwerveLib *swervelib);
+		DriveManager(SwerveLib *swervelib, IO &io);
 
 		void ZeroEncoders();
 
