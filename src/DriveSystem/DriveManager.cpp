@@ -8,10 +8,14 @@
 
 DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	_swervelib = swervelib;
-	_drvpidi = 0.004;
-	_drvpidd = 0.01;
-	_drvpidp = 0.01;
-	_drvpidf = 0.01;
+	_drvpidi = 0.0;
+	_drvpidd = 0.0;
+	_drvpidp = 0.00001;
+	_drvpidf = 0.0;
+	SmartDashboard::PutNumber("rbp: ", 0);
+	SmartDashboard::PutNumber("rbi: ", 0);
+	SmartDashboard::PutNumber("rbd: ", 0);
+	SmartDashboard::PutNumber("rbf: ", 0);
 	_turnpidi = 0;
 	_turnpidp = 0.04;
 	_turnpidd = 0;
@@ -24,6 +28,7 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	_rfwhlangoffset = 0;
 	_lbwhlangoffset = 0;
 	_rbwhlangoffset = 0;
+	_maxdrivespeed = 4554; //Speed is in RPM of the CIM motor
 	/* temp */
 	lfdrvenc = new Encoder(4, 5, false);
 	rfdrvenc = new Encoder(2, 3, false);
@@ -33,7 +38,7 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	rfturnenc = new AnalogPotentiometer(2, 360, 0);
 	lbturnenc = new AnalogPotentiometer(1, 360, 0);
 	rbturnenc = new AnalogPotentiometer(3, 360, 0);
-	_drivercntl = new cntl(0, 0.1); /* deadband value subject to change */
+	_drivercntl = new cntl(0, 0.15); /* deadband value subject to change */
 	_lfdrvt = new VictorSP(9);
 	_rfdrvt = new VictorSP(13);
 	_lbdrvt = new VictorSP(4);
@@ -148,10 +153,10 @@ void DriveManager::ApplyIntellegintSwerve() {
 		_swervelib->whl->speedLB *= -1;
 	}
 
-	printf("Right Front Angle: %.2f\n", _swervelib->whl->angleRF);
+	/*printf("Right Front Angle: %.2f\n", _swervelib->whl->angleRF);
 	printf("Left Front Angle: %.2f\n", _swervelib->whl->angleLF);
 	printf("Right Back Angle: %.2f\n", _swervelib->whl->angleRB);
-	printf("Left Back Angle: %.2f\n", _swervelib->whl->angleLB);
+	printf("Left Back Angle: %.2f\n", _swervelib->whl->angleLB);*/
 }
 
 void DriveManager::ApplyPIDControl() {
@@ -161,26 +166,39 @@ void DriveManager::ApplyPIDControl() {
 	//_rfdrvt->Set(_swervelib->whl->speedRF);
 	//_rbdrvt->Set(_swervelib->whl->speedRB);
 	//_lbdrvt->Set(_swervelib->whl->speedLB);
+	double rbp = SmartDashboard::GetNumber("rbp: ", 0);
+	double rbi = SmartDashboard::GetNumber("rbi: ", 0);
+	double rbd = SmartDashboard::GetNumber("rbd: ", 0);
+	double rbf = SmartDashboard::GetNumber("rbf: ", 0);
 
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
 
-	_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF / 2);
-	_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF / 2);
-	_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB / 2);
-	_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB / 2);
+	/*
+	 * 138 pulses/rotation of wheel
+	 * 20 pulses/rotation of cim
+	 * 6.9 cim rotations/1 wheel rotation
+	 * max speed - 11.5 ft/s -> 3.5052 m/s || 660 RPM of wheel
+	 * 4554 RPM on cim - max
+	 */
+	if ((int)lfturnenc->Get() >= (int)_lfturnpid->GetSetpoint() - 1 || (int)lfturnenc->Get() <= (int)_lfturnpid->GetSetpoint() + 1) {
+		if((int)rfturnenc->Get() >= (int)_rfturnpid->GetSetpoint() - 1) {
+		_swervelib->whl->speedLF *= _maxdrivespeed * 20;
+		_swervelib->whl->speedRF *= _maxdrivespeed * 20;
+		_swervelib->whl->speedLB *= _maxdrivespeed * 20;
+		_swervelib->whl->speedRB *= _maxdrivespeed * 20;
+		_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
+		_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
+		_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
+		_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+		}
+	}
 
-	printf("Right Front Speed Set To: %.2f\n", _rfdrvpid->Get());
-	printf("Left Front Speed Set To: %.2f\n", _lfdrvpid->Get());
 	printf("Right Back Speed Set To: %.2f\n", _rbdrvpid->Get());
-	printf("Left Back Speed Set To: %.2f\n", _lbdrvpid->Get());
 
-	printf("Right Front Angle PID: %.2f\n", _rfturnpid->Get());
-	printf("Left Front Angle PID: %.2f\n", _lfturnpid->Get());
 	printf("Right Back Angle: %.2f\n", _rbturnpid->Get());
-	printf("Left Back Angle: %.2f\n", _lbturnpid->Get());
 
 	}
 

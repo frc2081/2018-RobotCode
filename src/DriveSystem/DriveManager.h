@@ -35,6 +35,7 @@
 		double _drvpidi, _drvpidp, _drvpidd, _drvpidf;
 		double _turnpidi, _turnpidp, _turnpidd;
 		double _pidpollrate;
+		double _maxdrivespeed; //Speed is in RPM of the CIM motor
 		double _currangrf, _curranglf, _curranglb, _currangrb;
 		double WhlAngCalcOffset(double, double);
 		double _lfwhlangoffset, _rfwhlangoffset, _lbwhlangoffset, _rbwhlangoffset;
