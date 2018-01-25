@@ -166,10 +166,6 @@ void DriveManager::ApplyPIDControl() {
 	//_rfdrvt->Set(_swervelib->whl->speedRF);
 	//_rbdrvt->Set(_swervelib->whl->speedRB);
 	//_lbdrvt->Set(_swervelib->whl->speedLB);
-	double rbp = SmartDashboard::GetNumber("rbp: ", 0);
-	double rbi = SmartDashboard::GetNumber("rbi: ", 0);
-	double rbd = SmartDashboard::GetNumber("rbd: ", 0);
-	double rbf = SmartDashboard::GetNumber("rbf: ", 0);
 
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
@@ -184,15 +180,19 @@ void DriveManager::ApplyPIDControl() {
 	 * 4554 RPM on cim - max
 	 */
 	if ((int)lfturnenc->Get() >= (int)_lfturnpid->GetSetpoint() - 1 || (int)lfturnenc->Get() <= (int)_lfturnpid->GetSetpoint() + 1) {
-		if((int)rfturnenc->Get() >= (int)_rfturnpid->GetSetpoint() - 1) {
-		_swervelib->whl->speedLF *= _maxdrivespeed * 20;
-		_swervelib->whl->speedRF *= _maxdrivespeed * 20;
-		_swervelib->whl->speedLB *= _maxdrivespeed * 20;
-		_swervelib->whl->speedRB *= _maxdrivespeed * 20;
-		_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
-		_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
-		_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
-		_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+		if((int)rfturnenc->Get() >= (int)_rfturnpid->GetSetpoint() - 1 || (int)rfturnenc->Get() <= (int)_rfturnpid->GetSetpoint()  + 1) {
+			if ((int)lbturnenc->Get() >= (int)_lbturnpid->GetSetpoint() - 1 || (int)lbturnenc->Get() <= (int)_lbturnpid->GetSetpoint()  + 1) {
+				if ((int)rbturnenc->Get() >= (int)_rbturnpid->GetSetpoint() - 1 || (int)rbturnenc->Get() <= (int)_rbturnpid->GetSetpoint()  + 1) {
+					_swervelib->whl->speedLF *= _maxdrivespeed * 20;
+					_swervelib->whl->speedRF *= _maxdrivespeed * 20;
+					_swervelib->whl->speedLB *= _maxdrivespeed * 20;
+					_swervelib->whl->speedRB *= _maxdrivespeed * 20;
+					_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
+					_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
+					_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
+					_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+				}
+			}
 		}
 	}
 
