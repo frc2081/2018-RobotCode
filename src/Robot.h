@@ -8,15 +8,18 @@
 #ifndef SRC_ROBOT_H_
 #define SRC_ROBOT_H_ 1
 
+#include "IO.h"
 #include "AutonomousSystem/AutonomousManager.h"
+#include "ControllerInput/ControllerManager.h"
 #include "CubeSystem/CubeManager.h"
 #include "DriveSystem/DriveManager.h"
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
-#include "IO.h"
-#include "ControllerInput/ControllerManager.h"
+#include "RobotCommands.h"
 
 IO *RioIO;
 ControllerManager *DriverControls;
+RobotCommands *Commands;
+CubeManager *Shooter;
 
 #endif /* SRC_ROBOT_H_ */
