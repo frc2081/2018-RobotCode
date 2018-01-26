@@ -17,6 +17,11 @@ void ControllerManager::pollControllers(){
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
 
+	//Assisted Cube Intake Command
+	if(drivecontroller->bA->State() == true) intakecmd = true;
+	else intakecmd = false;
+
+
 	//TODO: Add command generators
 }
 

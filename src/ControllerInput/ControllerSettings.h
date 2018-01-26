@@ -23,6 +23,8 @@ const double mechanismcontrollerupperlimit = 100;
 //**********ROBOT COMMAND CONFIGS********************
 
 //TODO: Add Robot commands
+
+bool intakecmd = false;
 //TODO: Add manual mode
 
 #endif /* SRC_CONTROLLERINPUT_CONTROLLERSETTINGS_H_ */
