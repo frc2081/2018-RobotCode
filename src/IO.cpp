@@ -8,6 +8,8 @@
 #include "IO.h"
 
 IO::IO() {
+	// The scaling to multiply the voltage by to get a meaningful unit 360 degrees / 5 volts = 72
+	sweerveanglogvoltagetodegrees = 72;
 	drvlbmot = new WPI_VictorSPX(0);
 	drvrbmot  = new WPI_VictorSPX(1);
 	drvlfmot  = new WPI_VictorSPX(2);
@@ -31,10 +33,10 @@ IO::IO() {
 	encdrvlf = new Encoder(2, 3, false, Encoder::EncodingType::k4X);
 	encdrvrb = new Encoder(4, 5, false, Encoder::EncodingType::k4X);
 	encdrvrf = new Encoder(6, 7, false, Encoder::EncodingType::k4X);
-	steerencdrvlb = new AnalogPotentiometer(0,72,0);
-	steerencdrvlf = new AnalogPotentiometer(1,72,0);
-	steerencdrvrb = new AnalogPotentiometer(2,72,0);
-	steerencdrvrf = new AnalogPotentiometer(3,72,0);
+	steerencdrvlb = new AnalogPotentiometer(0,sweerveanglogvoltagetodegrees,0);
+	steerencdrvlf = new AnalogPotentiometer(1,sweerveanglogvoltagetodegrees,0);
+	steerencdrvrb = new AnalogPotentiometer(2,sweerveanglogvoltagetodegrees,0);
+	steerencdrvrf = new AnalogPotentiometer(3,sweerveanglogvoltagetodegrees,0);
 	cubesensor = new DigitalInput(8);
 
 }

@@ -62,6 +62,7 @@ public:
 	AnalogPotentiometer *steerencdrvrb;
 	AnalogPotentiometer *steerencdrvrf;
 	DigitalInput *cubesensor;
+	int sweerveanglogvoltagetodegrees;
 
 
 	/* put all declarations here */
