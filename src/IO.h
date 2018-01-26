@@ -28,37 +28,47 @@ public:
 		return instance;
 	}
 
-	void Initialize();
+
 
 	/* These make sure the class can't be copied */
 	IO(IO const&) = delete;
 	void operator=(IO const&) = delete;
 
-
-	WPI_VictorSPX *drvlb = new WPI_VictorSPX(0);
-	WPI_VictorSPX *drvrb  = new WPI_VictorSPX(1);
-	WPI_VictorSPX *drvlf  = new WPI_VictorSPX(2);
-	WPI_VictorSPX *drvrf  = new WPI_VictorSPX(3);
-	WPI_VictorSPX *intakel = new WPI_VictorSPX(4);
-	WPI_VictorSPX *intaker = new WPI_VictorSPX(5);
-	WPI_VictorSPX *shooterl = new WPI_VictorSPX(6);
-	WPI_VictorSPX *shooterr = new WPI_VictorSPX(7);
-	WPI_VictorSPX *shooterangl = new WPI_VictorSPX(8);
-	WPI_VictorSPX *shooterangr = new WPI_VictorSPX(9);
-	WPI_VictorSPX *turnlb = new WPI_VictorSPX(10);
-	WPI_VictorSPX *turnrb = new WPI_VictorSPX(11);
-	WPI_VictorSPX *turnlf = new WPI_VictorSPX(12);
-	WPI_VictorSPX *turnrf = new WPI_VictorSPX(13);
-	Compressor *compressor = new Compressor();
-	Solenoid *solenoidrampl = new Solenoid(0);
-	Solenoid *solenoidrampr = new Solenoid(1);
+	WPI_VictorSPX *drvlbmot;
+	WPI_VictorSPX *drvrbmot;
+	WPI_VictorSPX *drvlfmot;
+	WPI_VictorSPX *drvrfmot;
+	WPI_VictorSPX *intakelmot;
+	WPI_VictorSPX *intakermot;
+	WPI_VictorSPX *shooterlmot;
+	WPI_VictorSPX *shooterrmot;
+	TalonSRX *shooteranglmot;
+	TalonSRX *shooterangrmot;
+	WPI_VictorSPX *turnlbmot;
+	WPI_VictorSPX *turnrbmot;
+	WPI_VictorSPX *turnlfmot;
+	WPI_VictorSPX *turnrfmot;
+	Compressor *compressor;
+	Solenoid *solenoidrampl;
+	Solenoid *solenoidrampr;
+	Solenoid *solenoidpoker;
+	Solenoid *intakearmarticulation;
+	Encoder *encdrvlb;
+	Encoder *encdrvlf;
+	Encoder *encdrvrb;
+	Encoder *encdrvrf;
+	AnalogPotentiometer *steerencdrvlb;
+	AnalogPotentiometer *steerencdrvlf;
+	AnalogPotentiometer *steerencdrvrb;
+	AnalogPotentiometer *steerencdrvrf;
+	DigitalInput *cubesensor;
 
 
 	/* put all declarations here */
 
 private:
-	IO() {}
-	bool _isinitialized = false;
+	IO();
+
 };
 
 #endif /* SRC_IO_H_ */
