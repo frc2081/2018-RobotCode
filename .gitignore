@@ -37,7 +37,6 @@
 *.project
 *.properties
 *.prefs
-.settings/
 .DS_Store
 
 /Debug/
