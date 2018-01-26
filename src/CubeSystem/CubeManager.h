@@ -11,6 +11,7 @@
 #include "ControllerInput/ControllerManager.h"
 #include "RobotCommands.h"
 #include "IO.h"
+#include "CubeManagerIO.h"
 
 
 class CubeManager
@@ -19,8 +20,13 @@ public:
 	CubeManager();
 	void CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO);
 	void CubeManagerInit();
+	CubeManagerIO *IntakeIO;
+	CubeManagerIO *SwitchShotIO;
+	CubeManagerIO *ScaleShotIO;
+	CubeManagerIO *DeliveryIO;
 
 private:
+
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */

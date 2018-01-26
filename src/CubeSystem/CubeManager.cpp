@@ -8,6 +8,10 @@
 
 CubeManager::CubeManager()
 {
+	IntakeIO = new CubeManagerIO();
+	SwitchShotIO = new CubeManagerIO();
+	ScaleShotIO = new CubeManagerIO();
+	DeliveryIO = new CubeManagerIO();
 	//TODO:Instantiate each state machine
 }
 
@@ -18,6 +22,6 @@ void CubeManager::CubeManagerInit()
 
 void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 {
-	//TODO:Call periodic function of each state machine, passing each one the command object and IO object
 
+	//TODO:Call periodic function of each state machine, passing each one the command object and IO object
 }
