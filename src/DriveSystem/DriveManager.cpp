@@ -28,7 +28,7 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	_rfwhlangoffset = 0;
 	_lbwhlangoffset = 0;
 	_rbwhlangoffset = 0;
-	_maxdrivespeed = 4554; //Speed is in RPM of the CIM motor
+	_maxdrivespeed = 91080; //Speed is in encoder pulses
 	/* temp */
 	lfdrvenc = new Encoder(4, 5, false);
 	rfdrvenc = new Encoder(2, 3, false);
@@ -38,7 +38,7 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	rfturnenc = new AnalogPotentiometer(2, 360, 0);
 	lbturnenc = new AnalogPotentiometer(1, 360, 0);
 	rbturnenc = new AnalogPotentiometer(3, 360, 0);
-	_drivercntl = new cntl(0, 0.15); /* deadband value subject to change */
+	_drivercntl = new cntl(0, 0.15); //deadband value subject to change
 	_lfdrvt = new VictorSP(9);
 	_rfdrvt = new VictorSP(13);
 	_lbdrvt = new VictorSP(4);
@@ -47,17 +47,7 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO &io) {
 	_rfturnt = new VictorSP(12);
 	_lbturnt = new VictorSP(3);
 	_rbturnt = new VictorSP(6);
-	/*
-	_lfdrv = new WPI_VictorSPX(0);
-	_rfdrv = new WPI_VictorSPX(1);
-	_lbdrv = new WPI_VictorSPX(2);
-	_rbdrv = new WPI_VictorSPX(3);
-	_lbturn = new WPI_VictorSPX(4);
-	_lfturn = new WPI_VictorSPX(5);
-	_rfturn = new WPI_VictorSPX(6);
-	_rbturn = new WPI_VictorSPX(7);
-	*/
-	/* end temp */
+	/*end temp */
 	_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, _drvpidf, lfdrvenc, _lfdrvt, _pidpollrate);
 	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, rfdrvenc, _rfdrvt, _pidpollrate);
 	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, lbdrvenc, _lbdrvt, _pidpollrate);
@@ -179,21 +169,18 @@ void DriveManager::ApplyPIDControl() {
 	 * max speed - 11.5 ft/s -> 3.5052 m/s || 660 RPM of wheel
 	 * 4554 RPM on cim - max
 	 */
-	if ((int)lfturnenc->Get() >= (int)_lfturnpid->GetSetpoint() - 1 || (int)lfturnenc->Get() <= (int)_lfturnpid->GetSetpoint() + 1) {
-		if((int)rfturnenc->Get() >= (int)_rfturnpid->GetSetpoint() - 1 || (int)rfturnenc->Get() <= (int)_rfturnpid->GetSetpoint()  + 1) {
-			if ((int)lbturnenc->Get() >= (int)_lbturnpid->GetSetpoint() - 1 || (int)lbturnenc->Get() <= (int)_lbturnpid->GetSetpoint()  + 1) {
-				if ((int)rbturnenc->Get() >= (int)_rbturnpid->GetSetpoint() - 1 || (int)rbturnenc->Get() <= (int)_rbturnpid->GetSetpoint()  + 1) {
-					_swervelib->whl->speedLF *= _maxdrivespeed * 20;
-					_swervelib->whl->speedRF *= _maxdrivespeed * 20;
-					_swervelib->whl->speedLB *= _maxdrivespeed * 20;
-					_swervelib->whl->speedRB *= _maxdrivespeed * 20;
+	if ((lfturnenc->Get() >= _lfturnpid->GetSetpoint() - 0.5 || lfturnenc->Get() <= _lfturnpid->GetSetpoint() + 0.5)
+			&& (rbturnenc->Get() >= _rbturnpid->GetSetpoint() - 0.5 || rbturnenc->Get() <= _rbturnpid->GetSetpoint()  + 0.5)
+			&& (lbturnenc->Get() >= _lbturnpid->GetSetpoint() - 0.5 || lbturnenc->Get() <= _lbturnpid->GetSetpoint()  + 0.5)
+			&& (rfturnenc->Get() >= _rfturnpid->GetSetpoint() - 0.5 || rfturnenc->Get() <= _rfturnpid->GetSetpoint()  + 0.5)) {
+					_swervelib->whl->speedLF *= _maxdrivespeed;
+					_swervelib->whl->speedRF *= _maxdrivespeed;
+					_swervelib->whl->speedLB *= _maxdrivespeed;
+					_swervelib->whl->speedRB *= _maxdrivespeed;
 					_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
 					_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
 					_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
 					_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
-				}
-			}
-		}
 	}
 
 	printf("Right Back Speed Set To: %.2f\n", _rbdrvpid->Get());

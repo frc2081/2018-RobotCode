@@ -43,8 +43,6 @@
 		cntl *_drivercntl;
 		Encoder *lfdrvenc, *rfdrvenc, *lbdrvenc, *rbdrvenc;
 		AnalogPotentiometer *lfturnenc, *rfturnenc, *lbturnenc, *rbturnenc;
-		//WPI_VictorSPX *_lfdrv, *_rfdrv, *_lbdrv, *_rbdrv;
-		//WPI_VictorSPX *_lfturn, *_rfturn, *_lbturn, *_rbturn;
 
 		VictorSP *_lfdrvt, *_rfdrvt, *_lbdrvt, *_rbdrvt;
 		VictorSP *_lfturnt, *_rfturnt, *_lbturnt, *_rbturnt;
