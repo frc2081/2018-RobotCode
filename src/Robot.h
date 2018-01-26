@@ -13,7 +13,8 @@
 #include "DriveSystem/DriveManager.h"
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
+#include "IO.h"
 
-
+IO *RioIO;
 
 #endif /* SRC_ROBOT_H_ */

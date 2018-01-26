@@ -24,18 +24,24 @@ IO::IO() {
 	turnlfmot = new WPI_VictorSPX(12);
 	turnrfmot = new WPI_VictorSPX(13);
 	compressor = new Compressor();
-	solenoidrampl = new Solenoid(0);
-	solenoidrampr = new Solenoid(1);
 	solenoidpoker = new Solenoid(2);
-	intakearmarticulation = new Solenoid(3);
+	shooterarmarticulation = new Solenoid(3);
 	encdrvlb = new Encoder(0, 1, false, Encoder::EncodingType::k4X);
 	encdrvlf = new Encoder(2, 3, false, Encoder::EncodingType::k4X);
 	encdrvrb = new Encoder(4, 5, false, Encoder::EncodingType::k4X);
-	encdrvrf = new Encoder(6, 7, false, Encoder::EncodingType::k4X);
+	encdrvrf= new Encoder(6, 7, false, Encoder::EncodingType::k4X);
 	steerencdrvlb = new AnalogPotentiometer(0,sweerveanglogvoltagetodegrees,0);
 	steerencdrvlf = new AnalogPotentiometer(1,sweerveanglogvoltagetodegrees,0);
 	steerencdrvrb = new AnalogPotentiometer(2,sweerveanglogvoltagetodegrees,0);
 	steerencdrvrf = new AnalogPotentiometer(3,sweerveanglogvoltagetodegrees,0);
-	cubesensor = new DigitalInput(8);
+	intakecubesensor = new DigitalInput(8);
+
+	encdrvlb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
+	encdrvrb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
+	encdrvlf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
+	encdrvlb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
+
+	//TODO: Add shooter angle conversion from talon angle to real angle
+	//TODO: Add code for determining initial angular position of shooter
 
 }
