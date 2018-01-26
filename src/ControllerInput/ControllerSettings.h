@@ -14,8 +14,15 @@ const int drivecontrollernumber = 0;
 const double drivecontrollerdeadband = .15;
 const double drivecontrollerupperlimit = 100;
 
-//***********END DRIVE CONTROLLER CONFIGS************
+
+//**********MECHANISM CONTROLLER CONFIGS*************
 const int mechanismcontrollernumber = 1;
 const double mechanismcontrollerdeadband = .15;
 const double mechanismcontrollerupperlimit = 100;
+
+//**********ROBOT COMMAND CONFIGS********************
+
+//TODO: Add Robot commands
+//TODO: Add manual mode
+
 #endif /* SRC_CONTROLLERINPUT_CONTROLLERSETTINGS_H_ */

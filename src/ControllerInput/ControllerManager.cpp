@@ -13,4 +13,11 @@ ControllerManager::ControllerManager() {
 	mechanismcontroller = new cntl(mechanismcontrollernumber, mechanismcontrollerdeadband, mechanismcontrollerupperlimit);
 }
 
+void ControllerManager::pollControllers(){
+	drivecontroller->UpdateCntl();
+	mechanismcontroller->UpdateCntl();
+
+	//TODO: Add command generators
+}
+
 

@@ -15,6 +15,9 @@ class ControllerManager {
 public:
 	ControllerManager();
 
+	void pollControllers();
+
+private:
 	cntl *drivecontroller;
 	cntl *mechanismcontroller;
 };
