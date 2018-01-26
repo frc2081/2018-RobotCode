@@ -9,18 +9,18 @@
 #define SRC_CUBESYSTEM_CUBEMANAGERIO_H_
 
 class CubeManagerIO {
-public:
-	CubeManagerIO();
+	public:
+		CubeManagerIO();
 
-	enum class PokerPosition : bool {
-		RETRACTED = false,
-		EXTENDED = true
-	};
+		enum class PokerPosition : bool {
+			RETRACTED = false,
+			EXTENDED = true
+		};
 
-	enum class ShooterArmPosition : bool {
-		CLOSED = false,
-		OPEN = true
+		enum class ShooterArmPosition : bool {
+			CLOSED = false,
+			OPEN = true
+		};
 	};
-};
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGERIO_H_ */
