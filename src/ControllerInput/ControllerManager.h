@@ -9,13 +9,16 @@
 #define SRC_CONTROLLERINPUT_CONTROLLERMANAGER_H_
 
 #include "cntl.h"
+#include "ControllerSettings.h"
+#include "RobotCommands.h"
+
 
 
 class ControllerManager {
 public:
 	ControllerManager();
 
-	void pollControllers();
+	void pollControllers(RobotCommands *Commands);
 
 private:
 	cntl *drivecontroller;
