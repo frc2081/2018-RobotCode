@@ -24,9 +24,10 @@ public:
 	CubeManagerIO *SwitchShotIO;
 	CubeManagerIO *ScaleShotIO;
 	CubeManagerIO *DeliveryIO;
+	CubeManagerIO *DefaultCommands;
 
 private:
-
+	void AssignIO(CubeManagerIO *Commands, IO *RioIO);
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
