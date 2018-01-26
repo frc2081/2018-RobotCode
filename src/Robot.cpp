@@ -14,6 +14,7 @@ public:
 	void RobotInit() {
 
 		RioIO = new IO();
+		DriverControls = new ControllerManager();
 
 	}
 
@@ -27,7 +28,11 @@ public:
 
 	void TeleopInit() {}
 
-	void TeleopPeriodic() {}
+	void TeleopPeriodic() {
+
+		DriverControls->pollControllers();
+
+	}
 
 	/* Unused */
 	void TestPeriodic() {}

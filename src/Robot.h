@@ -14,7 +14,9 @@
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
 #include "IO.h"
+#include "ControllerInput/ControllerManager.h"
 
 IO *RioIO;
+ControllerManager *DriverControls;
 
 #endif /* SRC_ROBOT_H_ */
