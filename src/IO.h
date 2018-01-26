@@ -8,10 +8,6 @@
 #ifndef SRC_IO_H_
 #define SRC_IO_H_ 1
 
-#define NUM_ENCODERS 10 /* we have 10 encoders on the robot */
-#define NUM_SOLENOIDS 10 /*placeholder 10 */
-#define NUM_TALONS 4 /* we only use talons to control steering for the swerve drive */
-#define NUM_VICTORS 8 /* we use victorSPX's everywhere else */
 
 #include <WPILib.h>
 #include "ctre/Phoenix.h"
@@ -33,6 +29,9 @@ public:
 	/* These make sure the class can't be copied */
 	IO(IO const&) = delete;
 	void operator=(IO const&) = delete;
+
+	// The scaling to multiply the voltage by to get a meaningful unit 360 degrees / 5 volts = 72
+	const int sweerveanglogvoltagetodegrees = 72;
 
 	WPI_VictorSPX *drvlbmot;
 	WPI_VictorSPX *drvrbmot;
@@ -62,7 +61,7 @@ public:
 	AnalogPotentiometer *steerencdrvrb;
 	AnalogPotentiometer *steerencdrvrf;
 	DigitalInput *cubesensor;
-	int sweerveanglogvoltagetodegrees;
+
 
 
 	/* put all declarations here */

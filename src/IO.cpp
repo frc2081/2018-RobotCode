@@ -8,8 +8,7 @@
 #include "IO.h"
 
 IO::IO() {
-	// The scaling to multiply the voltage by to get a meaningful unit 360 degrees / 5 volts = 72
-	sweerveanglogvoltagetodegrees = 72;
+
 	drvlbmot = new WPI_VictorSPX(0);
 	drvrbmot  = new WPI_VictorSPX(1);
 	drvlfmot  = new WPI_VictorSPX(2);
