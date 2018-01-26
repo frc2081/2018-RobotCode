@@ -7,12 +7,10 @@
 //#include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-#include "IO.h"
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
 		printf("ROBOT STARTING\n");
-		swervelib = new SwerveLib(25, 25);
 		drive = new DriveManager(swervelib, IO::GetInstance());
 		drive->ZeroEncoders();
 
@@ -37,6 +35,8 @@ public:
 	void TestPeriodic() {}
 
 	void DisabledPeriodic() {}
+  
+  void DisabledInit() {}
 
 };
 
