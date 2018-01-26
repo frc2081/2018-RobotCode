@@ -6,10 +6,11 @@
  */
 
 #include <ControllerInput/ControllerManager.h>
+#include "ControllerSettings.h"
 
 ControllerManager::ControllerManager() {
-	// TODO Auto-generated constructor stub
-
+	drivecontroller = new cntl(drivecontrollernumber, drivecontrollerdeadband,drivecontrollerupperlimit);
+	mechanismcontroller = new cntl(mechanismcontrollernumber, mechanismcontrollerdeadband, mechanismcontrollerupperlimit);
 }
 
 

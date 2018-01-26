@@ -10,9 +10,13 @@
 
 #include "cntl.h"
 
+
 class ControllerManager {
 public:
 	ControllerManager();
+
+	cntl *drivecontroller;
+	cntl *mechanismcontroller;
 };
 
 #endif /* SRC_CONTROLLERINPUT_CONTROLLERMANAGER_H_ */
