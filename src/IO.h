@@ -40,7 +40,7 @@ public:
 
 	};
 
-	enum CubeIntakeSensor: bool
+	enum CubeIntakeSensor : bool
 	{
 		CUBEDETECTED = false,
 		NOCUBEDETECTED = true
