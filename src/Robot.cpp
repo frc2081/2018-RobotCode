@@ -4,13 +4,15 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-#include <iostream>
+//#include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
+		printf("ROBOT STARTING\n");
+		drive = new DriveManager(swervelib, IO::GetInstance());
+		drive->ZeroEncoders();
 
 	}
 
@@ -21,21 +23,20 @@ public:
 	void AutonomousPeriodic() {
 
 	}
-
 	void TeleopInit() {}
 
-	void TeleopPeriodic() {}
+	void TeleopPeriodic() {
+		drive->CalculateVectors();
+		drive->ApplyIntellegintSwerve();
+		drive->ApplyPIDControl();
+	}
 
 	/* Unused */
 	void TestPeriodic() {}
 
 	void DisabledPeriodic() {}
-
-	void DisabledInit() {}
-
-	void TestInit() {}
-
-	void RobotPeriodic() {}
+  
+  void DisabledInit() {}
 
 };
 

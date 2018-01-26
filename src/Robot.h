@@ -13,7 +13,7 @@
 #include "DriveSystem/DriveManager.h"
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
-
-
-
+#include "SwerveLib.h"
+DriveManager *drive;
+SwerveLib *swervelib;
 #endif /* SRC_ROBOT_H_ */

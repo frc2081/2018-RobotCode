@@ -39,5 +39,3 @@
 *.prefs
 .settings/
 .DS_Store
-
-/Debug/
