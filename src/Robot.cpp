@@ -7,10 +7,13 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
+#include "IO.h"
 
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
+
+		RioIO = new IO();
 
 	}
 

@@ -11,27 +11,40 @@
 
 #include <WPILib.h>
 #include "ctre/Phoenix.h"
-//#include "ctre/phoenix/MotorControl/CAN/WPI_VictorSPX.h"
+
 /*
  * Contains an instance of all sensors, motors, and actuators to be passed
  * throughout the entire program
  */
 class IO {
 public:
-	static IO& GetInstance()
-	{
-		static IO instance;
-		return instance;
-	}
 
-
-
-	/* These make sure the class can't be copied */
-	IO(IO const&) = delete;
-	void operator=(IO const&) = delete;
+	IO();
 
 	// The scaling to multiply the voltage by to get a meaningful unit 360 degrees / 5 volts = 72
 	const int sweerveanglogvoltagetodegrees = 72;
+	const double swerveencodercountstodistancecentimeters = .238;
+	const double shooterangleencodercountstodegrees = 1;
+
+	enum class PokerPosition : bool
+	{
+		RETRACTED = false,
+		EXTENDED = true
+
+	};
+
+	enum ShooterArmPosition : bool
+	{
+		CLOSED = false,
+		OPEN = true
+
+	};
+
+	enum CubeIntakeSensor : bool
+	{
+		CUBEDETECTED = false,
+		NOCUBEDETECTED = true
+	};
 
 	WPI_VictorSPX *drvlbmot;
 	WPI_VictorSPX *drvrbmot;
@@ -48,10 +61,8 @@ public:
 	WPI_VictorSPX *turnlfmot;
 	WPI_VictorSPX *turnrfmot;
 	Compressor *compressor;
-	Solenoid *solenoidrampl;
-	Solenoid *solenoidrampr;
 	Solenoid *solenoidpoker;
-	Solenoid *intakearmarticulation;
+	Solenoid *shooterarmarticulation;
 	Encoder *encdrvlb;
 	Encoder *encdrvlf;
 	Encoder *encdrvrb;
@@ -60,14 +71,9 @@ public:
 	AnalogPotentiometer *steerencdrvlf;
 	AnalogPotentiometer *steerencdrvrb;
 	AnalogPotentiometer *steerencdrvrf;
-	DigitalInput *cubesensor;
-
-
-
-	/* put all declarations here */
+	DigitalInput *intakecubesensor;
 
 private:
-	IO();
 
 };
 
