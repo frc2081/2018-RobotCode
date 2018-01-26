@@ -8,6 +8,11 @@
 #include <CubeSystem/CubeManagerIO.h>
 
 CubeManagerIO::CubeManagerIO() {
-	// TODO Auto-generated constructor stub
 
+	shooterArmPos = ShooterArmPosition::CLOSED;
+	pokerpos = PokerPosition::RETRACTED;
+
+	intakepowercmd = 0;
+	shooterpowercmd = 0;
+	shooteranglecmd = 0;
 }

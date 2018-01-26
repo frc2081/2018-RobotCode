@@ -21,6 +21,13 @@ class CubeManagerIO {
 			CLOSED = false,
 			OPEN = true
 		};
+
+		ShooterArmPosition shooterArmPos;
+		PokerPosition pokerpos;
+
+		double intakepowercmd;
+		double shooterpowercmd;
+		double shooteranglecmd;
 	};
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGERIO_H_ */
