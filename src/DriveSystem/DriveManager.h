@@ -25,6 +25,10 @@
 
 		void ApplyPIDControl();
 
+		void DriveManagerInit();
+
+		void DriveManagerPeriodic();
+
 	private:
 		SwerveLib *_swervelib;
 		IO *_io;
