@@ -13,22 +13,23 @@
 #include "CubeManagerIO.h"
 #include "ControllerInput/cntl.h"
 
+namespace CubeSystem {
+	class CubeCarryShiftStateMachine {
+	public:
+		cntl *testbutton;
+		CubeManagerIO *CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO);
+		CubeCarryShiftStateMachine();
+		virtual ~CubeCarryShiftStateMachine ();
+	private:
+		int _cubecarryshiftstate;
+		enum CUBECARRYSTAE{
+			kLowShot,
+			kScaleShot,
+			kLowShotToScaleShot,
+		};
 
-class CubeCarryShiftStateMachine {
-public:
-	cntl *testbutton;
-	CubeManagerIO *CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO);
-	CubeCarryShiftStateMachine();
-	virtual ~CubeCarryShiftStateMachine ();
-private:
-	int _cubecarryshiftstate;
-	enum CUBECARRYSTAE{
-		kLowShot,
-		kScaleShot,
-		kLowShotToScaleShot,
 	};
-
-};
+}
 
 
 #endif /* SRC_CUBESYSTEM_CUBECARRYSHIFTSTATEMACHINE_H_ */
