@@ -18,7 +18,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
 	//Trigger Activation Threshold
-	double trigactivthreshold = 0.6;
+	double trigactivthreshold = 0.6; //subejct to change
 
 	//Driver Controls
 
