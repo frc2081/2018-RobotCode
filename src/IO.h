@@ -57,6 +57,7 @@ public:
 	AnalogPotentiometer *steerencdrvrb;
 	AnalogPotentiometer *steerencdrvrf;
 	DigitalInput *intakecubesensor;
+	DigitalInput *cubechambersensor;
 
 private:
 
