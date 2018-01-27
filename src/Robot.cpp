@@ -7,7 +7,6 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-#include "IO.h"
 
 class Robot : public frc::IterativeRobot {
 public:
@@ -15,22 +14,32 @@ public:
 
 		RioIO = new IO();
 		DriverControls = new ControllerManager();
+		Commands = new RobotCommands();
+		Shooter = new CubeManager();
+
+		Shooter->CubeManagerInit();
+		//TODO:Add Ramp control system Init
+		//TODO:Add Drive System Init
+		//TODO:Add Vision System Init, if needed
 
 	}
 
-	void AutonomousInit() override {
+	void AutonomousInit() override {}
 
-	}
-
-	void AutonomousPeriodic() {
-
-	}
+	void AutonomousPeriodic() {}
 
 	void TeleopInit() {}
 
 	void TeleopPeriodic() {
 
-		DriverControls->pollControllers();
+		DriverControls->pollControllers(Commands);
+
+		//TODO:Add polling of sensors!!
+
+		//TODO:Add Drive System Periodic call
+		//TODO:Add Vision System Comms Updater, if not multithreaded
+		Shooter->CubeManagerPeriodic(Commands, RioIO);
+
 
 	}
 

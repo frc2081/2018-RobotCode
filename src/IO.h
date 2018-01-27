@@ -26,22 +26,7 @@ public:
 	const double swerveencodercountstodistancecentimeters = .238;
 	const double shooterangleencodercountstodegrees = 1;
 
-	enum class PokerPosition : bool
-	{
-		RETRACTED = false,
-		EXTENDED = true
-
-	};
-
-	enum ShooterArmPosition : bool
-	{
-		CLOSED = false,
-		OPEN = true
-
-	};
-
-	enum CubeIntakeSensor : bool
-	{
+	enum class CubeIntakeSensor : bool {
 		CUBEDETECTED = false,
 		NOCUBEDETECTED = true
 	};
