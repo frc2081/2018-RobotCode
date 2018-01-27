@@ -11,13 +11,13 @@
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeManagerIO.h"
-#include "cntl.h"
+#include "ControllerInput/cntl.h"
 
 
 class CubeCarryShiftStateMachine {
 public:
 	cntl *testbutton;
-	CubeManagerIO *CubeCarryShiftStateMachine(RobotCommands *Command, IO *RioIO);
+	CubeManagerIO *CubeCarryShiftState(RobotCommands *Command, IO *RioIO);
 	CubeCarryShiftStateMachine();
 	virtual ~CubeCarryShiftStateMachine ();
 private:

@@ -7,7 +7,7 @@
 
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
 int count = 50;
-CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftStateMachine(RobotCommands *Command, IO *RioIO)
+CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *Command, IO *RioIO)
 {
 	switch(_cubecarryshiftstate)
 	{
@@ -40,7 +40,7 @@ CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftStateMachine(RobotComm
 				break;
 			}
 	}
-	return true;
+	return ;
 }
 
 CubeCarryShiftStateMachine::CubeCarryShiftStateMachine() {
