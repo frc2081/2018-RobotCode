@@ -7,7 +7,7 @@
 
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
 int count = 50;
-CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *Command, IO *RioIO)
+CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO)
 {
 	switch(_cubecarryshiftstate)
 	{
@@ -20,11 +20,9 @@ CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *C
 			}
 		break;
 		case kLowShotToScaleShot:
-			RioIO->solenoidpoker->Set(false);
-			RioIO->intakelmot->Set(0.5);
-			RioIO->intakermot->Set(0.5);
-			RioIO->shooterlmot->Set(0.5);
-			RioIO->shooterrmot->Set(0.5);
+			cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+			cubeio->intakepowercmd = 0.5;
+			cubeio->shooterpowercmd = 0.5;
 			count = count - 1;
 			if (count == 0)
 			{
@@ -40,16 +38,15 @@ CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *C
 				break;
 			}
 	}
-	return ;
-}
+	return cubeio;
 
-CubeCarryShiftStateMachine::CubeCarryShiftStateMachine() {
+CubeCarryShiftStateMachine::CubeCarryShiftStateMachine(); {
 	// TODO Auto-generated constructor stub
 	_cubecarryshiftstate = kLowShot;
 	testbutton = new cntl(0, 0.3);
 }
 
-CubeCarryShiftStateMachine::~CubeCarryShiftStateMachine() {
+CubeCarryShiftStateMachine::~CubeCarryShiftStateMachine(); {
 	// TODO Auto-generated destructor stub
 }
 

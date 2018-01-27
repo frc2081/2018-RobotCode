@@ -17,7 +17,7 @@
 class CubeCarryShiftStateMachine {
 public:
 	cntl *testbutton;
-	CubeManagerIO *CubeCarryShiftState(RobotCommands *Command, IO *RioIO);
+	CubeManagerIO *CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO);
 	CubeCarryShiftStateMachine();
 	virtual ~CubeCarryShiftStateMachine ();
 private:
