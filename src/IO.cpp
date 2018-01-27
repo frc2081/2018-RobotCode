@@ -39,7 +39,7 @@ IO::IO() {
 	encdrvlb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvrb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvlf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
-	encdrvlb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
+	encdrvrf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 
 	//TODO: Add shooter angle conversion from talon angle to real angle
 	//TODO: Add code for determining initial angular position of shooter
