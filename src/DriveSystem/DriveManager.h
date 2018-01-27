@@ -28,7 +28,7 @@
 	private:
 		SwerveLib *_swervelib;
 		IO *_io;
-		RobotCommands _commands;
+		RobotCommands *_commands;
 		ControllerManager _cntls;
 		double _comangle, _commagnitude, _comrotation;
 		PIDController *_lfdrvpid, *_rfdrvpid, *_lbdrvpid, *_rbdrvpid;

@@ -84,17 +84,13 @@ void DriveManager::CalculateVectors() {
 	_currangrb = _swervelib->whl->angleRB;
 	_curranglb = _swervelib->whl->angleLB;
 	if (_commands->drvmag != 0 || _commands->drvang != 0 || _commands->drvrot != 0) {
-		_swervelib->CalcWheelVect(_commagnitude, _comangle, _comrotation);
+		_swervelib->CalcWheelVect(_commands->drvmag, _commands->drvang, _commands->drvrot);
 	} else {
 		_swervelib->whl->speedLF = 0;
 		_swervelib->whl->speedRF = 0;
 		_swervelib->whl->speedLB = 0;
 		_swervelib->whl->speedRB = 0;
 	}
-
-	printf("Commanded Angle: %.2f\n", _comangle);
-	printf("Commanded Magnitude: %.2f\n", _commagnitude);
-	printf("Commanded Rotation: %.2f\n", _comrotation);
 }
 
 void DriveManager::ApplyIntellegintSwerve() {
@@ -118,20 +114,9 @@ void DriveManager::ApplyIntellegintSwerve() {
 		_swervelib->whl->angleLB = ((int)_swervelib->whl->angleLB + 180) % 360;
 		_swervelib->whl->speedLB *= -1;
 	}
-
-	/*printf("Right Front Angle: %.2f\n", _swervelib->whl->angleRF);
-	printf("Left Front Angle: %.2f\n", _swervelib->whl->angleLF);
-	printf("Right Back Angle: %.2f\n", _swervelib->whl->angleRB);
-	printf("Left Back Angle: %.2f\n", _swervelib->whl->angleLB);*/
 }
 
 void DriveManager::ApplyPIDControl() {
-
-	/* Not PID for testing purposes */
-	//_lfdrvt->Set(_swervelib->whl->speedLF);
-	//_rfdrvt->Set(_swervelib->whl->speedRF);
-	//_rbdrvt->Set(_swervelib->whl->speedRB);
-	//_lbdrvt->Set(_swervelib->whl->speedLB);
 
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
@@ -158,10 +143,6 @@ void DriveManager::ApplyPIDControl() {
 					_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
 					_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
 	}
-
-	printf("Right Back Speed Set To: %.2f\n", _rbdrvpid->Get());
-
-	printf("Right Back Angle: %.2f\n", _rbturnpid->Get());
 
 	}
 
