@@ -13,6 +13,10 @@ public:
 	RobotCommands();
 
 	bool intakecmd;
+
+	double drvang;
+	double drvmag;
+	double drvrot;
 };
 
 #endif /* SRC_ROBOTCOMMANDS_H_ */
