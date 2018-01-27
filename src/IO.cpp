@@ -35,6 +35,7 @@ IO::IO() {
 	steerencdrvrb = new AnalogPotentiometer(2,sweerveanglogvoltagetodegrees,0);
 	steerencdrvrf = new AnalogPotentiometer(3,sweerveanglogvoltagetodegrees,0);
 	intakecubesensor = new DigitalInput(8);
+	cubechambersensor = new DigitalInput(9);
 
 	encdrvlb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvrb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
