@@ -65,6 +65,17 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO *io, RobotCommands *com, Con
 	_comrotation = 0;
 }
 
+void DriveManager::DriveManagerInit() {
+	ZeroEncoders();
+}
+
+void DriveManager::DriveManagerPeriodic() {
+	CalculateVectors();
+	ApplyIntellegintSwerve();
+	ApplyPIDControl();
+
+}
+
 void DriveManager::ZeroEncoders() {
 	_lfwhlangoffset = _io->turnlfmot->Get();
 	_rfwhlangoffset = _io->turnrfmot->Get();
