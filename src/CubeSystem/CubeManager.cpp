@@ -25,8 +25,8 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 {
 
 	//TODO:Call periodic function of each state machine, passing each one the command object and IO object
-	if(Commands->intakecmd) { AssignIO(IntakeIO, RioIO); }
-	else (AssignIO(DefaultCommands, RioIO)); //If no state machine is in control, return to the defaults
+	//if(Commands->intakecmd) { AssignIO(IntakeIO, RioIO); }
+	//else (AssignIO(DefaultCommands, RioIO)); //If no state machine is in control, return to the defaults
 }
 
 void CubeManager::AssignIO(CubeManagerIO *Commands, IO *RioIO) {
