@@ -7,7 +7,9 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
+#include "TalonConfiguration.h"
 
+TalonConfiguration *testtalon;
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
@@ -21,6 +23,8 @@ public:
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init
 		//TODO:Add Vision System Init, if needed
+		testtalon = new TalonConfiguration(RioIO);
+		testtalon->TalonConfigInit();
 
 	}
 
@@ -33,6 +37,8 @@ public:
 	void TeleopPeriodic() {
 
 		DriverControls->pollControllers(Commands);
+
+		testtalon->TalonConfigPeriodic(Commands);
 
 		//TODO:Add polling of sensors!!
 
