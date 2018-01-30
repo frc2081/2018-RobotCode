@@ -10,7 +10,7 @@
 #ifndef CNTL_H_
 #define CNTL_H_
 
-#include <WPILib.h>
+#include "WPILib.h"
 
 //For changing the mapping for different controllers
 enum BTNENUMS {

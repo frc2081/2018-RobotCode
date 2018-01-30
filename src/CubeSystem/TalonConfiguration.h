@@ -12,7 +12,7 @@
 #include "CubeManagerIO.h"
 
 //temp
-#include "cntl.h"
+#include <ControllerInput/cntl.h>
 class TalonConfiguration {
 public:
 	TalonConfiguration(IO *io);

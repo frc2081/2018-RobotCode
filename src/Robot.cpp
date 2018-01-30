@@ -7,7 +7,7 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-#include "TalonConfiguration.h"
+#include "CubeSystem/TalonConfiguration.h"
 
 TalonConfiguration *testtalon;
 class Robot : public frc::IterativeRobot {
