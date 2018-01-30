@@ -6,38 +6,36 @@
  */
 
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
-int count = 50;
+int cubeintaketimer = 50;
 namespace CubeSystem {
 	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO)
 	{
 		switch(_cubecarryshiftstate)
 		{
 			case kLowShot:
-				RioIO->solenoidpoker->Set(true);
+				cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 				if (testbutton->bX->State())
 				{
 					_cubecarryshiftstate = kLowShotToScaleShot;
-					break;
 				}
 			break;
 			case kLowShotToScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 				cubeio->intakepowercmd = 0.5;
 				cubeio->shooterpowercmd = 0.5;
-				count = count - 1;
-				if (count == 0)
+				cubeintaketimer = cubeintaketimer- 1;
+				if (cubeintaketimer == 0)
 				{
 					_cubecarryshiftstate = kScaleShot;
-					break;
 				}
-				/* no break */
+				break;
 			case kScaleShot:
-				RioIO->solenoidpoker->Set(false);
+				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 				if (testbutton->bX->State())
 				{
-					_cubecarryshiftstate = kScaleShot;
-					break;
+					_cubecarryshiftstate = kLowShot;
 				}
+				break;
 		}
 		return cubeio;
 	}

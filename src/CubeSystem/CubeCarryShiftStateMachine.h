@@ -21,13 +21,13 @@ namespace CubeSystem {
 		CubeCarryShiftStateMachine();
 		virtual ~CubeCarryShiftStateMachine ();
 	private:
-		int _cubecarryshiftstate;
-		enum CUBECARRYSTAE{
+
+		enum CUBECARRYSTATE{
 			kLowShot,
 			kScaleShot,
 			kLowShotToScaleShot,
 		};
-
+		CUBECARRYSTATE _cubecarryshiftstate;
 	};
 }
 
