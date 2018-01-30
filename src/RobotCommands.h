@@ -28,7 +28,9 @@ public:
 	bool cmdmanualshooterwheels;
 	bool cmdmanualshooterarms;
 	bool cmdmanualshooterpoker;
-
+	double drvang;
+	double drvmag;
+	double drvrot;
 };
 
 #endif /* SRC_ROBOTCOMMANDS_H_ */

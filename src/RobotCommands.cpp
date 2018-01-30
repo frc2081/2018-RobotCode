@@ -27,6 +27,10 @@ RobotCommands::RobotCommands() {
 	cmdmanualshooterarms = false;
 	cmdmanualshooterpoker = false;
 
+	drvmag = 0;
+	drvang = 0;
+	drvrot = 0;
+
 }
 
 
