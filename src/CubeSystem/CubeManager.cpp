@@ -13,6 +13,8 @@ CubeManager::CubeManager()
 	ScaleShotIO = new CubeManagerIO();
 	DeliveryIO = new CubeManagerIO();
 	DefaultCommands = new CubeManagerIO();
+	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
+	CubeCarryShiftIO = new CubeManagerIO();
 	//TODO:Instantiate each state machine
 }
 
@@ -26,6 +28,11 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 
 	//TODO:Call periodic function of each state machine, passing each one the command object and IO object
 	if(Commands->intakecmd) { AssignIO(IntakeIO, RioIO); }
+	else if (Commands->cubecarryshiftcmd) {
+		CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStateMachine::CubeCarryShiftState(Commands,
+				DefaultCommands, RioIO);
+		AssignIO(CubeCarryShiftIO, RioIO);
+	}
 	else (AssignIO(DefaultCommands, RioIO)); //If no state machine is in control, return to the defaults
 }
 

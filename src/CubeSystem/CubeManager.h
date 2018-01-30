@@ -12,7 +12,7 @@
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeManagerIO.h"
-
+#include "CubeCarryShiftStateMachine.h"
 
 class CubeManager
 {
@@ -25,6 +25,8 @@ public:
 	CubeManagerIO *ScaleShotIO;
 	CubeManagerIO *DeliveryIO;
 	CubeManagerIO *DefaultCommands;
+	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
+	CubeManagerIO *CubeCarryShiftIO;
 
 private:
 	void AssignIO(CubeManagerIO *Commands, IO *RioIO);

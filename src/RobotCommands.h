@@ -13,6 +13,7 @@ public:
 	RobotCommands();
 
 	bool intakecmd;
+	bool cubecarryshiftcmd;
 
 	double drvang;
 	double drvmag;

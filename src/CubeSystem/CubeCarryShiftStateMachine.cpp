@@ -8,7 +8,8 @@
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
 int cubeintaketimer = 50;
 namespace CubeSystem {
-	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO)
+	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftState(RobotCommands *Command,
+			CubeManagerIO *cubeio, IO *RioIO)
 	{
 		switch(_cubecarryshiftstate)
 		{

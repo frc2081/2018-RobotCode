@@ -11,7 +11,7 @@ RobotCommands::RobotCommands() {
 
 	//TODO:Add all robot Commands here
 	intakecmd = false;
-
+	cubecarryshiftcmd = false;
 	drvmag = 0;
 	drvang = 0;
 	drvrot = 0;
