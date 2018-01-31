@@ -8,9 +8,10 @@
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
 int cubeintaketimer = 50;
 namespace CubeSystem {
-	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command,
-			CubeManagerIO *cubeio, IO *RioIO)
+
+	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO)
 	{
+		CubeManagerIO *cubeio = new CubeManagerIO();
 		switch(_cubecarryshiftstate)
 		{
 			case kLowShot:
@@ -19,7 +20,8 @@ namespace CubeSystem {
 				{
 					_cubecarryshiftstate = kLowShotToScaleShot;
 				}
-			break;
+				break;
+
 			case kLowShotToScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 				cubeio->intakepowercmd = 0.5;
@@ -31,6 +33,7 @@ namespace CubeSystem {
 					cubeintaketimer = 50;
 				}
 				break;
+
 			case kScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 				if (Command->cmdshiftcube)
@@ -44,7 +47,7 @@ namespace CubeSystem {
 
 	CubeCarryShiftStateMachine::CubeCarryShiftStateMachine() {
 		// TODO Auto-generated constructor stub
-		_cubecarryshiftstate = kLowShot;
+		_cubecarryshiftstate = kScaleShot;
 
 	}
 
