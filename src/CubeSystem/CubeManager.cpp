@@ -8,14 +8,18 @@
 
 CubeManager::CubeManager()
 {
-	IntakeIO = new CubeManagerIO();
+	IntakeHighShotIO = new CubeManagerIO();
+	IntakeLowShotIO = new CubeManagerIO();
 	SwitchShotIO = new CubeManagerIO();
 	ScaleShotIO = new CubeManagerIO();
-	DeliveryIO = new CubeManagerIO();
+	ExchangeShotIO = new CubeManagerIO();
 	DefaultCommands = new CubeManagerIO();
-	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
 	CubeCarryShiftIO = new CubeManagerIO();
+
+	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
 	//TODO:Instantiate each state machine
+
+	currCmd = Cmd::Nothing;
 }
 
 void CubeManager::CubeManagerInit()
@@ -25,15 +29,52 @@ void CubeManager::CubeManagerInit()
 
 void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 {
-	//TODO:Call periodic function of each state machine, passing each one the command object and IO object
+	//Call each periodic function
+	CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, RioIO);
 
-	if(Commands->cmdintakelowshot) { AssignIO(IntakeIO, RioIO); }
-	else if (Commands->cmdshiftcube) {
-		CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStateMachine::CubeCarryShiftState(Commands,
-				DefaultCommands, RioIO);
-		AssignIO(CubeCarryShiftIO, RioIO);
+	switch(currCmd)
+	{
+		case Cmd::Nothing:
+			if (Commands->cmdshiftcube) currCmd = Cmd::CarryShift;
+			else if (Commands->cmdintakelowshot) currCmd = Cmd::IntakelowShot;
+			else if (Commands->cmdscaleshot) currCmd = Cmd::ScaleShot;
+			else if (Commands->cmdswitchshot) currCmd = Cmd::SwitchShot;
+			else if (Commands->cmdintakehighshot) currCmd = Cmd::IntakeHighShot;
+			else if (Commands->cmdexchangeshot) currCmd = Cmd::ExchangeShot;
+			else currCmd = Cmd::Nothing;
+		break;
+
+		case Cmd::CarryShift:
+			AssignIO(CubeCarryShiftIO, RioIO);
+			if(CubeCarryShiftIO->isdone) currCmd = Cmd::Nothing;
+		break;
+
+		case Cmd::ScaleShot:
+			AssignIO(ScaleShotIO, RioIO);
+			if(ScaleShotIO->isdone) currCmd = Cmd::Nothing;
+		break;
+
+		case Cmd::ExchangeShot:
+			AssignIO(ExchangeShotIO, RioIO);
+			if(ExchangeShotIO->isdone) currCmd = Cmd::Nothing;
+		break;
+
+		case Cmd::SwitchShot:
+			AssignIO(SwitchShotIO, RioIO);
+			if(SwitchShotIO->isdone) currCmd = Cmd::Nothing;
+		break;
+
+		case Cmd::IntakeHighShot:
+			AssignIO(IntakeHighShotIO, RioIO);
+			if(IntakeHighShotIO->isdone) currCmd = Cmd::Nothing;
+		break;
+
+		case Cmd::IntakelowShot:
+			AssignIO(IntakeLowShotIO, RioIO);
+			if(IntakeLowShotIO->isdone) currCmd = Cmd::Nothing;
+		break;
 	}
-	else (AssignIO(DefaultCommands, RioIO)); //If no state machine is in control, return to the defaults
+
 }
 
 void CubeManager::AssignIO(CubeManagerIO *Commands, IO *RioIO) {

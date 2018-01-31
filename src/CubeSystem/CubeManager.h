@@ -20,16 +20,31 @@ public:
 	CubeManager();
 	void CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO);
 	void CubeManagerInit();
-	CubeManagerIO *IntakeIO;
+	CubeManagerIO *IntakeHighShotIO;
+	CubeManagerIO *IntakeLowShotIO;
 	CubeManagerIO *SwitchShotIO;
 	CubeManagerIO *ScaleShotIO;
-	CubeManagerIO *DeliveryIO;
+	CubeManagerIO *ExchangeShotIO;
 	CubeManagerIO *DefaultCommands;
-	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
 	CubeManagerIO *CubeCarryShiftIO;
+
+	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
 
 private:
 	void AssignIO(CubeManagerIO *Commands, IO *RioIO);
+
+	enum class Cmd
+	{
+		CarryShift,
+		ScaleShot,
+		ExchangeShot,
+		SwitchShot,
+		IntakeHighShot,
+		IntakelowShot,
+		Nothing
+	};
+
+	Cmd currCmd;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
