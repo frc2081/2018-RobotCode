@@ -6,10 +6,10 @@
 */
 #include "DriveManager.h"
 
-DriveManager::DriveManager(SwerveLib *swervelib, IO *io, RobotCommands *com, ControllerManager *cntls) {
+DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls) {
 	_io = io;
 	_commands = com;
-	_swervelib = swervelib;
+	_swervelib = new SwerveLib(25, 25);
 	_cntls = cntls;
 	_drvpidi = 0.0;
 	_drvpidd = 0.0;
