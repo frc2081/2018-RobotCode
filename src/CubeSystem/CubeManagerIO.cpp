@@ -15,4 +15,6 @@ CubeManagerIO::CubeManagerIO() {
 	intakepowercmd = 0;
 	shooterpowercmd = 0;
 	shooteranglecmd = 0; //TODO:Replace this with a tune for the default angle of the shooter arm
+
+	isdone = false;
 }

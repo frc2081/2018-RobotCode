@@ -28,6 +28,8 @@ class CubeManagerIO {
 		double intakepowercmd;
 		double shooterpowercmd;
 		double shooteranglecmd;
+
+		bool isdone;
 	};
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGERIO_H_ */
