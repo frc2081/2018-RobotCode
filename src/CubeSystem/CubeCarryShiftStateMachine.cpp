@@ -16,9 +16,11 @@ namespace CubeSystem {
 		{
 			case kLowShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
+				cubeio->isdone = true;
 				if (Command->cmdshiftcube)
 				{
 					_cubecarryshiftstate = kLowShotToScaleShot;
+					cubeio->isdone = false;
 				}
 				break;
 
@@ -27,6 +29,7 @@ namespace CubeSystem {
 				cubeio->intakepowercmd = 0.5;
 				cubeio->shooterpowercmd = 0.5;
 				cubeintaketimer = cubeintaketimer- 1;
+
 				if (cubeintaketimer == 0)
 				{
 					_cubecarryshiftstate = kScaleShot;
@@ -36,9 +39,12 @@ namespace CubeSystem {
 
 			case kScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+				cubeio->isdone = true;
+
 				if (Command->cmdshiftcube)
 				{
 					_cubecarryshiftstate = kLowShot;
+					cubeio->isdone = false;
 				}
 				break;
 		}
