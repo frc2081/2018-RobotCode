@@ -25,8 +25,8 @@ void CubeManager::CubeManagerInit()
 
 void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 {
-
 	//TODO:Call periodic function of each state machine, passing each one the command object and IO object
+
 	if(Commands->intakecmd) { AssignIO(IntakeIO, RioIO); }
 	else if (Commands->cubecarryshiftcmd) {
 		CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStateMachine::CubeCarryShiftState(Commands,

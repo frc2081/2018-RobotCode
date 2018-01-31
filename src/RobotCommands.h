@@ -12,8 +12,22 @@ class RobotCommands {
 public:
 	RobotCommands();
 
-	bool intakecmd;
-	bool cubecarryshiftcmd;
+	bool cmdramprelease;
+	bool cmdscaleshot;
+	bool cmdexchangeshot;
+	bool cmdswitchshot;
+	bool cmdintakehighshot;
+	bool cmdintakelowshot;
+	bool cmdshiftcube;
+	bool cmdrampraiseleft;
+	bool cmdrampraiseright;
+	bool cmdautopickup;
+	bool cmdautoscaleshot;
+	double cmdmanualshooterangleraise;
+	double cmdmanualshooteranglelower;
+	bool cmdmanualshooterwheels;
+	bool cmdmanualshooterarms;
+	bool cmdmanualshooterpoker;
 
 	double drvang;
 	double drvmag;
