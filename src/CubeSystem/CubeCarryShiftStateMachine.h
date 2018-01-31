@@ -16,7 +16,7 @@
 namespace CubeSystem {
 	class CubeCarryShiftStateMachine {
 	public:
-		CubeManagerIO *CubeCarryShiftState(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO);
+		CubeManagerIO *CubeCarryShiftStatePeriodic(RobotCommands *Command, CubeManagerIO *cubeio, IO *RioIO);
 		CubeCarryShiftStateMachine();
 		virtual ~CubeCarryShiftStateMachine ();
 	private:
