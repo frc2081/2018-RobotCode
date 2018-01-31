@@ -15,7 +15,7 @@ namespace CubeSystem {
 		{
 			case kLowShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
-				if (testbutton->bX->State())
+				if (())
 				{
 					_cubecarryshiftstate = kLowShotToScaleShot;
 				}
@@ -28,11 +28,12 @@ namespace CubeSystem {
 				if (cubeintaketimer == 0)
 				{
 					_cubecarryshiftstate = kScaleShot;
+					cubeintaketimer = 50;
 				}
 				break;
 			case kScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
-				if (testbutton->bX->State())
+				if (())
 				{
 					_cubecarryshiftstate = kLowShot;
 				}
@@ -44,8 +45,7 @@ namespace CubeSystem {
 	CubeCarryShiftStateMachine::CubeCarryShiftStateMachine() {
 		// TODO Auto-generated constructor stub
 		_cubecarryshiftstate = kLowShot;
-		testbutton = new cntl(0, 0.3, 1.0
-				);
+
 	}
 
 	CubeCarryShiftStateMachine::~CubeCarryShiftStateMachine() {
