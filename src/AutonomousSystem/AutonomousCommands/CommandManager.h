@@ -17,7 +17,7 @@
 using namespace std;
 class CommandManager {
 public:
-	CommandManager(robotTeam, robotStation, robotAction);
+	CommandManager(robotTeam, robotStation, robotAction, char, char);
 	virtual ~CommandManager();
 	commandOutput tick(commandInput input);
 
@@ -32,21 +32,20 @@ private:
 
 	CommandBase *currCommand;
 
-	void crossMidline(queue<CommandBase*> *queue,robotTeam, robotStation);
+	//replace with Dan's thing later
+	void scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station);
 
-	void gearOnly(queue<CommandBase*> *queue,robotTeam, robotStation);
-
-	void shootOnly(queue<CommandBase*> *queue,robotTeam, robotStation);
-
-	void gearAndShoot(queue<CommandBase*> *queue,robotTeam, robotStation);
-
-	void shootOnlyBin(queue<CommandBase*> *queue,robotTeam, robotStation);
+	void switchOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station);
 
 	double configShooterAng(robotTeam, robotStation);
 
 	double configShooterSpd(robotTeam, robotStation);
 
 	CommandBase *_doNothing;
+
+	char _ourswitch;
+
+	char _scale;
 };
 
 #endif /* SRC_AUTOCOMMANDS_COMMANDMANAGER_H_ */

@@ -11,10 +11,20 @@ namespace Autonomous
 		_io = io;
 		_commands = commands;
 		_gyro = gyroManager::Get();
+		_actionselector = new AutoSelector(0); //Number is the port things are in
+		_stationselector = new AutoSelector(1);
 	}
 
-	void AutoInit(robotTeam team, robotAction action, robotStation station) {
-		_autocommands = new CommandManager(team, action, station);
+	void AutonomousManager::AutoInit() {
+		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
+		else if (DriverStation::GetInstance().GetAlliance() == DriverStation::kBlue) _team = BLUE;
+		else _team = NONE;
+		_action = _actionselector->getAction();
+		_station = _stationselector->getFieldPosition();
+		string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
+		_ourswitch = scorelocations.at(0);
+		_scale = scorelocations.at(1);
+		_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale);
 	}
 
 	void AutonomousManager::AutoPeriodic() {

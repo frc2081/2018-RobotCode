@@ -13,7 +13,10 @@
 #include "CommandShoot.h"
 #include <stdio.h>
 
-CommandManager::CommandManager(robotTeam team, robotStation station, robotAction action) {
+CommandManager::CommandManager(robotTeam team, robotStation station, robotAction action, char ourswitch, char scale) {
+
+	_ourswitch = ourswitch;
+	_scale = scale;
 
 	commands = queue<CommandBase*>();
 	buildCommands(&commands, team, station, action);
@@ -30,6 +33,26 @@ commandOutput CommandManager::tick(commandInput input) {
 	return currCommand == NULL
 		? commandOutput()
 		: currCommand->tick(input);
+}
+
+//replace with Dan's thing later
+void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {\
+	/* ALL NUMBERS ARE PLACEHOLDERS UNTIL THE TRUE ONES ARE MEASURED */
+	if (_scale == 'L') {
+		if (team == BLUE) {
+			queue->push(new CommandDrive(40, 0));
+			if (station == ONE) {
+				queue->push(new CommandDrive(80, 0));
+				queue->push(new CommandTurn(90));
+				queue->push(new CommandShoot(10));
+			} else if (station == THREE) {
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandDrive(160, 270));
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandShoot(10));
+			}
+		}
+	}
 }
 
 CommandBase *CommandManager::getNextCommand(commandInput input) {

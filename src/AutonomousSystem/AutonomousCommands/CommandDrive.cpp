@@ -8,9 +8,8 @@
 #include "CommandDrive.h"
 #include <stdio.h>
 
-CommandDrive::CommandDrive(SwerveLib *swerveLib, double toTravel, double direction) {
+CommandDrive::CommandDrive(double toTravel, double direction) {
 	// TODO Auto-generated constructor stub
-	_swerveLib = swerveLib;
 	_toTravel = toTravel;
 	_direction = direction;
 }

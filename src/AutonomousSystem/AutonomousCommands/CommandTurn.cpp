@@ -8,7 +8,7 @@
 #include "CommandTurn.h"
 #include <iostream>
 
-CommandTurn::CommandTurn(SwerveLib *swerveLib, double toRotate) {
+CommandTurn::CommandTurn(double toRotate) {
 	// TODO Auto-generated constructor stub
 
 	_toRotate = toRotate;

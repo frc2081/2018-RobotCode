@@ -8,12 +8,10 @@
 #include "CommandShoot.h"
 #include <iostream>
 
-CommandShoot::CommandShoot(double fireTimeSec, double shooterSpd, double shooterAng) {
+CommandShoot::CommandShoot(double fireTimeSec) {
 	// TODO Auto-generated constructor stub
 
 	_toWaitSec = fireTimeSec + 2;
-	_shootSpd = shooterSpd;
-	_shootAng = shooterAng;
 }
 
 void CommandShoot::init(commandInput input) {
@@ -39,8 +37,7 @@ commandOutput CommandShoot::tick(commandInput input) {
 		return doNothing();
 	}
 
-	//.7 is for short shots, the only time auto shooting will be done
-	return commandOutput(0,0,0, _shootSpd, 1, _shootAng, 1);
+	return commandOutput(true, false);
 }
 
 CommandShoot::~CommandShoot() {

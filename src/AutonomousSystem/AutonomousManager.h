@@ -21,12 +21,17 @@ namespace Autonomous
 
 		void AutoPeriodic();
 
-		void AutoInit(robotTeam team, robotAction action, robotStation station);
+		void AutoInit();
 
 	private:
 		robotTeam _team;
 		robotStation _station;
 		robotAction _action;
+		AutoSelector *_actionselector;
+		AutoSelector *_stationselector;
+		/* These are the ones that our team has */
+		char _ourswitch;
+		char _scale;
 		IO *_io;
 		RobotCommands *_commands;
 		gyroManager *_gyro;

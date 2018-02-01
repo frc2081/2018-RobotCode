@@ -11,7 +11,7 @@
 
 class CommandTurn : public CommandBase {
 public:
-	CommandTurn(SwerveLib *swerveLib, double toRotate);
+	CommandTurn(double toRotate);
 	virtual ~CommandTurn();
 
 	commandOutput tick(commandInput input);
