@@ -86,7 +86,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		else Commands->cmdexchangeshot = false;
 
 		//Shift Cube Carry Position Command
-		if(mechanismcontroller->bA->State() == true) Commands->cmdshiftcube = true;
+		if(mechanismcontroller->bA->RE() == true) Commands->cmdshiftcube = true;
 		else Commands->cmdshiftcube = false;
 
 		//Automatic Scale Shot Command
