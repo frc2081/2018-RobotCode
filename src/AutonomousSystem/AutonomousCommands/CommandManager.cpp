@@ -36,7 +36,7 @@ commandOutput CommandManager::tick(commandInput input) {
 }
 
 //replace with Dan's thing later
-void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {\
+void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
 	/* ALL NUMBERS ARE PLACEHOLDERS UNTIL THE TRUE ONES ARE MEASURED */
 	if (_scale == 'L') {
 		if (team == RED) {
@@ -65,7 +65,54 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 				queue->push(new CommandShoot(10));
 			}
 		}
+	} else if (_scale == 'R') {
+
+		if (team == RED) {
+			queue->push(new CommandDrive(40, 0));
+			if (station == THREE) {
+				queue->push(new CommandDrive(80, 0));
+				queue->push(new CommandTurn(-90));
+				queue->push(new CommandShoot(10));
+			} else if (station == ONE) {
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandDrive(160, 90));
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandTurn(-90));
+				queue->push(new CommandShoot(10));
+			}
+		} else if (team == BLUE) {
+			if (station == ONE) {
+				queue->push(new CommandDrive(80, 0));
+				queue->push(new CommandTurn(90));
+				queue->push(new CommandShoot(10));
+			} else if (station == THREE) {
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandDrive(160, 270));
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandTurn(90));
+				queue->push(new CommandShoot(10));
+			}
+
+		}
 	}
+}
+
+void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
+	if (_ourswitch == 'L') {
+		if (station == TWO) {
+			queue->push(new CommandDrive(270, 45));
+			queue->push(new CommandShoot(10));
+		}
+	} else if (_ourswitch == 'R') {
+		if (station == TWO) {
+			queue->push(new CommandDrive(90, 45));
+			queue->push(new CommandShoot(10));
+		}
+	}
+}
+
+void crossLine(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
+	queue->push(new CommandDrive(40, 0));
 }
 
 CommandBase *CommandManager::getNextCommand(commandInput input) {

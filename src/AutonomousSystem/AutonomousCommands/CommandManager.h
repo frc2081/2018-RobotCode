@@ -37,6 +37,8 @@ private:
 
 	void switchOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station);
 
+	void crossLine(queue<CommandBase*> *queue,robotTeam team, robotStation station);
+
 	double configShooterAng(robotTeam, robotStation);
 
 	double configShooterSpd(robotTeam, robotStation);
