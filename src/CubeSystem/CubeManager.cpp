@@ -46,32 +46,32 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 
 		case Cmd::CarryShift:
 			AssignIO(CubeCarryShiftIO, RioIO);
-			if(CubeCarryShiftIO->isdone) currCmd = Cmd::Nothing;
+			if(CubeCarryShiftIO->isdone) { currCmd = Cmd::Nothing; CubeCarryShiftIO->isdone = false; }
 		break;
 
 		case Cmd::ScaleShot:
 			AssignIO(ScaleShotIO, RioIO);
-			if(ScaleShotIO->isdone) currCmd = Cmd::Nothing;
+			if(ScaleShotIO->isdone) { currCmd = Cmd::Nothing; ScaleShotIO->isdone = false; }
 		break;
 
 		case Cmd::ExchangeShot:
 			AssignIO(ExchangeShotIO, RioIO);
-			if(ExchangeShotIO->isdone) currCmd = Cmd::Nothing;
+			if(ExchangeShotIO->isdone) { currCmd = Cmd::Nothing; ExchangeShotIO->isdone = false; }
 		break;
 
 		case Cmd::SwitchShot:
 			AssignIO(SwitchShotIO, RioIO);
-			if(SwitchShotIO->isdone) currCmd = Cmd::Nothing;
+			if(SwitchShotIO->isdone) { currCmd = Cmd::Nothing; SwitchShotIO->isdone = false; }
 		break;
 
 		case Cmd::IntakeHighShot:
 			AssignIO(IntakeHighShotIO, RioIO);
-			if(IntakeHighShotIO->isdone) currCmd = Cmd::Nothing;
+			if(IntakeHighShotIO->isdone) { currCmd = Cmd::Nothing; IntakeHighShotIO->isdone = false; }
 		break;
 
 		case Cmd::IntakelowShot:
 			AssignIO(IntakeLowShotIO, RioIO);
-			if(IntakeLowShotIO->isdone) currCmd = Cmd::Nothing;
+			if(IntakeLowShotIO->isdone) { currCmd = Cmd::Nothing; IntakeLowShotIO->isdone = false; }
 		break;
 	}
 
