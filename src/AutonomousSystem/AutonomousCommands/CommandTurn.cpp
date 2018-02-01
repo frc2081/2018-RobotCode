@@ -19,23 +19,10 @@ void CommandTurn::init (commandInput input) {
 
 	gyroReadingInit = input.currentGyroReading;
 
-	double comboAng = gyroReadingInit + ((int)_toRotate % 360);
+	_finalRot = gyroReadingInit + _toRotate;
 
-	if (comboAng > 360) {
-		comboAng -= 360;
-	} else if (comboAng < 0) {
-		comboAng += 360;
-	}
-	_finalRot = comboAng;
-
-	double delta = gyroReadingInit - _finalRot;
-	if(abs(delta) > 180){
-		if(delta > 0) _turnDirection = 1;
-		else _turnDirection = -1;
-	} else {
-		if(delta > 0) _turnDirection = -1;
-		else _turnDirection = 1;
-	}
+	if(_toRotate >= 0) _turnDirection = 1;
+	else _turnDirection = -1;
 }
 
 const char* CommandTurn::getCommandName()

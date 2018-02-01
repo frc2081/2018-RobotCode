@@ -39,7 +39,7 @@ commandOutput CommandManager::tick(commandInput input) {
 void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {\
 	/* ALL NUMBERS ARE PLACEHOLDERS UNTIL THE TRUE ONES ARE MEASURED */
 	if (_scale == 'L') {
-		if (team == BLUE) {
+		if (team == RED) {
 			queue->push(new CommandDrive(40, 0));
 			if (station == ONE) {
 				queue->push(new CommandDrive(80, 0));
@@ -49,6 +49,19 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 				queue->push(new CommandDrive(40, 0));
 				queue->push(new CommandDrive(160, 270));
 				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandTurn(90));
+				queue->push(new CommandShoot(10));
+			}
+		} else if (team == BLUE) {
+			if (station == THREE) {
+				queue->push(new CommandDrive(80, 0));
+				queue->push(new CommandTurn(-90));
+				queue->push(new CommandShoot(10));
+			} else if (station == ONE) {
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandDrive(160, 90));
+				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandTurn(-90));
 				queue->push(new CommandShoot(10));
 			}
 		}
