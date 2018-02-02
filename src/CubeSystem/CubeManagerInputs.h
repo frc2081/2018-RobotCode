@@ -12,6 +12,8 @@
 #ifndef SRC_CUBESYSTEM_CUBEMANAGERINPUTS_H_
 #define SRC_CUBESYSTEM_CUBEMANAGERINPUTS_H_
 
+#include "IO.h"
+
 class CubeManagerInputs {
 public:
 	CubeManagerInputs();
@@ -27,7 +29,7 @@ public:
 	double getShooterAngleActualValue();
 
 	//Function to poll all sensors in the cube system and update the stored values in this class
-	void updateInputs();
+	void updateInputs(IO *Inputs);
 
 private:
 	//Variables to store the current value of each input sensor in the cube system

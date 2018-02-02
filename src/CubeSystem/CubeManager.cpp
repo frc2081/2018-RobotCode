@@ -34,7 +34,7 @@ void CubeManager::CubeManagerInit()
 void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 {
 	//Update all cube system inputs
-	CubeManagerInput->updateInputs();
+	CubeManagerInput->updateInputs(RioIO);
 
 	//Call each periodic function
 	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
