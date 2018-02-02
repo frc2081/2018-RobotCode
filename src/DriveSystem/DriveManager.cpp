@@ -6,10 +6,10 @@
 */
 #include "DriveManager.h"
 
-DriveManager::DriveManager(SwerveLib *swervelib, IO *io, RobotCommands *com, ControllerManager *cntls) {
+DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls) {
 	_io = io;
 	_commands = com;
-	_swervelib = swervelib;
+	_swervelib = new SwerveLib(25, 25);
 	_cntls = cntls;
 	_drvpidi = 0.0;
 	_drvpidd = 0.0;
@@ -29,9 +29,9 @@ DriveManager::DriveManager(SwerveLib *swervelib, IO *io, RobotCommands *com, Con
 	_rbwhlangoffset = 0;
 	_maxdrivespeed = 91080; //Speed is in encoder pulses
 	_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, _drvpidf, io->encdrvlf, io->drvlfmot, _pidpollrate);
-	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvrf, io->drvlfmot, _pidpollrate);
-	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvlb, io->drvlfmot, _pidpollrate);
-	_rbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvrb, io->drvlfmot, _pidpollrate);
+	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvrf, io->drvrfmot, _pidpollrate);
+	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvlb, io->drvlbmot, _pidpollrate);
+	_rbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvrb, io->drvrbmot, _pidpollrate);
 	_lfdrvpid->SetContinuous();
 	_lfdrvpid->Enable();
 	_rfdrvpid->SetContinuous();
@@ -77,10 +77,10 @@ void DriveManager::DriveManagerPeriodic() {
 }
 
 void DriveManager::ZeroEncoders() {
-	_lfwhlangoffset = _io->turnlfmot->Get();
-	_rfwhlangoffset = _io->turnrfmot->Get();
-	_lbwhlangoffset = _io->turnlbmot->Get();
-	_rbwhlangoffset = _io->turnrbmot->Get();
+	_lfwhlangoffset = _io->steerencdrvlf->Get();
+	_rfwhlangoffset = _io->steerencdrvrf->Get();
+	_lbwhlangoffset = _io->steerencdrvlb->Get();
+	_rbwhlangoffset = _io->steerencdrvrb->Get();
 }
 
 double DriveManager::WhlAngCalcOffset(double command, double offset) {
@@ -133,7 +133,6 @@ void DriveManager::ApplyPIDControl() {
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
-
 	/*
 	 * 138 pulses/rotation of wheel
 	 * 20 pulses/rotation of cim

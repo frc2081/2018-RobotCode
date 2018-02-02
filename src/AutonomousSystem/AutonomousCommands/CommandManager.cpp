@@ -111,7 +111,7 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 	}
 }
 
-void crossLine(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
+void CommandManager::crossLine(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
 	queue->push(new CommandDrive(40, 0));
 }
 
@@ -142,14 +142,19 @@ CommandBase *CommandManager::getNextCommand(commandInput input) {
 void CommandManager::buildCommands(queue<CommandBase*> *queue, robotTeam team, robotStation station, robotAction action) {
 	switch(action) {
 	case SWITCH_SHOT:
+		//switchOnly(queue, team, station);
 		break;
 	case SCALE_SHOT:
+		//scaleOnly(queue, team, station);
 		break;
 	case DRIVE_FORWARD:
+		//crossLine(queue, team, station);
 		break;
 	default:
 		break;
 	}
+	queue->push(new CommandTurn(90));
+	queue->push(new CommandTurn(-90));
 	queue->push(new CommandPause(-1));
 }
 

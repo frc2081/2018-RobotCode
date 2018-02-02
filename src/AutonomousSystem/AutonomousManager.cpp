@@ -16,14 +16,20 @@ namespace Autonomous
 	}
 
 	void AutonomousManager::AutoInit() {
+		_gyro->start();
 		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
 		else if (DriverStation::GetInstance().GetAlliance() == DriverStation::kBlue) _team = BLUE;
 		else _team = NONE;
 		_action = _actionselector->getAction();
 		_station = _stationselector->getFieldPosition();
+
+		_action = SWITCH_SHOT;
+		_station = TWO;
 		string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
-		_ourswitch = scorelocations.at(0);
-		_scale = scorelocations.at(1);
+		if (scorelocations.length() >= 2) {
+			_ourswitch = scorelocations.at(0);
+			_scale = scorelocations.at(1);
+		}
 		_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale);
 	}
 

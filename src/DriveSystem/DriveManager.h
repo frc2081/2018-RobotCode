@@ -15,7 +15,7 @@
 
 	class DriveManager {
 	public:
-		DriveManager(SwerveLib *swervelib, IO *io, RobotCommands *com, ControllerManager *cntls);
+		DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls);
 
 		void ZeroEncoders();
 
@@ -33,7 +33,7 @@
 		SwerveLib *_swervelib;
 		IO *_io;
 		RobotCommands *_commands;
-		ControllerManager _cntls;
+		ControllerManager *_cntls;
 		double _comangle, _commagnitude, _comrotation;
 		PIDController *_lfdrvpid, *_rfdrvpid, *_lbdrvpid, *_rbdrvpid;
 		PIDController *_lfturnpid, *_rfturnpid, *_lbturnpid, *_rbturnpid;

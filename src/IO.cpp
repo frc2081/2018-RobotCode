@@ -8,21 +8,22 @@
 #include "IO.h"
 
 IO::IO() {
-
-	drvlbmot = new WPI_VictorSPX(0);
-	drvrbmot  = new WPI_VictorSPX(1);
-	drvlfmot  = new WPI_VictorSPX(2);
-	drvrfmot  = new WPI_VictorSPX(3);
-	intakelmot = new WPI_VictorSPX(4);
-	intakermot = new WPI_VictorSPX(5);
-	shooterlmot = new WPI_VictorSPX(6);
-	shooterrmot = new WPI_VictorSPX(7);
+	drvlbmot = new WPI_VictorSPX(15);
+	drvrbmot  = new WPI_VictorSPX(0);
+	drvlfmot  = new WPI_VictorSPX(14);
+	drvrfmot  = new WPI_VictorSPX(1);
+	intakelmot = new WPI_VictorSPX(12);
+	intakermot = new WPI_VictorSPX(3);
+	shooterlmot = new WPI_VictorSPX(13);
+	shooterrmot = new WPI_VictorSPX(2);
 	shooteranglmot = new TalonSRX(8);
-	shooterangrmot = new TalonSRX(9);
+	shooterangrmot = new TalonSRX(7);
 	turnlbmot = new WPI_VictorSPX(10);
-	turnrbmot = new WPI_VictorSPX(11);
-	turnlfmot = new WPI_VictorSPX(12);
-	turnrfmot = new WPI_VictorSPX(13);
+	turnrbmot = new WPI_VictorSPX(5);
+	turnlfmot = new WPI_VictorSPX(9);
+	turnrfmot = new WPI_VictorSPX(6);
+	ramprmot = new WPI_VictorSPX(4);
+	ramplmot = new WPI_VictorSPX(11);
 	compressor = new Compressor();
 	solenoidpoker = new Solenoid(2);
 	shooterarmarticulation = new Solenoid(3);
