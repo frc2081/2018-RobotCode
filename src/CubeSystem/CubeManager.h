@@ -13,6 +13,7 @@
 #include "IO.h"
 #include "CubeManagerIO.h"
 #include "CubeCarryShiftStateMachine.h"
+#include "ScaleShotStateMachine.h"
 
 class CubeManager
 {
@@ -29,7 +30,7 @@ public:
 	CubeManagerIO *CubeCarryShiftIO;
 
 	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
-
+	ScaleShotStateMachine *ScaleShot;
 private:
 	void AssignIO(CubeManagerIO *Commands, IO *RioIO);
 

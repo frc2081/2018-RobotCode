@@ -17,6 +17,7 @@ CubeManager::CubeManager()
 	CubeCarryShiftIO = new CubeManagerIO();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
+	ScaleShot = new ScaleShotStateMachine();
 	//TODO:Instantiate each state machine
 
 	currCmd = Cmd::Nothing;
