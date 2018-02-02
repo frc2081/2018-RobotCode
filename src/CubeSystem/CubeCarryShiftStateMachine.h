@@ -11,7 +11,6 @@
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeManagerIO.h"
-#include "ControllerInput/cntl.h"
 
 namespace CubeSystem {
 	class CubeCarryShiftStateMachine {
