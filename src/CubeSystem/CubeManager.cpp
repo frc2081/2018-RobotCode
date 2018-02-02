@@ -45,7 +45,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			else if (Commands->cmdswitchshot) currCmd = Cmd::SwitchShot;
 			else if (Commands->cmdintakehighshot) currCmd = Cmd::IntakeHighShot;
 			else if (Commands->cmdexchangeshot) currCmd = Cmd::ExchangeShot;
-			else { currCmd = Cmd::Nothing; AssignIO(PreviousIO); }
+			else { AssignIO(PreviousIO); }
 		break;
 
 		case Cmd::CarryShift:
