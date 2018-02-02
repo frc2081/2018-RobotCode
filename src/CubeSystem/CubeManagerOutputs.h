@@ -1,16 +1,16 @@
 /*
- * CubeManagerIO.h
+ * CubeManagerOutputs.h
  *
  *  Created on: Jan 26, 2018
  *      Author: blzzrd
  */
 
-#ifndef SRC_CUBESYSTEM_CUBEMANAGERIO_H_
-#define SRC_CUBESYSTEM_CUBEMANAGERIO_H_
+#ifndef SRC_CUBESYSTEM_CUBEMANAGEROUTPUTS_H_
+#define SRC_CUBESYSTEM_CUBEMANAGEROUTPUTS_H_
 
-class CubeManagerIO {
+class CubeManagerOutputs {
 	public:
-		CubeManagerIO();
+		CubeManagerOutputs();
 
 		enum class PokerPosition : bool {
 			RETRACTED = false,

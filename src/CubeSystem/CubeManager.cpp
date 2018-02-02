@@ -8,13 +8,13 @@
 
 CubeManager::CubeManager(IO *Output)
 {
-	IntakeHighShotIO = new CubeManagerIO();
-	IntakeLowShotIO = new CubeManagerIO();
-	SwitchShotIO = new CubeManagerIO();
-	ScaleShotIO = new CubeManagerIO();
-	ExchangeShotIO = new CubeManagerIO();
-	CubeCarryShiftIO = new CubeManagerIO();
-	PreviousIO = new CubeManagerIO();
+	IntakeHighShotIO = new CubeManagerOutputs();
+	IntakeLowShotIO = new CubeManagerOutputs();
+	SwitchShotIO = new CubeManagerOutputs();
+	ScaleShotIO = new CubeManagerOutputs();
+	ExchangeShotIO = new CubeManagerOutputs();
+	CubeCarryShiftIO = new CubeManagerOutputs();
+	PreviousIO = new CubeManagerOutputs();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
 	//TODO:Instantiate each state machine
@@ -80,7 +80,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 }
 
-void CubeManager::AssignIO(CubeManagerIO *Commands) {
+void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->solenoidpoker->Set(static_cast<bool>(Commands->pokerpos));
 	RioIO->shooterarmarticulation->Set(static_cast<bool>(Commands->shooterArmPos));
 	RioIO->intakelmot->Set(Commands->intakepowercmd);

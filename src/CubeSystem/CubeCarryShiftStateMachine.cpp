@@ -9,13 +9,13 @@
 int cubeintaketimer = 50;
 namespace CubeSystem {
 
-	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO)
+	CubeManagerOutputs  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO)
 	{
-		CubeManagerIO *cubeio = new CubeManagerIO();
+		CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 		switch(_cubecarryshiftstate)
 		{
 			case kLowShot:
-				cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
+				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 				cubeio->isdone = true;
 				if (Command->cmdshiftcube)
 				{
@@ -25,7 +25,7 @@ namespace CubeSystem {
 				break;
 
 			case kLowShotToScaleShot:
-				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 				cubeio->intakepowercmd = 0.5;
 				cubeio->shooterpowercmd = 0.5;
 				cubeintaketimer = cubeintaketimer- 1;
@@ -38,7 +38,7 @@ namespace CubeSystem {
 				break;
 
 			case kScaleShot:
-				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 				cubeio->isdone = true;
 
 				if (Command->cmdshiftcube)
