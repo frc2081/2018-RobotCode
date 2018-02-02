@@ -24,7 +24,6 @@ public:
 	CubeManagerIO *SwitchShotIO;
 	CubeManagerIO *ScaleShotIO;
 	CubeManagerIO *ExchangeShotIO;
-	CubeManagerIO *DefaultCommands;
 	CubeManagerIO *CubeCarryShiftIO;
 
 	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;

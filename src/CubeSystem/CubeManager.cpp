@@ -13,7 +13,6 @@ CubeManager::CubeManager(IO *Output)
 	SwitchShotIO = new CubeManagerIO();
 	ScaleShotIO = new CubeManagerIO();
 	ExchangeShotIO = new CubeManagerIO();
-	DefaultCommands = new CubeManagerIO();
 	CubeCarryShiftIO = new CubeManagerIO();
 	PreviousIO = new CubeManagerIO();
 
