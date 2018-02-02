@@ -27,7 +27,7 @@ CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *C
 			cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 
 			//test for all; switch to shoot when successful
-			if((RioIO->shooteranglmot == 500) && (RioIO->shooterangrmot == 500) && (RioIO->shooterarmarticulation == false) && (RioIO->solenoidpoker == true)){
+			if((/* ***************add check for arm position here ***************/ true)){
 				//all tested values are placeholders
 				switchshotcommand = LOWSHOT_SHOOT;
 			}
@@ -66,3 +66,5 @@ CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *C
 		}
 	return cubeio;
 }
+
+SwitchShotStateMachine::~SwitchShotStateMachine(){}

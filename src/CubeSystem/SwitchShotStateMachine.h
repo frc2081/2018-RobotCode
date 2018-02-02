@@ -8,12 +8,9 @@
 #ifndef SRC_CUBESYSTEM_SWITCHSHOTSTATEMACHINE_H_
 #define SRC_CUBESYSTEM_SWITCHSHOTSTATEMACHINE_H_
 
-#include "ControllerInput/ControllerManager.h"
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeManagerIO.h"
-#include "CubeCarryShiftStateMachine.h"
-#include "CubeManager.h"
 
 class SwitchShotStateMachine {
 public:
