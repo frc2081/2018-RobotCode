@@ -19,12 +19,12 @@ public:
 	CubeManager(IO *Output);
 	void CubeManagerPeriodic(RobotCommands *Commands);
 	void CubeManagerInit();
-	CubeManagerOutputs *IntakeHighShotIO;
-	CubeManagerOutputs *IntakeLowShotIO;
-	CubeManagerOutputs *SwitchShotIO;
-	CubeManagerOutputs *ScaleShotIO;
-	CubeManagerOutputs *ExchangeShotIO;
-	CubeManagerOutputs *CubeCarryShiftIO;
+	CubeManagerOutputs *IntakeHighShotOutput;
+	CubeManagerOutputs *IntakeLowShotOutput;
+	CubeManagerOutputs *SwitchShotOutput;
+	CubeManagerOutputs *ScaleShotOutput;
+	CubeManagerOutputs *ExchangeShotOutput;
+	CubeManagerOutputs *CubeCarryShiftOutput;
 
 	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
 
@@ -45,7 +45,7 @@ private:
 	};
 
 	Cmd currCmd;
-	CubeManagerOutputs *PreviousIO;
+	CubeManagerOutputs *PreviousOutput;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
