@@ -22,13 +22,15 @@ class CubeManagerIO {
 			OPEN = true
 		};
 
+
+		//Variables to store the set point for each output in the cube system
 		ShooterArmPosition shooterArmPos;
 		PokerPosition pokerpos;
-
 		double intakepowercmd;
 		double shooterpowercmd;
 		double shooteranglecmd;
 
+		//Value to indicate to when the currently running subsystem has completed all tasks and is ready to hand control back to the cube manager
 		bool isdone;
 	};
 
