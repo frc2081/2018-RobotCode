@@ -17,6 +17,7 @@ CubeManager::CubeManager()
 	CubeCarryShiftIO = new CubeManagerIO();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
+	LowSwitchShot = new SwitchShotStateMachine();
 	//TODO:Instantiate each state machine
 
 	currCmd = Cmd::Nothing;
@@ -31,7 +32,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 {
 	//Call each periodic function
 	CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, RioIO);
-
+	SwitchShotIO = LowSwitchShot->SwitchShotStatePeriodic(Commands, RioIO);
 	switch(currCmd)
 	{
 		case Cmd::Nothing:
