@@ -7,8 +7,10 @@
 
 #include <CubeSystem/SwitchShotStateMachine.h>
 
-int switchshotcommand = LOWSHOT_PRESHOT;
-int switchshottimer = 300; //placeholder value: how long until switch shot complete from starting wheels
+SwitchShotStateMachine::SwitchShotStateMachine(){
+	switchshotcommand = LOWSHOT_PRESHOT;
+	switchshottimer = 300; //placeholder value: how long until switch shot complete from starting wheels
+}
 
 CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *Commands, IO *RioIO)
 {
@@ -16,13 +18,16 @@ CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *C
 	switch (switchshotcommand) { //INITIALIZE THINGS LATER
 		case LOWSHOT_PRESHOT:
 			//set shooter to low shot angle
-			Commands->cmdshooterangleset = 500; //placeholder value: lowshot angle
+			cubeio->shooteranglecmd = 500; //placeholder value: lowshot angle
 
 			//set arms to closed
-			Commands->cmdmanualshooterarms = false; //placeholder value: closed
+			cubeio->shooterArmPos = CubeManagerIO::ShooterArmPosition::CLOSED;
+
+			//ensure poker is actually where it should be
+			cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 
 			//test for all; switch to shoot when successful
-			if((RioIO->shooteranglmot == 500) && (RioIO->shooterangrmot == 500) && (RioIO->shooterarmarticulation == false)){
+			if((RioIO->shooteranglmot == 500) && (RioIO->shooterangrmot == 500) && (RioIO->shooterarmarticulation == false) && (RioIO->solenoidpoker == true)){
 				//all tested values are placeholders
 				switchshotcommand = LOWSHOT_SHOOT;
 			}
@@ -30,7 +35,7 @@ CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *C
 			break;
 		case LOWSHOT_SHOOT:
 			//set shooting wheels to low speed
-			Commands->cmdshooterwheelspeed = 0.3; //placeholder value: low speed shooting
+			cubeio->shooterpowercmd = 0.3; //placeholder value: low speed shooting
 
 			//wait for shot, then switch to post
 			switchshottimer -= 1;
@@ -42,16 +47,16 @@ CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *C
 			break;
 		case LOWSHOT_POSTSHOT:
 			//turn off shooting wheels
-			Commands->cmdshooterwheelspeed = 0;
+			cubeio->shooterpowercmd = 0;
 
 			//set arms to open
-			Commands->cmdmanualshooterarms = true; //placeholder value: open
+			cubeio->shooterArmPos = CubeManagerIO::ShooterArmPosition::OPEN;; //placeholder value: open
 
 			//set shooter to intake angle
-			Commands->cmdshooterangleset = 0; //placeholder value: intake angle
+			cubeio->shooteranglecmd = 0; //placeholder value: intake angle
 
 			//let things happen; set done
-			SwitchShotIO->isdone = true;
+			cubeio->isdone = true;
 			switchshotcommand = LOWSHOT_PRESHOT;
 
 			break;
