@@ -9,7 +9,7 @@
 int cubeintaketimer = 50;
 namespace CubeSystem {
 
-	CubeManagerOutputs  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO)
+	CubeManagerOutputs  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs)
 	{
 		CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 		switch(_cubecarryshiftstate)
@@ -52,15 +52,11 @@ namespace CubeSystem {
 	}
 
 	CubeCarryShiftStateMachine::CubeCarryShiftStateMachine() {
-		// TODO Auto-generated constructor stub
 		_cubecarryshiftstate = kScaleShot;
-
 	}
 
 	CubeCarryShiftStateMachine::~CubeCarryShiftStateMachine() {
-		// TODO Auto-generated destructor stub
 	}
-
 }
 
 

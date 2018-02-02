@@ -9,14 +9,13 @@
 #ifndef SRC_CUBESYSTEM_CUBECARRYSHIFTSTATEMACHINE_H_
 #define SRC_CUBESYSTEM_CUBECARRYSHIFTSTATEMACHINE_H_
 #include <CubeSystem/CubeManagerOutputs.h>
+#include "CubeManagerInputs.h"
 #include "RobotCommands.h"
-#include "IO.h"
-#include "ControllerInput/cntl.h"
 
 namespace CubeSystem {
 	class CubeCarryShiftStateMachine {
 	public:
-		CubeManagerOutputs *CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO);
+		CubeManagerOutputs *CubeCarryShiftStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs);
 		CubeCarryShiftStateMachine();
 		virtual ~CubeCarryShiftStateMachine ();
 	private:

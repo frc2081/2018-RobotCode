@@ -1,8 +1,12 @@
 /*
  * CubeManagerInputs.h
  *
+ *
  *  Created on: Feb 2, 2018
  *      Author: wentzdr
+ *
+ *  Abstraction class to store and regularly update all inputs used by the cube system
+ *  Isolates the cube system state machines from the actual robot IO
  */
 
 #ifndef SRC_CUBESYSTEM_CUBEMANAGERINPUTS_H_

@@ -2,7 +2,7 @@
  * CubeManager.cpp
  *
  *  Created on: Jan 17, 2018
- *      Author: Matthew
+ *      Author: Dan Wentzel
  */
 #include "CubeManager.h"
 
@@ -15,6 +15,8 @@ CubeManager::CubeManager(IO *Output)
 	ExchangeShotOutput = new CubeManagerOutputs();
 	CubeCarryShiftOutput = new CubeManagerOutputs();
 	PreviousOutput = new CubeManagerOutputs();
+
+	CubeManagerInput = new CubeManagerInputs();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
 	//TODO:Instantiate each state machine
@@ -31,8 +33,11 @@ void CubeManager::CubeManagerInit()
 
 void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 {
+	//Update all cube system inputs
+	CubeManagerInput->updateInputs();
+
 	//Call each periodic function
-	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, RioIO);
+	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
 
 	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
 	switch(currCmd)
