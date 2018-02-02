@@ -15,6 +15,7 @@ CubeManager::CubeManager()
 	ExchangeShotIO = new CubeManagerIO();
 	DefaultCommands = new CubeManagerIO();
 	CubeCarryShiftIO = new CubeManagerIO();
+	PreviousIO = new CubeManagerIO();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
 	//TODO:Instantiate each state machine
@@ -32,6 +33,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 	//Call each periodic function
 	CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, RioIO);
 
+	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
 	switch(currCmd)
 	{
 		case Cmd::Nothing:
@@ -41,7 +43,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 			else if (Commands->cmdswitchshot) currCmd = Cmd::SwitchShot;
 			else if (Commands->cmdintakehighshot) currCmd = Cmd::IntakeHighShot;
 			else if (Commands->cmdexchangeshot) currCmd = Cmd::ExchangeShot;
-			else currCmd = Cmd::Nothing;
+			else { currCmd = Cmd::Nothing; AssignIO(PreviousIO, RioIO); }
 		break;
 
 		case Cmd::CarryShift:
@@ -84,5 +86,7 @@ void CubeManager::AssignIO(CubeManagerIO *Commands, IO *RioIO) {
 	RioIO->intakermot->Set(Commands->intakepowercmd);
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
+
+	PreviousIO = Commands;
 	//TODO: Add Angle commands here
 }
