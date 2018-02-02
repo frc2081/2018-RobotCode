@@ -8,7 +8,6 @@
 #ifndef SRC_CUBESYSTEM_CUBEMANAGER_H_
 #define SRC_CUBESYSTEM_CUBEMANAGER_H_ 1
 
-#include "ControllerInput/ControllerManager.h"
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeManagerIO.h"
