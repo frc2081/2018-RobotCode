@@ -16,8 +16,8 @@
 class CubeManager
 {
 public:
-	CubeManager();
-	void CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO);
+	CubeManager(IO *Output);
+	void CubeManagerPeriodic(RobotCommands *Commands);
 	void CubeManagerInit();
 	CubeManagerIO *IntakeHighShotIO;
 	CubeManagerIO *IntakeLowShotIO;
@@ -30,7 +30,9 @@ public:
 	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
 
 private:
-	void AssignIO(CubeManagerIO *Commands, IO *RioIO);
+	void AssignIO(CubeManagerIO *Commands);
+
+	IO *RioIO;
 
 	enum class Cmd
 	{
