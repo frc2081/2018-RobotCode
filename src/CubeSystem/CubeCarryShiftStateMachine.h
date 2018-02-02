@@ -26,6 +26,13 @@ namespace CubeSystem {
 			kLowShotToScaleShot,
 		};
 		CUBECARRYSTATE _cubecarryshiftstate;
+		int cubeintaketimer;
+
+		//*********************CALIBRATIONS********************
+		const int cubeshiftduration = 50;
+		const double cubecarryshiftintakepower = 0.5;
+		const double cubecarryshiftshooterpower = 0.5;
+
 	};
 }
 

@@ -6,7 +6,7 @@
  */
 
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
-int cubeintaketimer = 50;
+
 namespace CubeSystem {
 
 	CubeManagerOutputs  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs)
@@ -16,35 +16,43 @@ namespace CubeSystem {
 		{
 			case kLowShot:
 				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
+				cubeio->intakepowercmd = 0;
+				cubeio->shooterpowercmd = 0;
+				cubeio->shooteranglecmd = Inputs->getShooterAngleActualValue();
+
 				cubeio->isdone = true;
+
 				if (Command->cmdshiftcube)
 				{
 					_cubecarryshiftstate = kLowShotToScaleShot;
-					cubeio->isdone = false;
 				}
 				break;
 
 			case kLowShotToScaleShot:
 				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
-				cubeio->intakepowercmd = 0.5;
-				cubeio->shooterpowercmd = 0.5;
-				cubeintaketimer = cubeintaketimer- 1;
+				cubeio->intakepowercmd = cubecarryshiftintakepower;
+				cubeio->shooterpowercmd = cubecarryshiftshooterpower;
+				cubeio->shooteranglecmd = Inputs->getShooterAngleActualValue();
 
+				cubeintaketimer = cubeintaketimer - 1;
 				if (cubeintaketimer == 0)
 				{
 					_cubecarryshiftstate = kScaleShot;
-					cubeintaketimer = 50;
+					cubeintaketimer = cubeshiftduration;
 				}
 				break;
 
 			case kScaleShot:
 				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
+				cubeio->intakepowercmd = 0;
+				cubeio->shooterpowercmd = 0;
+				cubeio->shooteranglecmd = Inputs->getShooterAngleActualValue();
+
 				cubeio->isdone = true;
 
 				if (Command->cmdshiftcube)
 				{
 					_cubecarryshiftstate = kLowShot;
-					cubeio->isdone = false;
 				}
 				break;
 		}
@@ -53,6 +61,7 @@ namespace CubeSystem {
 
 	CubeCarryShiftStateMachine::CubeCarryShiftStateMachine() {
 		_cubecarryshiftstate = kScaleShot;
+		cubeintaketimer = cubeshiftduration;
 	}
 
 	CubeCarryShiftStateMachine::~CubeCarryShiftStateMachine() {
