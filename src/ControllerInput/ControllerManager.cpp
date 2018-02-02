@@ -15,7 +15,9 @@ ControllerManager::ControllerManager() {
 	mechanismcontroller = new cntl(mechanismcontrollernumber, mechanismcontrollerdeadband, mechanismcontrollerupperlimit);
 }
 
-void ControllerManager::pollControllers(RobotCommands *Commands){
+RobotCommands *ControllerManager::pollControllers(){
+	RobotCommands *Commands = new RobotCommands();
+
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
 	//Trigger Activation Threshold
@@ -95,6 +97,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 
 
 	}
+	return Commands;
 }
 
 

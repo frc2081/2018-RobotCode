@@ -32,7 +32,7 @@ public:
 
 	void TeleopPeriodic() {
 
-		DriverControls->pollControllers(Commands);
+		Commands = DriverControls->pollControllers();
 
 		//TODO:Add polling of sensors!!
 

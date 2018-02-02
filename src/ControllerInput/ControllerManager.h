@@ -18,7 +18,7 @@ class ControllerManager {
 public:
 	ControllerManager();
 
-	void pollControllers(RobotCommands *Commands);
+	RobotCommands *pollControllers();
 
 private:
 	cntl *drivecontroller;
