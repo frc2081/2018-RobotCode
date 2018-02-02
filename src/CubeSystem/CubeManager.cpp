@@ -32,7 +32,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands, IO *RioIO)
 {
 	//Call each periodic function
 	CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, RioIO);
-
+	ScaleShotIO = ScaleShot->ScaleShotStatePeriodic(Commands, RioIO);
 	switch(currCmd)
 	{
 		case Cmd::Nothing:
