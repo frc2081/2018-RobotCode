@@ -15,7 +15,7 @@ public:
 		RioIO = new IO();
 		DriverControls = new ControllerManager();
 		Commands = new RobotCommands();
-		Shooter = new CubeManager();
+		Shooter = new CubeManager(RioIO);
 
 		Shooter->CubeManagerInit();
 		//TODO:Add Ramp control system Init
@@ -37,7 +37,7 @@ public:
 
 		//TODO:Add Drive System Periodic call
 		//TODO:Add Vision System Comms Updater, if not multithreaded
-		Shooter->CubeManagerPeriodic(Commands, RioIO);
+		Shooter->CubeManagerPeriodic(Commands);
 
 
 	}
