@@ -39,7 +39,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	CubeManagerInput->updateInputs(RioIO);
 
 	//Call each periodic function
-	SwitchShotIO = LowSwitchShot->SwitchShotStatePeriodic(Commands, RioIO);
+	SwitchShotOutput = LowSwitchShot->SwitchShotStatePeriodic(Commands, CubeManagerInput);
 	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
 	ScaleShotOutput = ScaleShot->ScaleShotStatePeriodic(Commands, CubeManagerInput);
 
