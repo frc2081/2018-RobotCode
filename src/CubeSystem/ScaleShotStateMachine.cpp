@@ -15,6 +15,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 	switch(_scaleshotstate)
 	{
 	case kwaitingtoshoot:
+		printf("waiting to shoot");
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 		cubeio->intakepowercmd = 0;
 		cubeio->shooterpowercmd = 0;
@@ -25,6 +26,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		break;
 	case kanglingshooter:
 		//add something to check arm is in right angle before moving on
+		printf("angling arm");
 		cubeio->shooteranglecmd = 75;
 		cubeio->intakepowercmd = 1;
 		cubeio->shooterpowercmd = 1;
@@ -36,6 +38,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		}
 		break;
 	case kshootingcube:
+		printf("shooting cube");
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 		cubeio->intakepowercmd = 1;
 		cubeio->shooterpowercmd = 1;
