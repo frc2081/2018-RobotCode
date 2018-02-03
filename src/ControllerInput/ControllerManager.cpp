@@ -16,6 +16,7 @@ ControllerManager::ControllerManager() {
 }
 
 void ControllerManager::pollControllers(RobotCommands *Commands){
+
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
 	//Trigger Activation Threshold

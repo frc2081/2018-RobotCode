@@ -1,13 +1,13 @@
 /*
- * CubeManagerIO.cpp
+ * CubeManagerOutputs.cpp
  *
  *  Created on: Jan 26, 2018
  *      Author: blzzrd
  */
 
-#include <CubeSystem/CubeManagerIO.h>
+#include <CubeSystem/CubeManagerOutputs.h>
 
-CubeManagerIO::CubeManagerIO() {
+CubeManagerOutputs::CubeManagerOutputs() {
 
 	shooterArmPos = ShooterArmPosition::CLOSED;
 	pokerpos = PokerPosition::RETRACTED;

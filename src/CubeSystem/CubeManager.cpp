@@ -2,21 +2,24 @@
  * CubeManager.cpp
  *
  *  Created on: Jan 17, 2018
- *      Author: Matthew
+ *      Author: Dan Wentzel
  */
 #include "CubeManager.h"
 
 CubeManager::CubeManager(IO *Output)
 {
-	IntakeHighShotIO = new CubeManagerIO();
-	IntakeLowShotIO = new CubeManagerIO();
-	SwitchShotIO = new CubeManagerIO();
-	ScaleShotIO = new CubeManagerIO();
-	ExchangeShotIO = new CubeManagerIO();
-	CubeCarryShiftIO = new CubeManagerIO();
-	PreviousIO = new CubeManagerIO();
+	IntakeHighShotOutput = new CubeManagerOutputs();
+	IntakeLowShotOutput = new CubeManagerOutputs();
+	SwitchShotOutput = new CubeManagerOutputs();
+	ScaleShotOutput = new CubeManagerOutputs();
+	ExchangeShotOutput = new CubeManagerOutputs();
+	CubeCarryShiftOutput = new CubeManagerOutputs();
+	PreviousOutput = new CubeManagerOutputs();
+
+	CubeManagerInput = new CubeManagerInputs();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
+	ScaleShot = new ScaleShotStateMachine();
 	//TODO:Instantiate each state machine
 
 	currCmd = Cmd::Nothing;
@@ -31,10 +34,15 @@ void CubeManager::CubeManagerInit()
 
 void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 {
+	//Update all cube system inputs
+	CubeManagerInput->updateInputs(RioIO);
+
 	//Call each periodic function
-	CubeCarryShiftIO = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, RioIO);
+	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
+	ScaleShotIO = ScaleShot->ScaleShotStatePeriodic(Commands, RioIO);
 
 	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
+
 	switch(currCmd)
 	{
 		case Cmd::Nothing:
@@ -44,43 +52,43 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			else if (Commands->cmdswitchshot) currCmd = Cmd::SwitchShot;
 			else if (Commands->cmdintakehighshot) currCmd = Cmd::IntakeHighShot;
 			else if (Commands->cmdexchangeshot) currCmd = Cmd::ExchangeShot;
-			else { AssignIO(PreviousIO); }
+			else { AssignIO(PreviousOutput); }
 		break;
 
 		case Cmd::CarryShift:
-			AssignIO(CubeCarryShiftIO);
-			if(CubeCarryShiftIO->isdone) { currCmd = Cmd::Nothing; CubeCarryShiftIO->isdone = false; }
+			AssignIO(CubeCarryShiftOutput);
+			if(CubeCarryShiftOutput->isdone) { currCmd = Cmd::Nothing; CubeCarryShiftOutput->isdone = false; }
 		break;
 
 		case Cmd::ScaleShot:
-			AssignIO(ScaleShotIO);
-			if(ScaleShotIO->isdone) { currCmd = Cmd::Nothing; ScaleShotIO->isdone = false; }
+			AssignIO(ScaleShotOutput);
+			if(ScaleShotOutput->isdone) { currCmd = Cmd::Nothing; ScaleShotOutput->isdone = false; }
 		break;
 
 		case Cmd::ExchangeShot:
-			AssignIO(ExchangeShotIO);
-			if(ExchangeShotIO->isdone) { currCmd = Cmd::Nothing; ExchangeShotIO->isdone = false; }
+			AssignIO(ExchangeShotOutput);
+			if(ExchangeShotOutput->isdone) { currCmd = Cmd::Nothing; ExchangeShotOutput->isdone = false; }
 		break;
 
 		case Cmd::SwitchShot:
-			AssignIO(SwitchShotIO);
-			if(SwitchShotIO->isdone) { currCmd = Cmd::Nothing; SwitchShotIO->isdone = false; }
+			AssignIO(SwitchShotOutput);
+			if(SwitchShotOutput->isdone) { currCmd = Cmd::Nothing; SwitchShotOutput->isdone = false; }
 		break;
 
 		case Cmd::IntakeHighShot:
-			AssignIO(IntakeHighShotIO);
-			if(IntakeHighShotIO->isdone) { currCmd = Cmd::Nothing; IntakeHighShotIO->isdone = false; }
+			AssignIO(IntakeHighShotOutput);
+			if(IntakeHighShotOutput->isdone) { currCmd = Cmd::Nothing; IntakeHighShotOutput->isdone = false; }
 		break;
 
 		case Cmd::IntakelowShot:
-			AssignIO(IntakeLowShotIO);
-			if(IntakeLowShotIO->isdone) { currCmd = Cmd::Nothing; IntakeLowShotIO->isdone = false; }
+			AssignIO(IntakeLowShotOutput);
+			if(IntakeLowShotOutput->isdone) { currCmd = Cmd::Nothing; IntakeLowShotOutput->isdone = false; }
 		break;
 	}
 
 }
 
-void CubeManager::AssignIO(CubeManagerIO *Commands) {
+void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->solenoidpoker->Set(static_cast<bool>(Commands->pokerpos));
 	RioIO->shooterarmarticulation->Set(static_cast<bool>(Commands->shooterArmPos));
 	RioIO->intakelmot->Set(Commands->intakepowercmd);
@@ -88,6 +96,6 @@ void CubeManager::AssignIO(CubeManagerIO *Commands) {
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
 
-	PreviousIO = Commands;
+	PreviousOutput = Commands;
 	//TODO: Add Angle commands here
 }

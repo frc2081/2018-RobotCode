@@ -8,15 +8,14 @@
 
 #ifndef SRC_CUBESYSTEM_CUBECARRYSHIFTSTATEMACHINE_H_
 #define SRC_CUBESYSTEM_CUBECARRYSHIFTSTATEMACHINE_H_
+#include <CubeSystem/CubeManagerOutputs.h>
+#include "CubeManagerInputs.h"
 #include "RobotCommands.h"
-#include "IO.h"
-#include "CubeManagerIO.h"
-#include "ControllerInput/cntl.h"
 
 namespace CubeSystem {
 	class CubeCarryShiftStateMachine {
 	public:
-		CubeManagerIO *CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO);
+		CubeManagerOutputs *CubeCarryShiftStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs);
 		CubeCarryShiftStateMachine();
 		virtual ~CubeCarryShiftStateMachine ();
 	private:
@@ -27,6 +26,13 @@ namespace CubeSystem {
 			kLowShotToScaleShot,
 		};
 		CUBECARRYSTATE _cubecarryshiftstate;
+		int cubeintaketimer;
+
+		//*********************CALIBRATIONS********************
+		const int cubeshiftduration = 50;
+		const double cubecarryshiftintakepower = 0.5;
+		const double cubecarryshiftshooterpower = 0.5;
+
 	};
 }
 
