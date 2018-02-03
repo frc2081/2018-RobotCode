@@ -21,5 +21,7 @@ IO *RioIO;
 ControllerManager *DriverControls;
 RobotCommands *Commands;
 CubeManager *Shooter;
+DriveManager *Driver;
+Autonomous::AutonomousManager *Auto;
 
 #endif /* SRC_ROBOT_H_ */
