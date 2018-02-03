@@ -6,16 +6,16 @@
  */
 
 #include <CubeSystem/ScaleShotStateMachine.h>
-#include <ScaleShotStateMachine.h>
+#include "ScaleShotStateMachine.h"
 CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Command, IO *RioIO)
 {
 
 	CubeManagerIO *cubeio = new CubeManagerIO();
-	cubeio->isdone = true;
+	cubeio->isdone = false;
 	switch(_scaleshotstate)
 	{
 	case kwaitingtoshoot:
-		printf("waiting to shoot");
+		printf("waiting to shoot\n");
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 		cubeio->intakepowercmd = 0;
 		cubeio->shooterpowercmd = 0;
@@ -26,7 +26,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		break;
 	case kanglingshooter:
 		//add something to check arm is in right angle before moving on
-		printf("angling arm");
+		printf("angling arm\n");
 		cubeio->shooteranglecmd = 75;
 		cubeio->intakepowercmd = 1;
 		cubeio->shooterpowercmd = 1;
@@ -38,17 +38,25 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		}
 		break;
 	case kshootingcube:
-		printf("shooting cube");
+		printf("shooting cube\n");
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 		cubeio->intakepowercmd = 1;
 		cubeio->shooterpowercmd = 1;
 		cubeio->shooteranglecmd = 75;
 		scaleshotresettimer = scaleshotresettimer - 1;
 		if (scaleshotresettimer == 0){
-			_scaleshotstate = kwaitingtoshoot;
+			_scaleshotstate = kreseting;
 			scaleshotresettimer = 50;
-			cubeio->isdone = false;
+
 		}
+		break;
+	case kreseting:
+		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+		cubeio->intakepowercmd = 0;
+		cubeio->shooterpowercmd = 0;
+		cubeio->shooteranglecmd = 0;
+		_scaleshotstate = kwaitingtoshoot;
+		cubeio->isdone = true;
 	}
 	return cubeio;
 }
