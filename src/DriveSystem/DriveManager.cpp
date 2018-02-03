@@ -185,7 +185,6 @@ void DriveManager::ApplyPIDControl() {
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
-
 	/*
 	 * 138 pulses/rotation of wheel
 	 * 20 pulses/rotation of cim
