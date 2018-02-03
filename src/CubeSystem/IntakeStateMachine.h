@@ -22,10 +22,8 @@ private:
 		kclosearmarticulation,
 		klowshotpickup,
 		kscaleshotpickup,
-		klowshotintake,
-		kscaleshotintake,
-	};
-	 INTAKESTATEMACHINE _intakestate = kwaitingtopickupcube;
+			};
+	 INTAKESTATEMACHINE _intakestate;
 
 
 };

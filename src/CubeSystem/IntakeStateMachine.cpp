@@ -46,6 +46,7 @@
 			 _intakestate = kwaitingtopickupcube;
 			 cubeio->isdone = true;
 		 }
+		 break;
 	 }
 
 	 return cubeio;
