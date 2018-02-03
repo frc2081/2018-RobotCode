@@ -10,11 +10,12 @@
 
 #include "RobotCommands.h"
 #include "IO.h"
-#include "CubeManagerIO.h"
+#include "CubeManagerOutputs.h"
+#include "CubeManagerInputs.h"
 
 class SwitchShotStateMachine {
 public:
-	CubeManagerIO *SwitchShotStatePeriodic(RobotCommands *Command, IO *RioIO);
+	CubeManagerOutputs *SwitchShotStatePeriodic(RobotCommands *Commands, CubeManagerInputs *Inputs);
 	SwitchShotStateMachine();
 	virtual ~SwitchShotStateMachine();
 private:
@@ -25,6 +26,13 @@ private:
 	};
 	Lowshot switchshotcommand;
 	int switchshottimer;
+
+	//****Calibrations****
+	const int switchshottimerreset = 300;
+	const int lowshooterangle = 500;
+	const int intakeshooterangle = 0;
+	const double lowshooterpower = 0.3;
+	const double noshooterpower = 0;
 };
 
 
