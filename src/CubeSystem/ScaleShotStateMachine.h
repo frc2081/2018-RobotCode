@@ -10,7 +10,7 @@
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeManagerInputs.h"
-#include "CubeManagerOUtputs.h"
+#include "CubeManagerOutputs.h"
 #include "ControllerInput/cntl.h"
 
 class ScaleShotStateMachine {
