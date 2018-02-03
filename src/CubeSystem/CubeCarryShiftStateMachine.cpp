@@ -3,6 +3,7 @@
  *
  *  Created on: Jan 26, 2018
  *      Author: 1901319
+ * state machine that switches the location that the cube is being carried
  */
 
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
@@ -10,10 +11,12 @@
 namespace CubeSystem {
 
 	CubeManagerOutputs  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs)
+// this is the main loop for the cube carry shift state machine
 	{
 		CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 		switch(_cubecarryshiftstate)
 		{
+		// state for low carry \ switch shot and exchange shot
 			case kLowShot:
 				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 				cubeio->intakepowercmd = 0;
@@ -27,7 +30,7 @@ namespace CubeSystem {
 					_cubecarryshiftstate = kLowShotToScaleShot;
 				}
 				break;
-
+			// state for switching low carry to high carry
 			case kLowShotToScaleShot:
 				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 				cubeio->intakepowercmd = cubecarryshiftintakepower;
@@ -41,7 +44,7 @@ namespace CubeSystem {
 					cubeintaketimer = cubeshiftduration;
 				}
 				break;
-
+			// state for high carry \ scale shot
 			case kScaleShot:
 				cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 				cubeio->intakepowercmd = 0;

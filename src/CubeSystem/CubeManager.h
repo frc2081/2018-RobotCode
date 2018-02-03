@@ -20,6 +20,7 @@
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeCarryShiftStateMachine.h"
+#include "ScaleShotStateMachine.h"
 
 class CubeManager
 {
@@ -41,7 +42,7 @@ public:
 
 	//Instantiation of each cube control subsystem
 	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
-
+	ScaleShotStateMachine *ScaleShot;
 private:
 	//Function that writes the values from a CubeManagerOutputs object to the actual robot outputs
 	void AssignIO(CubeManagerOutputs *Commands);
