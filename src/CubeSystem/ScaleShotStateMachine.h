@@ -18,8 +18,14 @@ public:
 	ScaleShotStateMachine();
 	virtual ~ScaleShotStateMachine();
 	double placeholderforactualshooterangle = 75;
+	// timer that waits until the arm is angled correctly and the wheels are spinning
 	int scaleshotwaitingtimer = 600;
-	int scaleshotresettimer = 500;
+	// timer that waits until the cube is shoot before leaving the kshootingcube state
+	int scaleshotresettimer = 50;
+	// 75 is the angle we want the shooter arm to be angled at
+	int scaleshotarmangle = 75;
+	// 1 is the motors 100% power
+	int motermaxpower = 1;
 private:
 	enum SCALESHOTSTATE{
 		kwaitingtoshoot,

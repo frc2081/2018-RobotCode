@@ -15,7 +15,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 	switch(_scaleshotstate)
 	{
 	case kwaitingtoshoot:
-		printf("waiting to shoot\n");
+		// waiting to shoot
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 		cubeio->intakepowercmd = 0;
 		cubeio->shooterpowercmd = 0;
@@ -25,11 +25,11 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		}
 		break;
 	case kanglingshooter:
+		//this state angles arm and spins up the shooter and in take wheels
 		//add something to check arm is in right angle before moving on
-		printf("angling arm\n");
-		cubeio->shooteranglecmd = 75;
-		cubeio->intakepowercmd = 1;
-		cubeio->shooterpowercmd = 1;
+		cubeio->shooteranglecmd = scaleshotresettimer;
+		cubeio->intakepowercmd = motermaxpower;
+		cubeio->shooterpowercmd = motermaxpower;
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 		scaleshotwaitingtimer = scaleshotwaitingtimer - 1;
 		if(cubeio->shooteranglecmd == placeholderforactualshooterangle && scaleshotwaitingtimer == 0 ){
@@ -38,19 +38,19 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		}
 		break;
 	case kshootingcube:
-		printf("shooting cube\n");
+		// this state shoots the cube
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
-		cubeio->intakepowercmd = 1;
-		cubeio->shooterpowercmd = 1;
-		cubeio->shooteranglecmd = 75;
+		cubeio->intakepowercmd = motermaxpower;
+		cubeio->shooterpowercmd = motermaxpower;
+		cubeio->shooteranglecmd = scaleshotarmangle;
 		scaleshotresettimer = scaleshotresettimer - 1;
 		if (scaleshotresettimer == 0){
 			_scaleshotstate = kreseting;
 			scaleshotresettimer = 50;
-
 		}
 		break;
 	case kreseting:
+		// this state turns off the motor and retracts the poker
 		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 		cubeio->intakepowercmd = 0;
 		cubeio->shooterpowercmd = 0;
