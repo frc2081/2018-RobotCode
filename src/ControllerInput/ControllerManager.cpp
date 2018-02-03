@@ -15,8 +15,7 @@ ControllerManager::ControllerManager() {
 	mechanismcontroller = new cntl(mechanismcontrollernumber, mechanismcontrollerdeadband, mechanismcontrollerupperlimit);
 }
 
-RobotCommands *ControllerManager::pollControllers(){
-	RobotCommands *Commands = new RobotCommands();
+void ControllerManager::pollControllers(RobotCommands *Commands){
 
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
@@ -97,7 +96,6 @@ RobotCommands *ControllerManager::pollControllers(){
 
 
 	}
-	return Commands;
 }
 
 
