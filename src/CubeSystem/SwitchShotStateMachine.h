@@ -30,10 +30,11 @@ private:
 
 	//****Calibrations****
 	const int switchshottimerreset = 300;
-	const int lowshooterangle = 500;
-	const int intakeshooterangle = 0;
+	const double lowshooterangle = 500;
+	const double intakeshooterangle = 0;
 	const double lowshooterpower = 0.3;
 	const double noshooterpower = 0;
+	const double shooteranglemargin = 2;
 };
 
 

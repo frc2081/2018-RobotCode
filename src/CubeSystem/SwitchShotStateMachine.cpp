@@ -17,7 +17,8 @@ CubeManagerOutputs  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotComman
 	CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 	switch (switchshotcommand) {
 		case LOWSHOT_BUTTONCHECK:
-			if (Commands->cmdswitchshot){
+			if (Commands->
+					cmdswitchshot){
 				switchshotcommand = LOWSHOT_PRESHOT;
 			}
 			break;
@@ -36,10 +37,13 @@ CubeManagerOutputs  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotComman
 			cubeio->intakepowercmd = noshooterpower;
 
 			//test for all; switch to shoot when successful
-			if(Inputs->getShooterAngleActualValue() == lowshooterangle){
+			if((Inputs->getShooterAngleActualValue() >= lowshooterangle - shooteranglemargin) && (Inputs->getShooterAngleActualValue() <= lowshooterangle + shooteranglemargin)){
 				//angle test value is placeholder
 				switchshotcommand = LOWSHOT_SHOOT;
 			}
+			//**********TEST PURPOSES ONLY**********
+			switchshotcommand = LOWSHOT_SHOOT;
+			//**********TEST PURPOSES ONLY**********
 
 			break;
 		case LOWSHOT_SHOOT:
@@ -61,6 +65,7 @@ CubeManagerOutputs  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotComman
 
 			break;
 		case LOWSHOT_POSTSHOT:
+			printf("postshot stage\n");
 			//turn off shooting wheels
 			cubeio->shooterpowercmd = noshooterpower;
 			cubeio->intakepowercmd = noshooterpower;
