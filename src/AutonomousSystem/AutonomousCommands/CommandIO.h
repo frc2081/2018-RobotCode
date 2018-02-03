@@ -21,6 +21,7 @@
 			autoRot = 0;
 			takeScaleShot = false;
 			takeSwitchShot = false;
+
 		}
 
 		commandOutput(double mag, double ang, double rot) {

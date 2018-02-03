@@ -17,7 +17,7 @@
 using namespace std;
 class CommandManager {
 public:
-	CommandManager(robotTeam, robotStation, robotAction, char, char);
+	CommandManager(robotTeam, robotStation, robotAction, char, char, bool, bool);
 	virtual ~CommandManager();
 	commandOutput tick(commandInput input);
 
@@ -48,6 +48,10 @@ private:
 	char _ourswitch;
 
 	char _scale;
+
+	bool _waitleft;
+
+	bool _waitright;
 };
 
 #endif /* SRC_AUTOCOMMANDS_COMMANDMANAGER_H_ */

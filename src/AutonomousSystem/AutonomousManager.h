@@ -32,6 +32,8 @@ namespace Autonomous
 		/* These are the ones that our team has */
 		char _ourswitch;
 		char _scale;
+		bool _waitleft;
+		bool _waitright;
 		IO *_io;
 		RobotCommands *_commands;
 		gyroManager *_gyro;

@@ -13,6 +13,8 @@ namespace Autonomous
 		_gyro = gyroManager::Get();
 		_actionselector = new AutoSelector(0); //Number is the port things are in
 		_stationselector = new AutoSelector(1);
+		_waitleft = false;
+		_waitright = false;
 	}
 
 	void AutonomousManager::AutoInit() {
@@ -30,7 +32,7 @@ namespace Autonomous
 			_ourswitch = scorelocations.at(0);
 			_scale = scorelocations.at(1);
 		}
-		_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale);
+		_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
 	}
 
 	void AutonomousManager::AutoPeriodic() {
