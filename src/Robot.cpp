@@ -16,7 +16,8 @@ public:
 		DriverControls = new ControllerManager();
 		Commands = new RobotCommands();
 		Shooter = new CubeManager(RioIO);
-
+		Driver = new DriveManager(RioIO, Commands, DriverControls);
+		Driver->DriveManagerInit();
 		Shooter->CubeManagerInit();
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init
@@ -33,7 +34,7 @@ public:
 	void TeleopPeriodic() {
 
 		DriverControls->pollControllers(Commands);
-
+		Driver->DriveManagerPeriodic();
 		//TODO:Add polling of sensors!!
 
 		//TODO:Add Drive System Periodic call
