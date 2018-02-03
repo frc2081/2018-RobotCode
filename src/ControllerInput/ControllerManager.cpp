@@ -22,7 +22,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	//Trigger Activation Threshold
 	double trigactivthreshold = 0.6; //subejct to change
 	//Drive Commands
-  Commands->drvang = (atan2(-drivecontroller->LX, drivecontroller->LY) * 180/3.14159265);
+	Commands->drvang = (atan2(-drivecontroller->LX, drivecontroller->LY) * 180/3.14159265);
 	Commands->drvmag = sqrt(pow(drivecontroller->LX, 2) + pow(drivecontroller->LY, 2));
 	Commands->drvrot = drivecontroller->RX;
 	//Ramp Release Command

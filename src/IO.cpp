@@ -32,10 +32,10 @@ IO::IO() {
 	encdrvlf = new Encoder(2, 3, false, Encoder::EncodingType::k4X);
 	encdrvrb = new Encoder(4, 5, false, Encoder::EncodingType::k4X);
 	encdrvrf= new Encoder(6, 7, false, Encoder::EncodingType::k4X);
-	steerencdrvlb = new AnalogPotentiometer(0,sweerveanglogvoltagetodegrees,0);
-	steerencdrvlf = new AnalogPotentiometer(1,sweerveanglogvoltagetodegrees,0);
-	steerencdrvrb = new AnalogPotentiometer(2,sweerveanglogvoltagetodegrees,0);
-	steerencdrvrf = new AnalogPotentiometer(3,sweerveanglogvoltagetodegrees,0);
+	steerencdrvlb = new AnalogPotentiometer(0,360,0);
+	steerencdrvlf = new AnalogPotentiometer(1,360,0);
+	steerencdrvrb = new AnalogPotentiometer(2,360,0);
+	steerencdrvrf = new AnalogPotentiometer(3,360,0);
 	intakecubesensor = new DigitalInput(8);
 	cubechambersensor = new DigitalInput(9);
 

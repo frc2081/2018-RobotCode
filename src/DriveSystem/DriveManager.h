@@ -15,13 +15,15 @@
 
 	class DriveManager {
 	public:
-		DriveManager(SwerveLib *swervelib, IO *io, RobotCommands *com, ControllerManager *cntls);
+		DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls);
 
 		void ZeroEncoders();
 
 		void CalculateVectors();
 
 		void ApplyIntellegintSwerve();
+
+		void AutoApplyPIDControl();
 
 		void ApplyPIDControl();
 
