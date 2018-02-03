@@ -39,7 +39,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 	//Call each periodic function
 	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
-	ScaleShotIO = ScaleShot->ScaleShotStatePeriodic(Commands, RioIO);
+	ScaleShotOutput = ScaleShot->ScaleShotStatePeriodic(Commands, CubeManagerInput);
 
 	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
 
