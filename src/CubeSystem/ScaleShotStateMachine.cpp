@@ -7,16 +7,16 @@
 
 #include <CubeSystem/ScaleShotStateMachine.h>
 #include "ScaleShotStateMachine.h"
-CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Command, IO *RioIO)
+CubeManagerOutputs *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs)
 {
 
-	CubeManagerIO *cubeio = new CubeManagerIO();
+	CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 	cubeio->isdone = false;
 	switch(_scaleshotstate)
 	{
 	case kwaitingtoshoot:
 		// waiting to shoot
-		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+		cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 		cubeio->intakepowercmd = 0;
 		cubeio->shooterpowercmd = 0;
 		cubeio->shooteranglecmd = 0;
@@ -30,7 +30,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		cubeio->shooteranglecmd = scaleshotresettimer;
 		cubeio->intakepowercmd = motermaxpower;
 		cubeio->shooterpowercmd = motermaxpower;
-		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+		cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 		scaleshotwaitingtimer = scaleshotwaitingtimer - 1;
 		if(cubeio->shooteranglecmd == placeholderforactualshooterangle && scaleshotwaitingtimer == 0 ){
 			_scaleshotstate = kshootingcube;
@@ -39,7 +39,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		break;
 	case kshootingcube:
 		// this state shoots the cube
-		cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
+		cubeio->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 		cubeio->intakepowercmd = motermaxpower;
 		cubeio->shooterpowercmd = motermaxpower;
 		cubeio->shooteranglecmd = scaleshotarmangle;
@@ -51,7 +51,7 @@ CubeManagerIO *ScaleShotStateMachine::ScaleShotStatePeriodic(RobotCommands *Comm
 		break;
 	case kreseting:
 		// this state turns off the motor and retracts the poker
-		cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
+		cubeio->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 		cubeio->intakepowercmd = 0;
 		cubeio->shooterpowercmd = 0;
 		cubeio->shooteranglecmd = 0;

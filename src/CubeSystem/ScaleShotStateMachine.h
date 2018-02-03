@@ -9,12 +9,13 @@
 #define SRC_CUBESYSTEM_SCALESHOTSTATEMACHINE_H_
 #include "RobotCommands.h"
 #include "IO.h"
-#include "CubeManagerIO.h"
+#include "CubeManagerInputs.h"
+#include "CubeManagerOUtputs.h"
 #include "ControllerInput/cntl.h"
 
 class ScaleShotStateMachine {
 public:
-	CubeManagerIO *ScaleShotStatePeriodic(RobotCommands *Command, IO *RioIO);
+	CubeManagerOutputs *ScaleShotStatePeriodic(RobotCommands *Command, CubeManagerInputs *Inputs);
 	ScaleShotStateMachine();
 	virtual ~ScaleShotStateMachine();
 	double placeholderforactualshooterangle = 75;
