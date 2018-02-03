@@ -19,12 +19,13 @@ public:
 	virtual ~ScaleShotStateMachine();
 	double placeholderforactualshooterangle = 75;
 	int scaleshotwaitingtimer = 600;
-	int scaleshotresettimer = 50;
+	int scaleshotresettimer = 500;
 private:
 	enum SCALESHOTSTATE{
 		kwaitingtoshoot,
 		kanglingshooter,
 		kshootingcube,
+		kreseting
 	};
 	SCALESHOTSTATE _scaleshotstate;
 };
