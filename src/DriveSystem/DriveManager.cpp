@@ -127,6 +127,58 @@ void DriveManager::ApplyIntellegintSwerve() {
 	}
 }
 
+void DriveManager::AutoApplyPIDControl() {
+
+	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
+	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
+	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
+	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
+
+	if (_lfturnpid->GetSetpoint() >= 359) {
+		_lfturnpid->SetSetpoint(0);
+	}
+	if (_rfturnpid->GetSetpoint() >= 359) {
+			_rfturnpid->SetSetpoint(0);
+		}
+	if (_lbturnpid->GetSetpoint() >= 359) {
+			_lbturnpid->SetSetpoint(0);
+		}
+	if (_rbturnpid->GetSetpoint() >= 359) {
+			_rbturnpid->SetSetpoint(0);
+		}
+	/*
+	 * 138 pulses/rotation of wheel
+	 * 20 pulses/rotation of cim
+	 * 6.9 cim rotations/1 wheel rotation
+	 * max speed - 11.5 ft/s -> 3.5052 m/s || 660 RPM of wheel
+	 * 4554 RPM on cim - max
+	 */
+	_swervelib->whl->speedLF *= _maxdrivespeed;
+	_swervelib->whl->speedRF *= _maxdrivespeed;
+	_swervelib->whl->speedLB *= _maxdrivespeed;
+	_swervelib->whl->speedRB *= _maxdrivespeed;
+
+	printf("lf turn encoder: %.2f  lf turn pid: %.2f\n", _io->steerencdrvlf->Get(), _lfturnpid->GetSetpoint());
+	printf("rf turn encoder: %.2f  rf turn pid: %.2f\n", _io->steerencdrvrf->Get(), _rfturnpid->GetSetpoint());
+	printf("lb turn encoder: %.2f  lb turn pid: %.2f\n", _io->steerencdrvlb->Get(), _lbturnpid->GetSetpoint());
+	printf("rb turn encoder: %.2f  rb turn pid: %.2f\n", _io->steerencdrvrb->Get(), _rbturnpid->GetSetpoint());
+	//Code to ensure the swerve drive orients it's wheels correctly before attempting to move
+		if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 5) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 5)
+			&& (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 5) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint()  + 5)
+			&& (_io->steerencdrvlb->Get() >= _lbturnpid->GetSetpoint() - 5) && (_io->steerencdrvlb->Get() <= _lbturnpid->GetSetpoint()  + 5)
+			&& (_io->steerencdrvrf->Get() >= _rfturnpid->GetSetpoint() - 5) && (_io->steerencdrvrf->Get() <= _rfturnpid->GetSetpoint()  + 5)) {
+
+				_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
+				_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
+				_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
+				_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+			} else {
+				_lfdrvpid->SetSetpoint(0);
+				_rfdrvpid->SetSetpoint(0);
+				_lbdrvpid->SetSetpoint(0);
+				_rbdrvpid->SetSetpoint(0);
+		}
+}
 void DriveManager::ApplyPIDControl() {
 
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
@@ -140,19 +192,14 @@ void DriveManager::ApplyPIDControl() {
 	 * max speed - 11.5 ft/s -> 3.5052 m/s || 660 RPM of wheel
 	 * 4554 RPM on cim - max
 	 */
-	if ((_io->encdrvlf->Get() >= _lfturnpid->GetSetpoint() - 0.5) || (_io->encdrvlf->Get() <= _lfturnpid->GetSetpoint() + 0.5)
-		&& (_io->encdrvlf->Get() >= _rbturnpid->GetSetpoint() - 0.5) || (_io->encdrvlf->Get() <= _rbturnpid->GetSetpoint()  + 0.5)
-		&& (_io->encdrvlf->Get() >= _lbturnpid->GetSetpoint() - 0.5) || (_io->encdrvlf->Get() <= _lbturnpid->GetSetpoint()  + 0.5)
-		&& (_io->encdrvlf->Get() >= _rfturnpid->GetSetpoint() - 0.5) || (_io->encdrvlf->Get() <= _rfturnpid->GetSetpoint()  + 0.5)) {
-					_swervelib->whl->speedLF *= _maxdrivespeed;
-					_swervelib->whl->speedRF *= _maxdrivespeed;
-					_swervelib->whl->speedLB *= _maxdrivespeed;
-					_swervelib->whl->speedRB *= _maxdrivespeed;
-					_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
-					_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
-					_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
-					_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
-	}
+	_swervelib->whl->speedLF *= _maxdrivespeed;
+	_swervelib->whl->speedRF *= _maxdrivespeed;
+	_swervelib->whl->speedLB *= _maxdrivespeed;
+	_swervelib->whl->speedRB *= _maxdrivespeed;
 
-	}
+	_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
+	_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
+	_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
+	_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+}
 

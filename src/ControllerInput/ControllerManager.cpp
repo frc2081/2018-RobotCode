@@ -16,12 +16,13 @@ ControllerManager::ControllerManager() {
 }
 
 void ControllerManager::pollControllers(RobotCommands *Commands){
+
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
 	//Trigger Activation Threshold
 	double trigactivthreshold = 0.6; //subejct to change
 	//Drive Commands
-  Commands->drvang = (atan2(-drivecontroller->LX, drivecontroller->LY) * 180/3.14159265);
+	Commands->drvang = (atan2(-drivecontroller->LX, drivecontroller->LY) * 180/3.14159265);
 	Commands->drvmag = sqrt(pow(drivecontroller->LX, 2) + pow(drivecontroller->LY, 2));
 	Commands->drvrot = drivecontroller->RX;
 	//Ramp Release Command
@@ -86,7 +87,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		else Commands->cmdexchangeshot = false;
 
 		//Shift Cube Carry Position Command
-		if(mechanismcontroller->bA->State() == true) Commands->cmdshiftcube = true;
+		if(mechanismcontroller->bA->RE() == true) Commands->cmdshiftcube = true;
 		else Commands->cmdshiftcube = false;
 
 		//Automatic Scale Shot Command
