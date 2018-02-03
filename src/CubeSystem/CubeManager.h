@@ -15,11 +15,13 @@
 #ifndef SRC_CUBESYSTEM_CUBEMANAGER_H_
 #define SRC_CUBESYSTEM_CUBEMANAGER_H_ 1
 
+
 #include <CubeSystem/CubeManagerOutputs.h>
 #include "CubeManagerInputs.h"
 #include "RobotCommands.h"
 #include "IO.h"
 #include "CubeCarryShiftStateMachine.h"
+#include "SwitchShotStateMachine.h"
 #include "ScaleShotStateMachine.h"
 
 class CubeManager
@@ -29,6 +31,7 @@ public:
 	void CubeManagerPeriodic(RobotCommands *Commands);
 	void CubeManagerInit();
 
+	SwitchShotStateMachine *LowSwitchShot;
 	//Objects to hold the desired output set by each subsystem control
 	CubeManagerOutputs *IntakeHighShotOutput;
 	CubeManagerOutputs *IntakeLowShotOutput;

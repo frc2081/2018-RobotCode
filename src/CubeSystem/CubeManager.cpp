@@ -19,6 +19,7 @@ CubeManager::CubeManager(IO *Output)
 	CubeManagerInput = new CubeManagerInputs();
 
 	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
+	LowSwitchShot = new SwitchShotStateMachine();
 	ScaleShot = new ScaleShotStateMachine();
 	//TODO:Instantiate each state machine
 
@@ -38,11 +39,11 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	CubeManagerInput->updateInputs(RioIO);
 
 	//Call each periodic function
+	SwitchShotIO = LowSwitchShot->SwitchShotStatePeriodic(Commands, RioIO);
 	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
 	ScaleShotOutput = ScaleShot->ScaleShotStatePeriodic(Commands, CubeManagerInput);
 
 	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
-
 	switch(currCmd)
 	{
 		case Cmd::Nothing:

@@ -77,10 +77,10 @@ void DriveManager::DriveManagerPeriodic() {
 }
 
 void DriveManager::ZeroEncoders() {
-	_lfwhlangoffset = _io->turnlfmot->Get();
-	_rfwhlangoffset = _io->turnrfmot->Get();
-	_lbwhlangoffset = _io->turnlbmot->Get();
-	_rbwhlangoffset = _io->turnrbmot->Get();
+	_lfwhlangoffset = _io->steerencdrvlf->Get();
+	_rfwhlangoffset = _io->steerencdrvrf->Get();
+	_lbwhlangoffset = _io->steerencdrvlb->Get();
+	_rbwhlangoffset = _io->steerencdrvrb->Get();
 }
 
 double DriveManager::WhlAngCalcOffset(double command, double offset) {
@@ -185,7 +185,6 @@ void DriveManager::ApplyPIDControl() {
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
-
 	/*
 	 * 138 pulses/rotation of wheel
 	 * 20 pulses/rotation of cim

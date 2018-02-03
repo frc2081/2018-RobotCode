@@ -8,7 +8,6 @@
 #include "IO.h"
 
 IO::IO() {
-
 	drvlbmot = new WPI_VictorSPX(15);
 	drvrbmot  = new WPI_VictorSPX(0);
 	drvlfmot  = new WPI_VictorSPX(14);
