@@ -20,6 +20,7 @@ public:
 	virtual ~SwitchShotStateMachine();
 private:
 	enum Lowshot{
+		LOWSHOT_BUTTONCHECK,
 		LOWSHOT_PRESHOT,
 		LOWSHOT_SHOOT,
 		LOWSHOT_POSTSHOT,

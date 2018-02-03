@@ -8,7 +8,7 @@
 #include <CubeSystem/SwitchShotStateMachine.h>
 
 SwitchShotStateMachine::SwitchShotStateMachine(){
-	switchshotcommand = LOWSHOT_PRESHOT;
+	switchshotcommand = LOWSHOT_BUTTONCHECK;
 	switchshottimer = 300; //placeholder value: how long until switch shot complete from starting wheels
 }
 
@@ -16,6 +16,11 @@ CubeManagerOutputs  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotComman
 {
 	CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 	switch (switchshotcommand) {
+		case LOWSHOT_BUTTONCHECK:
+			if (Commands->cmdswitchshot){
+				switchshotcommand = LOWSHOT_PRESHOT;
+			}
+			break;
 		case LOWSHOT_PRESHOT:
 			//set shooter to low shot angle
 			cubeio->shooteranglecmd = lowshooterangle; //placeholder value: lowshot angle
@@ -71,7 +76,7 @@ CubeManagerOutputs  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotComman
 
 			//let things happen; set done
 			cubeio->isdone = true;
-			switchshotcommand = LOWSHOT_PRESHOT;
+			switchshotcommand = LOWSHOT_BUTTONCHECK;
 
 			break;
 		default:
