@@ -3,17 +3,19 @@
  *
  *  Created on: Jan 26, 2018
  *      Author: 1901319
+ * state machine that switches the location that the cube is being carried
  */
 
 #include <CubeSystem/CubeCarryShiftStateMachine.h>
 int cubeintaketimer = 50;
 namespace CubeSystem {
-
+// this is the main loop for the cube carry shift state machine
 	CubeManagerIO  *CubeCarryShiftStateMachine::CubeCarryShiftStatePeriodic(RobotCommands *Command, IO *RioIO)
 	{
 		CubeManagerIO *cubeio = new CubeManagerIO();
 		switch(_cubecarryshiftstate)
 		{
+		// state for low carry \ switch shot and exchange shot
 			case kLowShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 				cubeio->isdone = true;
@@ -23,7 +25,7 @@ namespace CubeSystem {
 					cubeio->isdone = false;
 				}
 				break;
-
+			// state for switching low carry to high carry
 			case kLowShotToScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 				cubeio->intakepowercmd = 0.5;
@@ -36,7 +38,7 @@ namespace CubeSystem {
 					cubeintaketimer = 50;
 				}
 				break;
-
+			// state for high carry \ scale shot
 			case kScaleShot:
 				cubeio->pokerpos = CubeManagerIO::PokerPosition::RETRACTED;
 				cubeio->isdone = true;
