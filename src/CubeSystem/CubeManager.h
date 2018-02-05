@@ -20,9 +20,6 @@
 #include "CubeManagerInputs.h"
 #include "RobotCommands.h"
 #include "IO.h"
-#include "CubeCarryShiftStateMachine.h"
-#include "SwitchShotStateMachine.h"
-#include "ScaleShotStateMachine.h"
 
 class CubeManager
 {
@@ -31,21 +28,10 @@ public:
 	void CubeManagerPeriodic(RobotCommands *Commands);
 	void CubeManagerInit();
 
-	SwitchShotStateMachine *LowSwitchShot;
-	//Objects to hold the desired output set by each subsystem control
-	CubeManagerOutputs *IntakeHighShotOutput;
-	CubeManagerOutputs *IntakeLowShotOutput;
-	CubeManagerOutputs *SwitchShotOutput;
-	CubeManagerOutputs *ScaleShotOutput;
-	CubeManagerOutputs *ExchangeShotOutput;
-	CubeManagerOutputs *CubeCarryShiftOutput;
-
 	//Object to hold all inputs used by any cube subsystem
 	CubeManagerInputs *CubeManagerInput;
+	CubeManagerOutputs *CubeManagerOutput;
 
-	//Instantiation of each cube control subsystem
-	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
-	ScaleShotStateMachine *ScaleShot;
 private:
 	//Function that writes the values from a CubeManagerOutputs object to the actual robot outputs
 	void AssignIO(CubeManagerOutputs *Commands);
@@ -67,8 +53,6 @@ private:
 	//Currently active cube system command
 	Cmd currCmd;
 
-	//Output object to store the output commands set by the last active state machine
-	CubeManagerOutputs *PreviousOutput;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
