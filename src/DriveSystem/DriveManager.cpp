@@ -78,8 +78,11 @@ void DriveManager::DriveManagerPeriodic() {
 
 void DriveManager::DriveManagerAutoPeriodic() {
 	CalculateVectors();
+	printf("Vectors Calculated\n");
 	ApplyIntellegintSwerve();
+	printf("Intellegint Swerve applied\n");
 	AutoApplyPIDControl();
+	printf("PID control applied\n");
 }
 
 void DriveManager::ZeroEncoders() {
@@ -139,7 +142,7 @@ void DriveManager::AutoApplyPIDControl() {
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
-
+	printf("Turn setpoints set\n");
 	if (_lfturnpid->GetSetpoint() >= 359) {
 		_lfturnpid->SetSetpoint(0);
 	}

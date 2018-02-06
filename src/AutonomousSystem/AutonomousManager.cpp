@@ -11,10 +11,11 @@ namespace Autonomous
 		_io = io;
 		_commands = commands;
 		_gyro = gyroManager::Get();
-		_actionselector = new AutoSelector(0); //Number is the port things are in
-		_stationselector = new AutoSelector(1);
+		_actionselector = new AutoSelector(7); //Number is the port things are in
+		_stationselector = new AutoSelector(6);
+		//_waitselector = new AutoSelector(4);
 		_waitleft = false;
-		_waitright = false;
+		_waitright = true;
 	}
 
 	void AutonomousManager::AutoInit() {
@@ -24,9 +25,10 @@ namespace Autonomous
 		else _team = NONE;
 		_action = _actionselector->getAction();
 		_station = _stationselector->getFieldPosition();
-
-		_action = SWITCH_SHOT;
-		_station = TWO;
+		//if (_waitselector->getWaitSide()) {
+		//	_waitleft = true;
+		//} else _waitright = true;
+		//_action = SWITCH_SHOT;
 		string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
 		if (scorelocations.length() >= 2) {
 			_ourswitch = scorelocations.at(0);
@@ -36,10 +38,10 @@ namespace Autonomous
 	}
 
 	void AutonomousManager::AutoPeriodic() {
-		_cominput.LFWhlDrvEnc = _io->encdrvlf->Get();
-		_cominput.RFWhlDrvEnc = _io->encdrvrf->Get();
-		_cominput.LBWhlDrvEnc = _io->encdrvlb->Get();
-		_cominput.RBWhlDrvEnc =  _io->encdrvrb->Get();
+		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 2.54;
+		_cominput.RFWhlDrvEnc = _io->encdrvrf->GetDistance() / 2.54;
+		_cominput.LBWhlDrvEnc = _io->encdrvlb->GetDistance() / 2.54;
+		_cominput.RBWhlDrvEnc = _io->encdrvrb->GetDistance() / 2.54;
 
 		_cominput.LFWhlTurnEnc = _io->steerencdrvlf->Get();
 		_cominput.RFWhlTurnEnc = _io->steerencdrvrf->Get();
@@ -47,7 +49,7 @@ namespace Autonomous
 		_cominput.RBWhlTurnEnc = _io->steerencdrvrb->Get();
 
 		_cominput.currentGyroReading = _gyro->getLastValue();
-
+		printf("Station: %.2f\n", _station);
 		_comoutput = _autocommands->tick(_cominput);
 
 		_commands->drvang = _comoutput.autoAng;

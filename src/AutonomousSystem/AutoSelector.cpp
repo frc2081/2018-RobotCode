@@ -36,4 +36,8 @@ robotStation AutoSelector::getFieldPosition()
 
 bool AutoSelector::getWaitSide() {
 	double voltage = autoDials->GetVoltage();
+
+	if (voltage >= rangeOneLow && voltage <= rangeOneHigh) {
+		return true;
+	} else return false;
 }

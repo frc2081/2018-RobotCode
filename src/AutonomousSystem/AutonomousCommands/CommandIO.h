@@ -52,6 +52,7 @@
 		double RBWhlDrvEnc;
 		double LBWhlDrvEnc;
 		double shooterEnc;
+		double straightOffset;
 	};
 
 	enum robotTeam {

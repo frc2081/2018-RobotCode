@@ -41,27 +41,27 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 	/* ALL NUMBERS ARE PLACEHOLDERS UNTIL THE TRUE ONES ARE MEASURED */
 	if (_scale == 'L') {
 		//if (team == RED) {
-			queue->push(new CommandDrive(5, 0));
+			queue->push(new CommandDrive(5, 0, true));
 			if (station == ONE) {
-				queue->push(new CommandDrive(125, 0));
+				queue->push(new CommandDrive(250, 0, true));
 				queue->push(new CommandTurn(90));
 			} else if (station == THREE) {
-				queue->push(new CommandDrive(125, 0));
-				queue->push(new CommandDrive(160, 270));
-				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandDrive(125, 0, true));
+				queue->push(new CommandDrive(200, 270, true));
+				queue->push(new CommandDrive(40, 0, true));
 				queue->push(new CommandTurn(90));
 			} else if(station == TWO) {
 				if (_waitleft) {
 					queue->push(new CommandPause(3));
-					queue->push(new CommandDrive(40, 270));
-					queue->push(new CommandDrive(130, 0));
+					queue->push(new CommandDrive(40, 90, true));
+					queue->push(new CommandDrive(130, 0, true));
 					queue->push(new CommandTurn(90));
 				} else if (_waitright) {
 					queue->push(new CommandPause(3));
-					queue->push(new CommandDrive(40, 90));
-					queue->push(new CommandDrive(130, 0));
-					queue->push(new CommandDrive(150, 270));
-					queue->push(new CommandDrive(40, 0));
+					queue->push(new CommandDrive(40, 270, true));
+					queue->push(new CommandDrive(130, 0, true));
+					queue->push(new CommandDrive(150, 90, true));
+					queue->push(new CommandDrive(40, 0, true));
 					queue->push(new CommandTurn(90));
 				}
 			}
@@ -96,27 +96,27 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 	} else if (_scale == 'R') {
 
 		if (team == RED) {
-			queue->push(new CommandDrive(5, 0));
+			queue->push(new CommandDrive(5, 0, true));
 			if (station == THREE) {
-				queue->push(new CommandDrive(80, 0));
+				queue->push(new CommandDrive(80, 0, true));
 				queue->push(new CommandTurn(-90));
 			} else if (station == ONE) {
-				queue->push(new CommandDrive(40, 0));
-				queue->push(new CommandDrive(160, 90));
-				queue->push(new CommandDrive(40, 0));
+				queue->push(new CommandDrive(40, 0, true));
+				queue->push(new CommandDrive(160, 90, true));
+				queue->push(new CommandDrive(40, 0, true));
 				queue->push(new CommandTurn(-90));
 			} else if (station == TWO) {
 				if (_waitright) {
 					queue->push(new CommandPause(3));
-					queue->push(new CommandDrive(40, 90));
-					queue->push(new CommandDrive(130, 0));
+					queue->push(new CommandDrive(40, 90, true));
+					queue->push(new CommandDrive(130, 0, true));
 					queue->push(new CommandTurn(-90));
 				} else if (_waitleft) {
 					queue->push(new CommandPause(3));
-					queue->push(new CommandDrive(40, 270));
-					queue->push(new CommandDrive(130, 0));
-					queue->push(new CommandDrive(150, 90));
-					queue->push(new CommandDrive(40, 0));
+					queue->push(new CommandDrive(40, 270, true));
+					queue->push(new CommandDrive(130, 0, true));
+					queue->push(new CommandDrive(150, 90, true));
+					queue->push(new CommandDrive(40, 0, true));
 					queue->push(new CommandTurn(-90));
 				}
 			}
@@ -139,33 +139,39 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 
 void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
 	if (_ourswitch == 'L') {
+		printf("LEFT\n");
 		if (station == TWO) {
-			queue->push(new CommandDrive(40, 45));
+			queue->push(new CommandDrive(40, 45, true));
 		} else if (station == ONE) {
-			queue->push(new CommandDrive(40, 0));
+			queue->push(new CommandDrive(40, 0, true));
 			queue->push(new CommandTurn(90));
-			queue->push(new CommandDrive(10, 0));
+			queue->push(new CommandDrive(10, 0, false));
 		} else if (station == THREE) {
-			queue->push(new CommandDrive(130, 0));
-			queue->push(new CommandDrive(130, 270));
+			queue->push(new CommandDrive(130, 0, true));
+			queue->push(new CommandDrive(130, 270, true));
 			queue->push(new CommandTurn(180));
-			queue->push(new CommandDrive(10, 0));
+			queue->push(new CommandDrive(10, 0, false));
 		}
 	} else if (_ourswitch == 'R') {
+		printf("RIGHT\n");
 		if (station == TWO) {
-			queue->push(new CommandDrive(90, 45));
+			queue->push(new CommandDrive(90, 45, true));
 		} else if (station == ONE) {
-			queue->push(new CommandDrive(130, 0));
-			queue->push(new CommandDrive(130, 90));
+			queue->push(new CommandDrive(130, 0, true));
+			queue->push(new CommandDrive(130, 90, true));
 			queue->push(new CommandTurn(180));
-			queue->push(new CommandDrive(10, 0));
+			queue->push(new CommandDrive(10, 0, false));
+		} else if (station == THREE) {
+			queue->push(new CommandDrive(40, 0, true));
+			queue->push(new CommandTurn(-90));
+			queue->push(new CommandDrive(10, 0, false));
 		}
 	}
 	queue->push(new CommandShoot(10, false, true));
 }
 
 void CommandManager::crossLine(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
-	queue->push(new CommandDrive(40, 0));
+	queue->push(new CommandDrive(40, 0, true));
 }
 
 CommandBase *CommandManager::getNextCommand(commandInput input) {

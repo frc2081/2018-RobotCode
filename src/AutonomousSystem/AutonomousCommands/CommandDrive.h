@@ -8,11 +8,12 @@
 #ifndef SRC_AUTOCOMMANDS_COMMANDDRIVE_H_
 #define SRC_AUTOCOMMANDS_COMMANDDRIVE_H_
 #include "CommandBase.h"
+#include "../Gyro/gyroManager.h"
 
 class CommandDrive : public CommandBase {
 public:
 	//Distance to travel is in imperial units
-	CommandDrive(double toTravel, double directon);
+	CommandDrive(double toTravel, double directon, bool drivestraight);
 	virtual ~CommandDrive();
 
 	commandOutput tick(commandInput input);
@@ -35,7 +36,11 @@ private:
 
 	double _toTravel;
 	double _direction;
-
+	double _rotcorrection;
+	double _gyrohold;
+	double _currang;
+	bool _drivestraight;
+	gyroManager *_gyro;
 	//infinite ducks
 };
 
