@@ -15,6 +15,7 @@ namespace Autonomous
 		_stationselector = 0;
 		_waitleft = false;
 		_waitright = true;
+		_buildcommands = true;
 		SmartDashboard::PutNumber("Auto Mode", 0);
 		SmartDashboard::PutNumber("Auto Station", 0);
 		SmartDashboard::PutNumber("Wait Side", 0);
@@ -54,15 +55,22 @@ namespace Autonomous
 		//	_waitleft = true;
 		//} else _waitright = true;
 		//_action = SWITCH_SHOT;
-		string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
-		if (scorelocations.length() >= 2) {
-			_ourswitch = scorelocations.at(0);
-			_scale = scorelocations.at(1);
-		}
-		_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
+
+		//Building commands in periodic to make sure the most up to date values are obtained
+		//for more information, visit http://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
+
 	}
 
 	void AutonomousManager::AutoPeriodic() {
+		if (_buildcommands) {
+			string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
+					if (scorelocations.length() >= 2) {
+						_ourswitch = scorelocations.at(0);
+						_scale = scorelocations.at(1);
+					}
+					_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
+					_buildcommands = false;
+		}
 		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 2.54;
 		_cominput.RFWhlDrvEnc = _io->encdrvrf->GetDistance() / 2.54;
 		_cominput.LBWhlDrvEnc = _io->encdrvlb->GetDistance() / 2.54;

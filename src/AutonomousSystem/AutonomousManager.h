@@ -35,6 +35,7 @@ namespace Autonomous
 		char _scale;
 		bool _waitleft;
 		bool _waitright;
+		bool _buildcommands;
 		IO *_io;
 		RobotCommands *_commands;
 		gyroManager *_gyro;
