@@ -27,9 +27,9 @@ namespace Autonomous
 		robotTeam _team;
 		robotStation _station;
 		robotAction _action;
-		AutoSelector *_actionselector;
-		AutoSelector *_stationselector;
-		//AutoSelector *_waitselector;
+		int _actionselector;
+		int _stationselector;
+		int _waitselector;
 		/* These are the ones that our team has */
 		char _ourswitch;
 		char _scale;

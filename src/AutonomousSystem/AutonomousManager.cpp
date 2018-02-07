@@ -11,11 +11,13 @@ namespace Autonomous
 		_io = io;
 		_commands = commands;
 		_gyro = gyroManager::Get();
-		_actionselector = new AutoSelector(7); //Number is the port things are in
-		_stationselector = new AutoSelector(6);
-		//_waitselector = new AutoSelector(4);
+		_actionselector = 0;
+		_stationselector = 0;
 		_waitleft = false;
 		_waitright = true;
+		SmartDashboard::PutNumber("Auto Mode", 0);
+		SmartDashboard::PutNumber("Auto Station", 0);
+		SmartDashboard::PutNumber("Wait Side", 0);
 	}
 
 	void AutonomousManager::AutoInit() {
@@ -23,8 +25,31 @@ namespace Autonomous
 		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
 		else if (DriverStation::GetInstance().GetAlliance() == DriverStation::kBlue) _team = BLUE;
 		else _team = NONE;
-		_action = _actionselector->getAction();
-		_station = _stationselector->getFieldPosition();
+		_actionselector = SmartDashboard::GetNumber("Auto Mode", 0);
+		_stationselector = SmartDashboard::GetNumber("Auto Station", 0);
+		_waitselector = SmartDashboard::GetNumber("Wait Side", 0);
+		if (_actionselector == 0) _action = SWITCH_SHOT;
+		else if (_actionselector == 1) _action = SCALE_SHOT;
+		else if (_actionselector == 2) _action = DRIVE_FORWARD;
+		else _action = NO_AUTO;
+
+		if (_stationselector == 1) _station = ONE;
+		else if (_stationselector == 2) _station = TWO;
+		else if (_stationselector == 3) _station = THREE;
+		else _station = UNKNOWN;
+
+		if (_waitselector == 0) {
+			_waitleft = true;
+			_waitright = false;
+		}
+		else if (_waitselector == 1) {
+			_waitright = true;
+			_waitleft = false;
+		} else {
+			_waitleft = false;
+			_waitright = false;
+		}
+
 		//if (_waitselector->getWaitSide()) {
 		//	_waitleft = true;
 		//} else _waitright = true;
