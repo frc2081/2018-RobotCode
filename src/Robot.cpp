@@ -7,9 +7,7 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-#include "CubeSystem/TalonConfiguration.h"
 
-TalonConfiguration *testtalon;
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
@@ -37,8 +35,6 @@ public:
 	void TeleopPeriodic() {
 
 		DriverControls->pollControllers(Commands);
-
-		testtalon->TalonConfigPeriodic(Commands);
 
 		//TODO:Add polling of sensors!!
 

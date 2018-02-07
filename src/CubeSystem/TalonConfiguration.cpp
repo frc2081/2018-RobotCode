@@ -14,7 +14,8 @@ TalonConfiguration::TalonConfiguration(IO *io) {
 	_exchangeheight = 1000;
 	_switchheight = 2000;
 	_scaleheight = 3000;
-	_cntl1 = new cntl(0, 0.2, 0.0);
+	_maxtalonvolts = 12;
+	_ramptimeout = 10;
 }
 
 void TalonConfiguration::TalonConfigInit() {
@@ -24,6 +25,8 @@ void TalonConfiguration::TalonConfigInit() {
 		_io->shooteranglmot->ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Absolute, 0, 10);
 		_io->shooteranglmot->SetSelectedSensorPosition(absolutePosition, 0, 0);
 		_io->shooteranglmot->SetSensorPhase(true);
+		_io->shooteranglmot->ConfigClosedloopRamp(_maxtalonvolts, _ramptimeout);
+		_io->shooterangrmot->ConfigClosedloopRamp(_maxtalonvolts, _ramptimeout);
 
 		/* set the peak and nominal outputs, 12V means full */
 		_io->shooteranglmot->ConfigNominalOutputForward(0, 10);
@@ -37,17 +40,6 @@ void TalonConfiguration::TalonConfigInit() {
 		_io->shooteranglmot->Config_kI(0, 0.0, 0);
 		_io->shooteranglmot->Config_kD(0, 0.0, 0);
 	}
-
-void TalonConfiguration::TalonConfigPeriodic(RobotCommands *command) {//, CubeManagerIO *cubeio) {
-		_cntl1->UpdateCntl();
-		if (_cntl1->bA->State()) {
-			_io->shooteranglmot->Set(ctre::phoenix::motorcontrol::ControlMode::Position, _exchangeheight);
-		} else if (_cntl1->bB->State()) {
-			_io->shooteranglmot->Set(ctre::phoenix::motorcontrol::ControlMode::Position, _switchheight);
-		} else if (_cntl1->bX->State()) {
-			_io->shooteranglmot->Set(ctre::phoenix::motorcontrol::ControlMode::Position, _scaleheight);
-		} else _io->shooteranglmot->Set(ctre::phoenix::motorcontrol::ControlMode::Position, 0);
-}
 
 TalonConfiguration::~TalonConfiguration() {
 	// TODO Auto-generated destructor stub

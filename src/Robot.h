@@ -16,10 +16,12 @@
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
 #include "RobotCommands.h"
+#include "CubeSystem/TalonConfiguration.h"
 
 IO *RioIO;
 ControllerManager *DriverControls;
 RobotCommands *Commands;
 CubeManager *Shooter;
+TalonConfiguration *testtalon;
 
 #endif /* SRC_ROBOT_H_ */
