@@ -71,10 +71,10 @@ namespace Autonomous
 					_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
 					_buildcommands = false;
 		}
-		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 2.54;
-		_cominput.RFWhlDrvEnc = _io->encdrvrf->GetDistance() / 2.54;
-		_cominput.LBWhlDrvEnc = _io->encdrvlb->GetDistance() / 2.54;
-		_cominput.RBWhlDrvEnc = _io->encdrvrb->GetDistance() / 2.54;
+		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 100;
+		_cominput.RFWhlDrvEnc = _io->encdrvrf->GetDistance() / 100;
+		_cominput.LBWhlDrvEnc = _io->encdrvlb->GetDistance() / 100;
+		_cominput.RBWhlDrvEnc = _io->encdrvrb->GetDistance() / 100;
 
 		_cominput.LFWhlTurnEnc = _io->steerencdrvlf->Get();
 		_cominput.RFWhlTurnEnc = _io->steerencdrvrf->Get();
