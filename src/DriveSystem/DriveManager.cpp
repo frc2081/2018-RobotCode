@@ -9,7 +9,7 @@
 DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls) {
 	_io = io;
 	_commands = com;
-	_swervelib = new SwerveLib(25, 25);
+	_swervelib = new SwerveLib(27.5, 32);
 	_cntls = cntls;
 	_drvpidi = 0.0;
 	_drvpidd = 0.0;
