@@ -23,6 +23,8 @@
 
 		void ApplyIntellegintSwerve();
 
+		void AutoApplyPIDControl();
+
 		void ApplyPIDControl();
 
 		void DriveManagerInit();

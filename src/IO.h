@@ -45,6 +45,8 @@ public:
 	WPI_VictorSPX *turnrbmot;
 	WPI_VictorSPX *turnlfmot;
 	WPI_VictorSPX *turnrfmot;
+	WPI_VictorSPX * ramprmot;
+	WPI_VictorSPX * ramplmot;
 	Compressor *compressor;
 	Solenoid *solenoidpoker;
 	Solenoid *shooterarmarticulation;
@@ -57,6 +59,7 @@ public:
 	AnalogPotentiometer *steerencdrvrb;
 	AnalogPotentiometer *steerencdrvrf;
 	DigitalInput *intakecubesensor;
+	DigitalInput *cubechambersensor;
 
 private:
 
