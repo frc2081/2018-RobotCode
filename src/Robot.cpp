@@ -33,6 +33,7 @@ public:
 	void AutonomousPeriodic() {
 		Auto->AutoPeriodic();
 		Driver->DriveManagerPeriodic();
+		Shooter->CubeManagerPeriodic(Commands);
 	}
 
 	void TeleopInit() {
@@ -43,8 +44,6 @@ public:
 		DriverControls->pollControllers(Commands);
 		Driver->DriveManagerPeriodic();
 		//TODO:Add polling of sensors!!
-
-		//TODO:Add Drive System Periodic call
 		//TODO:Add Vision System Comms Updater, if not multithreade
 		Shooter->CubeManagerPeriodic(Commands);
 

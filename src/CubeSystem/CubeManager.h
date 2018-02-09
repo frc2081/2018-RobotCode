@@ -58,6 +58,9 @@ private:
 	int highshotentertimer = 200;
 	int highshotexittimer = 100;
 	int lowshotexittimer = 200;
+
+	bool manualarmsre;
+	bool manualarmscurrstate;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */

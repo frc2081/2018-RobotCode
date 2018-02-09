@@ -11,7 +11,8 @@ CubeManager::CubeManager(IO *Output)
 	CubeManagerInput = new CubeManagerInputs();
 	CubeManagerOutput = new CubeManagerOutputs();
 	state = STATE::Idle;
-
+	manualarmsre = false;
+	manualarmscurrstate = false;
 	RioIO = Output;
 }
 
@@ -29,14 +30,28 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	//Manual commands
 	if (Commands->cmdisinmechmanual) {
 		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise - Commands->cmdmanualshooteranglelower);
-		if (Commands->cmdmanualshooterwheels) {
+		if (Commands->cmdmanualshooterwheelspos) {
 			RioIO->shooterlmot->Set(1);
 			RioIO->shooterlmot->Set(1);
 			RioIO->intakelmot->Set(1);
 			RioIO->intakermot->Set(1);
+		} else if (Commands->cmdmanualshooterwheelsneg) {
+			RioIO->shooterlmot->Set(-1);
+			RioIO->shooterlmot->Set(-1);
+			RioIO->intakelmot->Set(-1);
+			RioIO->intakermot->Set(-1);
+		} else {
+			RioIO->shooterlmot->Set(0);
+			RioIO->shooterlmot->Set(0);
+			RioIO->intakelmot->Set(0);
+			RioIO->intakermot->Set(0);
 		}
-		RioIO->shooterarmarticulation->Set(Commands->cmdmanualshooterarms);
+		if (Commands->cmdmanualshooterarms == true && manualarmsre == false) {
+			RioIO->shooterarmarticulation->Set(!manualarmscurrstate);
+			manualarmscurrstate = !manualarmscurrstate;
+		}
 		RioIO->solenoidpoker->Set(Commands->cmdmanualshooterpoker);
+		manualarmsre = Commands->cmdmanualshooterarms;
 	}
 	switch(state)
 	{
