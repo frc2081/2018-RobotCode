@@ -9,7 +9,7 @@
 
 IO::IO() {
 
-	drvlbmot = new WPI_VictorSPX(0);
+	drvlbmot = new WPI_VictorSPX(8);
 	drvrbmot  = new WPI_VictorSPX(1);
 	drvlfmot  = new WPI_VictorSPX(2);
 	drvrfmot  = new WPI_VictorSPX(3);
@@ -17,7 +17,7 @@ IO::IO() {
 	intakermot = new WPI_VictorSPX(5);
 	shooterlmot = new WPI_VictorSPX(6);
 	shooterrmot = new WPI_VictorSPX(7);
-	shooteranglmot = new TalonSRX(8);
+	shooteranglmot = new TalonSRX(0);
 	shooterangrmot = new TalonSRX(9);
 	turnlbmot = new WPI_VictorSPX(10);
 	turnrbmot = new WPI_VictorSPX(11);

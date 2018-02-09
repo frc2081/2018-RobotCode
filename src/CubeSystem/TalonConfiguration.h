@@ -19,6 +19,7 @@ public:
 	virtual ~TalonConfiguration();
 
 	void TalonConfigInit();
+
 private:
 	IO *_io;
 	bool _invert; /* pick this based on your preference on what positive motor output should spin to */
