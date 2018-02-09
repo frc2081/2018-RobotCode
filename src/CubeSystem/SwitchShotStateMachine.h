@@ -10,11 +10,12 @@
 
 #include "RobotCommands.h"
 #include "IO.h"
-#include "CubeManagerIO.h"
+#include "CubeManagerInputs.h"
+#include "CubeManagerOutputs.h"
 
 class SwitchShotStateMachine {
 public:
-	CubeManagerIO *SwitchShotStatePeriodic(RobotCommands *Command, IO *RioIO);
+	CubeManagerOutputs *SwitchShotStatePeriodic(RobotCommands *Command, IO *RioIO);
 	SwitchShotStateMachine();
 	virtual ~SwitchShotStateMachine();
 private:

@@ -12,19 +12,19 @@ SwitchShotStateMachine::SwitchShotStateMachine(){
 	switchshottimer = 300; //placeholder value: how long until switch shot complete from starting wheels
 }
 
-CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *Commands, IO *RioIO)
+CubeManagerOutputs  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *Commands, IO *RioIO)
 {
-	CubeManagerIO *cubeio = new CubeManagerIO();
+	CubeManagerOutputs *cubeio = new CubeManagerOutputs();
 	switch (switchshotcommand) { //INITIALIZE THINGS LATER
 		case LOWSHOT_PRESHOT:
 			//set shooter to low shot angle
 			cubeio->shooteranglecmd = 500; //placeholder value: lowshot angle
 
 			//set arms to closed
-			cubeio->shooterArmPos = CubeManagerIO::ShooterArmPosition::CLOSED;
+			//cubeio->shooterArmPos = CubeManagerIO::ShooterArmPosition::CLOSED;
 
 			//ensure poker is actually where it should be
-			cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
+			//cubeio->pokerpos = CubeManagerIO::PokerPosition::EXTENDED;
 
 			//test for all; switch to shoot when successful
 			if((/* ***************add check for arm position here ***************/ true)){
@@ -50,7 +50,7 @@ CubeManagerIO  *SwitchShotStateMachine::SwitchShotStatePeriodic(RobotCommands *C
 			cubeio->shooterpowercmd = 0;
 
 			//set arms to open
-			cubeio->shooterArmPos = CubeManagerIO::ShooterArmPosition::OPEN;; //placeholder value: open
+			//cubeio->shooterArmPos = CubeManagerIO::ShooterArmPosition::OPEN;; //placeholder value: open
 
 			//set shooter to intake angle
 			cubeio->shooteranglecmd = 0; //placeholder value: intake angle
