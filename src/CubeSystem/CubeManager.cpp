@@ -8,22 +8,9 @@
 
 CubeManager::CubeManager(IO *Output)
 {
-	IntakeHighShotOutput = new CubeManagerOutputs();
-	IntakeLowShotOutput = new CubeManagerOutputs();
-	SwitchShotOutput = new CubeManagerOutputs();
-	ScaleShotOutput = new CubeManagerOutputs();
-	ExchangeShotOutput = new CubeManagerOutputs();
-	CubeCarryShiftOutput = new CubeManagerOutputs();
-	PreviousOutput = new CubeManagerOutputs();
-
 	CubeManagerInput = new CubeManagerInputs();
-
-	CubeCarrySwitch = new CubeSystem::CubeCarryShiftStateMachine();
-	LowSwitchShot = new SwitchShotStateMachine();
-	ScaleShot = new ScaleShotStateMachine();
-	//TODO:Instantiate each state machine
-
-	currCmd = Cmd::Nothing;
+	CubeManagerOutput = new CubeManagerOutputs();
+	state = STATE::Idle;
 
 	RioIO = Output;
 }
@@ -37,67 +24,136 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 {
 	//Update all cube system inputs
 	CubeManagerInput->updateInputs(RioIO);
-
-	//Call each periodic function
-	SwitchShotOutput = LowSwitchShot->SwitchShotStatePeriodic(Commands, RioIO);
-	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
-	ScaleShotOutput = ScaleShot->ScaleShotStatePeriodic(Commands, CubeManagerInput);
-
+	/*Chooses which state machine has control of the IO. If no state machine is in control,
+	keeps all outputs set to their last value*/
 	//Manual commands
-	if (Commands->cmdmanualshooteranglelower != 0) {
-		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, -Commands->cmdmanualshooteranglelower);
+	if (Commands->cmdisinmechmanual) {
+		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise - Commands->cmdmanualshooteranglelower);
+		if (Commands->cmdmanualshooterwheels) {
+			RioIO->shooterlmot->Set(1);
+			RioIO->shooterlmot->Set(1);
+			RioIO->intakelmot->Set(1);
+			RioIO->intakermot->Set(1);
+		}
+		RioIO->shooterarmarticulation->Set(Commands->cmdmanualshooterarms);
+		RioIO->solenoidpoker->Set(Commands->cmdmanualshooterpoker);
 	}
-	if (Commands->cmdmanualshooterangleraise != 0) {
-		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise);
-	}
-	if (Commands->cmdmanualshooterwheels) {
-
-	}
-	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
-	switch(currCmd)
+	switch(state)
 	{
-		case Cmd::Nothing:
-			if (Commands->cmdshiftcube) currCmd = Cmd::CarryShift;
-			else if (Commands->cmdintakelowshot) currCmd = Cmd::IntakelowShot;
-			else if (Commands->cmdscaleshot) currCmd = Cmd::ScaleShot;
-			else if (Commands->cmdswitchshot) currCmd = Cmd::SwitchShot;
-			else if (Commands->cmdintakehighshot) currCmd = Cmd::IntakeHighShot;
-			else if (Commands->cmdexchangeshot) currCmd = Cmd::ExchangeShot;
-			else { AssignIO(PreviousOutput); }
-		break;
-
-		case Cmd::CarryShift:
-			AssignIO(CubeCarryShiftOutput);
-			if(CubeCarryShiftOutput->isdone) { currCmd = Cmd::Nothing; CubeCarryShiftOutput->isdone = false; }
-		break;
-
-		case Cmd::ScaleShot:
-			AssignIO(ScaleShotOutput);
-			if(ScaleShotOutput->isdone) { currCmd = Cmd::Nothing; ScaleShotOutput->isdone = false; }
-		break;
-
-		case Cmd::ExchangeShot:
-			AssignIO(ExchangeShotOutput);
-			if(ExchangeShotOutput->isdone) { currCmd = Cmd::Nothing; ExchangeShotOutput->isdone = false; }
-		break;
-
-		case Cmd::SwitchShot:
-			AssignIO(SwitchShotOutput);
-			if(SwitchShotOutput->isdone) { currCmd = Cmd::Nothing; SwitchShotOutput->isdone = false; }
-		break;
-
-		case Cmd::IntakeHighShot:
-			AssignIO(IntakeHighShotOutput);
-			if(IntakeHighShotOutput->isdone) { currCmd = Cmd::Nothing; IntakeHighShotOutput->isdone = false; }
-		break;
-
-		case Cmd::IntakelowShot:
-			AssignIO(IntakeLowShotOutput);
-			if(IntakeLowShotOutput->isdone) { currCmd = Cmd::Nothing; IntakeLowShotOutput->isdone = false; }
-		break;
+		case STATE::Idle:
+			if (Commands->cmdshiftcube && CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
+				{ state = STATE::shifttohighcarry; }
+			else if (Commands->cmdshiftcube &&
+			CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::RETRACTED)
+			{ state = STATE::Shifttolowcarry; }
+			else if ((Commands->cmdintakelowshot || Commands->cmdintakehighshot) &&
+			CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::NO_CUBE_PRESENT )
+				{ state = STATE::Waitingforcube; }
+			else if (Commands->cmdscaleshot &&
+			CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT &&
+			CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::RETRACTED )
+				{ state = STATE::Highshotaimandspinup; }
+			else if ((Commands->cmdswitchshot || Commands->cmdexchangeshot) &&
+			CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT &&
+			CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
+				{ state = STATE::Lowshotaim; }
+			break;
+		case STATE::Waitingforcube:
+			CubeManagerOutput->shooteranglecmd = 0;
+			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::OPEN;
+			if (Commands->cmdintakelowshot)
+			{
+				CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
+			}else if (Commands->cmdintakehighshot)
+			{
+				CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
+			}
+			CubeManagerOutput->intakepowercmd = -0.3;
+			CubeManagerOutput->shooterpowercmd = -0.3;
+			if (CubeManagerInput->getIntakeCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT)
+			{
+				state = STATE::Intakingcube;
+			}
+			break;
+		case STATE::Intakingcube:
+			CubeManagerOutput->shooteranglecmd = 0;
+			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
+			CubeManagerOutput->intakepowercmd = -0.3;
+			CubeManagerOutput->shooterpowercmd = -0.3;
+			--intakeexittimer;
+			if (intakeexittimer == 0 ||
+			CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT)
+			{
+				state = STATE::Idle;
+				intakeexittimer =100;
+			}
+			break;
+		case STATE::Highshotaimandspinup:
+			CubeManagerOutput->shooteranglecmd = 75;
+			CubeManagerOutput->intakepowercmd = 1;
+			CubeManagerOutput->shooterpowercmd = 1;
+			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
+			--highshotentertimer;
+			if ((int)CubeManagerInput->getShooterAngleActualValue() == (int)CubeManagerOutput->shooteranglecmd &&
+			highshotentertimer == 0)
+			{
+				highshotentertimer = 200;
+				state = STATE::Highshot;
+			}
+			break;
+		case STATE::Highshot:
+			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
+			--highshotexittimer;
+			if(highshotexittimer == 0)
+			{
+				state = STATE::Idle;
+				highshotexittimer = 100;
+			}
+			break;
+		case STATE::Lowshotaim:
+			if(Commands->cmdswitchshot)
+			{
+				CubeManagerOutput->shooteranglecmd = 35;
+			}else if (Commands->cmdexchangeshot)
+			{
+				CubeManagerOutput->shooteranglecmd = 5;
+			}
+			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
+			if((int)CubeManagerInput->getShooterAngleActualValue() == (int)CubeManagerOutput->shooteranglecmd)
+			{
+				state = STATE::Lowshot;
+			}
+			break;
+		case STATE::Lowshot:
+			CubeManagerOutput->intakepowercmd = 0.5;
+			CubeManagerOutput->shooterpowercmd = 0.5;
+			--lowshotexittimer;
+			if(lowshotexittimer == 0)
+			{
+				lowshotexittimer = 200;
+				state = STATE::Idle;
+			}
+			break;
+		case STATE::Shifttolowcarry:
+			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
+			if(CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
+			{
+				state = STATE::Idle;
+			}
+			break;
+		case STATE::shifttohighcarry:
+			CubeManagerOutput->intakepowercmd = -0.2;
+			CubeManagerOutput->shooterpowercmd = -0.2;
+			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
+			if(CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::RETRACTED)
+			{
+				state = STATE::Idle;
+			}
+			break;
 	}
 
 }
+
 
 void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->solenoidpoker->Set(static_cast<bool>(Commands->pokerpos));
@@ -107,6 +163,5 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
 
-	PreviousOutput = Commands;
 	//TODO: Add Angle commands here
 }

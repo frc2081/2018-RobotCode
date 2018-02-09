@@ -28,6 +28,7 @@ public:
 	bool cmdmanualshooterwheels;
 	bool cmdmanualshooterarms;
 	bool cmdmanualshooterpoker;
+	bool cmdisinmechmanual;
 
 	double drvang;
 	double drvmag;
