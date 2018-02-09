@@ -43,6 +43,16 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	CubeCarryShiftOutput = CubeCarrySwitch->CubeCarryShiftStatePeriodic(Commands, CubeManagerInput);
 	ScaleShotOutput = ScaleShot->ScaleShotStatePeriodic(Commands, CubeManagerInput);
 
+	//Manual commands
+	if (Commands->cmdmanualshooteranglelower != 0) {
+		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, -Commands->cmdmanualshooteranglelower);
+	}
+	if (Commands->cmdmanualshooterangleraise != 0) {
+		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise);
+	}
+	if (Commands->cmdmanualshooterwheels) {
+
+	}
 	//Chooses which state machine has control of the IO. If no state machine is in control, keeps all outputs set to their last value
 	switch(currCmd)
 	{
