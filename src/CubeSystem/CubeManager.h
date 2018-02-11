@@ -58,6 +58,8 @@ private:
 	int highshotentertimer = 200;
 	int highshotexittimer = 100;
 	int lowshotexittimer = 200;
+
+	double shooterHomeAngle = 75;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
