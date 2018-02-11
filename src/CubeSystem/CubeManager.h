@@ -60,6 +60,9 @@ private:
 	int lowshotexittimer = 200;
 
 	double shooterHomeAngle = 75;
+	double shooterCubePickupAngle = 0;
+	double shooterCubeIntakePower = -.5;
+	double armsCubeIntakePower = -.3;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */

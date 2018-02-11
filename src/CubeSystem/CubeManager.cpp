@@ -47,17 +47,20 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			break;
 
 		case STATE::Waitingforcube:
-			CubeManagerOutput->shooteranglecmd = 0;
+			CubeManagerOutput->shooteranglecmd = shooterCubePickupAngle;
 			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::OPEN;
-			if (Commands->cmdintakelowshot) {
+			CubeManagerOutput->intakepowercmd = armsCubeIntakePower;
+			CubeManagerOutput->shooterpowercmd =  shooterCubeIntakePower;
+
+			if(Commands->cmdintakelowshot == false && Commands->cmdintakehighshot == false) {
+				state = STATE::Idle;
+			}else if (Commands->cmdintakelowshot) {
 				CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
-			}else if (Commands->cmdintakehighshot) {
+			} else if (Commands->cmdintakehighshot) {
 				CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
 			}
-			CubeManagerOutput->intakepowercmd = -0.3;
-			CubeManagerOutput->shooterpowercmd = -0.3;
-			if (CubeManagerInput->getIntakeCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT)
-			{
+
+			if (CubeManagerInput->getIntakeCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT) {
 				state = STATE::Intakingcube;
 			}
 			break;
