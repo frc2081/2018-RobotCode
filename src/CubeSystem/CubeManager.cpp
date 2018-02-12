@@ -27,6 +27,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	/*Chooses which state machine has control of the IO. If no state machine is in control,
 	keeps all outputs set to their last value*/
 
+	double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
 	switch(state)
 	{
 		case STATE::Idle:
@@ -91,7 +92,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
 
 			--highshotentertimer;
-			double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
 
 			if(Commands->cmdscaleshot == false) {state = STATE::Idle;}
 			else if ((curShooterAng > highShotAimAngle - highShotAimMargin && curShooterAng < highShotAimAngle + highShotAimMargin) && highshotentertimer <= 0){
@@ -119,7 +119,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				CubeManagerOutput->shooteranglecmd = exchangeShotAimAngle;
 			}
 
-			double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
 			if(Commands->cmdswitchshot && (curShooterAng > lowShotAimAngle - lowShotAimMargin && curShooterAng < lowShotAimAngle + lowShotAimMargin)) {
 				state = STATE::Lowshot;
 			}
