@@ -11,8 +11,10 @@ CubeManager::CubeManager(IO *Output)
 	CubeManagerInput = new CubeManagerInputs();
 	CubeManagerOutput = new CubeManagerOutputs();
 	state = STATE::Idle;
+
 	manualarmsre = false;
 	manualarmscurrstate = false;
+
 	RioIO = Output;
 }
 
@@ -27,6 +29,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	CubeManagerInput->updateInputs(RioIO);
 	/*Chooses which state machine has control of the IO. If no state machine is in control,
 	keeps all outputs set to their last value*/
+
 	//Manual commands
 	if (Commands->cmdisinmechmanual) {
 		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise - Commands->cmdmanualshooteranglelower);
@@ -149,6 +152,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				state = STATE::Idle;
 			}
 			break;
+
 		case STATE::Shifttolowcarry:
 			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 			if(CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
@@ -156,12 +160,18 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				state = STATE::Idle;
 			}
 			break;
+
+
 		case STATE::shifttohighcarry:
-			CubeManagerOutput->intakepowercmd = -0.2;
-			CubeManagerOutput->shooterpowercmd = -0.2;
+			CubeManagerOutput->intakepowercmd = shiftPower;
+			CubeManagerOutput->shooterpowercmd = shiftPower;
+
+			--shifttimer;
 			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
-			if(CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::RETRACTED)
+			if(shifttimer <= shiftDuration)
 			{
+				shifttimer = shiftDuration;
+
 				state = STATE::Idle;
 			}
 			break;
