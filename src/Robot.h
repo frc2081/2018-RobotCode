@@ -16,11 +16,13 @@
 #include "RampSystem/RampManager.h"
 #include "VisionSystem/VisionManager.h"
 #include "RobotCommands.h"
+#include "CubeSystem/TalonConfiguration.h"
 
 IO *RioIO;
 ControllerManager *DriverControls;
 RobotCommands *Commands;
 CubeManager *Shooter;
+TalonConfiguration *Talons;
 DriveManager *Driver;
 Autonomous::AutonomousManager *Auto;
 
