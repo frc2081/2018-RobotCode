@@ -54,15 +54,38 @@ private:
 	};
 	//Currently active cube system command
 	STATE state;
-	int intakeexittimer = 100;
-	int highshotentertimer = 200;
-	int highshotexittimer = 100;
-	int lowshotexittimer = 200;
 
 	double shooterHomeAngle = 75;
 	double shooterCubePickupAngle = 0;
 	double shooterCubeIntakePower = -.5;
 	double armsCubeIntakePower = -.3;
+
+	double highShotAimAngle = 75;
+	double highShotAimMargin = 1;
+	double highShotShooterPower = 1;
+	double highShotIntakePower = 1;
+	double highShotSpinUpDelay = 60;
+	double highShotShotDuration = 30;
+
+	double lowShotAimAngle = 35;
+	double lowShotAimMargin  = 1;
+	double lowShotShooterPower = .4;
+	double lowShotIntakePower = .4;
+	double lowShotShotDuration = 30;
+
+	double exchangeShotAimAngle = 5;
+	double exchangeShotAimMargin = 1;
+	double exchangeShotIntakePower = .4;
+	double exchangeShotShooterPower = .4;
+	double exchangeShotDuration = 30;
+
+	double shiftDuration = 30;
+	double shiftPower = -.5;
+
+	int highshotentertimer = highShotSpinUpDelay;
+	int highshotexittimer = highShotShotDuration;
+	int lowshotexittimer = lowShotShotDuration;
+	int shifttimer = shiftDuration;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */

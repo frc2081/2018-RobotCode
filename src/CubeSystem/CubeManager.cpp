@@ -30,6 +30,10 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	switch(state)
 	{
 		case STATE::Idle:
+			CubeManagerOutput->shooteranglecmd = shooterHomeAngle;
+			CubeManagerOutput->shooterpowercmd = 0;
+			CubeManagerOutput->intakepowercmd = 0;
+
 			if (Commands->cmdshiftcube && CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
 				{ state = STATE::shifttohighcarry; }
 			else if (Commands->cmdshiftcube && CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::RETRACTED)
@@ -41,9 +45,11 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			else if ((Commands->cmdswitchshot || Commands->cmdexchangeshot) && CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT && CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
 				{ state = STATE::Lowshotaim; }
 
-			CubeManagerOutput->shooteranglecmd = shooterHomeAngle;
-			CubeManagerOutput->shooterpowercmd = 0;
-			CubeManagerOutput->intakepowercmd = 0;
+			highshotentertimer = highShotSpinUpDelay;
+			highshotexittimer = highShotShotDuration;
+			lowshotexittimer = lowShotShotDuration;
+			shifttimer = shiftDuration;
+
 			break;
 
 		case STATE::Waitingforcube:
@@ -66,64 +72,80 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			break;
 
 		case STATE::Intakingcube:
-			CubeManagerOutput->shooteranglecmd = 0;
+			CubeManagerOutput->shooteranglecmd = shooterCubePickupAngle;
 			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
-			CubeManagerOutput->intakepowercmd = -0.3;
-			CubeManagerOutput->shooterpowercmd = -0.3;
-			--intakeexittimer;
-			if (intakeexittimer == 0 ||
-			CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT)
-			{
+			CubeManagerOutput->intakepowercmd = armsCubeIntakePower;
+			CubeManagerOutput->shooterpowercmd = shooterCubeIntakePower;
+
+			if(Commands->cmdintakelowshot == false && Commands->cmdintakehighshot == false) {
 				state = STATE::Idle;
-				intakeexittimer =100;
+			} else if (Commands->cmdintakelowshot == true && CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT){
+				state = STATE::Idle;
 			}
 			break;
+
 		case STATE::Highshotaimandspinup:
-			CubeManagerOutput->shooteranglecmd = 75;
-			CubeManagerOutput->intakepowercmd = 1;
-			CubeManagerOutput->shooterpowercmd = 1;
+			CubeManagerOutput->shooteranglecmd = highShotAimAngle;
+			CubeManagerOutput->intakepowercmd = highShotShooterPower;
+			CubeManagerOutput->shooterpowercmd = highShotIntakePower;
 			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
+
 			--highshotentertimer;
-			if ((int)CubeManagerInput->getShooterAngleActualValue() == (int)CubeManagerOutput->shooteranglecmd &&
-			highshotentertimer == 0)
-			{
-				highshotentertimer = 200;
+			double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
+
+			if(Commands->cmdscaleshot == false) {state = STATE::Idle;}
+			else if ((curShooterAng > highShotAimAngle - highShotAimMargin && curShooterAng < highShotAimAngle + highShotAimMargin) && highshotentertimer <= 0){
+				highshotentertimer = highShotSpinUpDelay;
 				state = STATE::Highshot;
 			}
 			break;
+
 		case STATE::Highshot:
 			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 			--highshotexittimer;
-			if(highshotexittimer == 0)
-			{
+			if(highshotexittimer <= 0){
 				state = STATE::Idle;
-				highshotexittimer = 100;
+				highshotexittimer = highShotShotDuration;
 			}
 			break;
+
 		case STATE::Lowshotaim:
-			if(Commands->cmdswitchshot)
-			{
-				CubeManagerOutput->shooteranglecmd = 35;
-			}else if (Commands->cmdexchangeshot)
-			{
-				CubeManagerOutput->shooteranglecmd = 5;
-			}
 			CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
-			if((int)CubeManagerInput->getShooterAngleActualValue() == (int)CubeManagerOutput->shooteranglecmd)
-			{
+			if(Commands->cmdswitchshot == false && Commands->cmdexchangeshot == false) {
+				state = STATE::Idle;
+			} else if(Commands->cmdswitchshot) {
+				CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
+			}else if (Commands->cmdexchangeshot) {
+				CubeManagerOutput->shooteranglecmd = exchangeShotAimAngle;
+			}
+
+			double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
+			if(Commands->cmdswitchshot && (curShooterAng > lowShotAimAngle - lowShotAimMargin && curShooterAng < lowShotAimAngle + lowShotAimMargin)) {
 				state = STATE::Lowshot;
 			}
 			break;
+
 		case STATE::Lowshot:
-			CubeManagerOutput->intakepowercmd = 0.5;
-			CubeManagerOutput->shooterpowercmd = 0.5;
+
 			--lowshotexittimer;
-			if(lowshotexittimer == 0)
+			if(Commands->cmdswitchshot)
 			{
-				lowshotexittimer = 200;
-				state = STATE::Idle;
+				CubeManagerOutput->intakepowercmd = lowShotIntakePower;
+				CubeManagerOutput->shooterpowercmd = lowShotShooterPower;
+				if(lowshotexittimer <= 0){
+					lowshotexittimer = lowShotShotDuration;
+					state = STATE::Idle;
+				}
+			} else if (Commands->cmdexchangeshot) {
+				CubeManagerOutput->intakepowercmd = exchangeShotIntakePower;
+				CubeManagerOutput->shooterpowercmd = exchangeShotShooterPower;
+				if(lowshotexittimer <= 0){
+					lowshotexittimer = exchangeShotDuration;
+					state = STATE::Idle;
+				}
 			}
 			break;
+
 		case STATE::Shifttolowcarry:
 			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 			if(CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::EXTENDED)
@@ -131,12 +153,16 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				state = STATE::Idle;
 			}
 			break;
+
 		case STATE::shifttohighcarry:
-			CubeManagerOutput->intakepowercmd = -0.2;
-			CubeManagerOutput->shooterpowercmd = -0.2;
+			CubeManagerOutput->intakepowercmd = shiftPower;
+			CubeManagerOutput->shooterpowercmd = shiftPower;
+
+			--shifttimer;
 			CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::RETRACTED;
-			if(CubeManagerOutput->pokerpos == CubeManagerOutputs::PokerPosition::RETRACTED)
+			if(shifttimer <= shiftDuration)
 			{
+				shifttimer = shiftDuration;
 				state = STATE::Idle;
 			}
 			break;
