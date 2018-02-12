@@ -25,11 +25,9 @@ public:
 	bool cmdautoscaleshot;
 	double cmdmanualshooterangleraise;
 	double cmdmanualshooteranglelower;
-	bool cmdmanualshooterwheelspos;
-	bool cmdmanualshooterwheelsneg;
+	bool cmdmanualshooterwheels;
 	bool cmdmanualshooterarms;
 	bool cmdmanualshooterpoker;
-	bool cmdisinmechmanual;
 
 	double drvang;
 	double drvmag;
