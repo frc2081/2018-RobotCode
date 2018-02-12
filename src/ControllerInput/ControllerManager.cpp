@@ -45,16 +45,20 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	//Manipulator Controls
 	if(mechanismcontroller->bLS->Held() == true){
 		//Manual Mode
-
+		Commands->cmdisinmechmanual = true;
 		//Raise Shooter Angle Command
 		Commands->cmdmanualshooterangleraise = mechanismcontroller->LTrig;
 
 		//Lower Shooter Angle Command
 		Commands->cmdmanualshooteranglelower = mechanismcontroller->RTrig;
 
-		//Shooter Wheels Command
-		if(mechanismcontroller->bA->State() == true) Commands->cmdmanualshooterwheels = true;
-		else Commands->cmdmanualshooterwheels = false;
+		//Shooter Wheels Command Positive
+		if(mechanismcontroller->bA->State() == true) Commands->cmdmanualshooterwheelspos = true;
+		else Commands->cmdmanualshooterwheelspos = false;
+
+		//Shooter Wheels Command Negative
+		if (mechanismcontroller->bY->State() == true) Commands->cmdmanualshooterwheelsneg = true;
+		else Commands->cmdmanualshooterwheelsneg = false;
 
 		//Shooter Arms Command
 		if(mechanismcontroller->bB->RE() == true) Commands->cmdmanualshooterarms = true;
@@ -66,6 +70,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	}
 
 	else{
+		Commands->cmdisinmechmanual = false;
 		//High Shot Intake Command
 		if(mechanismcontroller->RTrig >= trigactivthreshold) Commands->cmdintakehighshot = true;
 		else Commands->cmdintakehighshot = false;

@@ -55,6 +55,10 @@ private:
 	//Currently active cube system command
 	STATE state;
 
+
+	bool manualarmsre;
+	bool manualarmscurrstate;
+
 	double shooterHomeAngle = 75;
 	double shooterCubePickupAngle = 0;
 	double shooterCubeIntakePower = -.5;
