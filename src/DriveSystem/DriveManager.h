@@ -31,6 +31,8 @@
 
 		void DriveManagerPeriodic();
 
+		void DriveManagerAutoPeriodic();
+
 	private:
 		SwerveLib *_swervelib;
 		IO *_io;

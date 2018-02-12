@@ -25,5 +25,6 @@ CubeManager *Shooter;
 TalonConfiguration *Talons;
 DriveManager *Driver;
 Autonomous::AutonomousManager *Auto;
+Ramp::RampManager *Ramps;
 
 #endif /* SRC_ROBOT_H_ */

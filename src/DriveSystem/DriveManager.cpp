@@ -76,6 +76,12 @@ void DriveManager::DriveManagerPeriodic() {
 
 }
 
+void DriveManager::DriveManagerAutoPeriodic() {
+	CalculateVectors();
+	ApplyIntellegintSwerve();
+	AutoApplyPIDControl();
+}
+
 void DriveManager::ZeroEncoders() {
 	_lfwhlangoffset = _io->steerencdrvlf->Get();
 	_rfwhlangoffset = _io->steerencdrvrf->Get();

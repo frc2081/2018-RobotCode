@@ -16,11 +16,14 @@ public:
 		DriverControls = new ControllerManager();
 		Commands = new RobotCommands();
 		Shooter = new CubeManager(RioIO);
+		Shooter->CubeManagerInit();
 		Driver = new DriveManager(RioIO, Commands, DriverControls);
 		Driver->DriveManagerInit();
-		Shooter = new CubeManager(RioIO);
 		Auto = new Autonomous::AutonomousManager(RioIO, Commands);
-		Shooter->CubeManagerInit();
+		Talons = new TalonConfiguration(RioIO);
+		Talons->TalonConfigInit();
+		Ramps = new Ramp::RampManager(RioIO);
+		Ramps->RampManagerInit();
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init
 		//TODO:Add Vision System Init, if needed
@@ -33,7 +36,7 @@ public:
 
 	void AutonomousPeriodic() {
 		Auto->AutoPeriodic();
-		Driver->DriveManagerPeriodic();
+		Driver->DriveManagerAutoPeriodic();
 	}
 
 	void TeleopInit() {
@@ -43,6 +46,7 @@ public:
 	void TeleopPeriodic() {
 		DriverControls->pollControllers(Commands);
 		Driver->DriveManagerPeriodic();
+		Ramps->RampManagerPeriodic(Commands);
 		//TODO:Add polling of sensors!!
 
 		//TODO:Add Drive System Periodic call
