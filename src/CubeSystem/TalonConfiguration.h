@@ -9,7 +9,6 @@
 #define SRC_CUBESYSTEM_TALONCONFIGURATION_H_
 #include "IO.h"
 #include "RobotCommands.h"
-#include "CubeManagerIO.h"
 
 //temp
 #include <ControllerInput/cntl.h>

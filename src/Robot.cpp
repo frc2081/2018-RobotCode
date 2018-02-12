@@ -18,7 +18,7 @@ public:
 		Shooter = new CubeManager(RioIO);
 		Driver = new DriveManager(RioIO, Commands, DriverControls);
 		Driver->DriveManagerInit();
-		Shooter = new CubeManager();
+		Shooter = new CubeManager(RioIO);
 		Auto = new Autonomous::AutonomousManager(RioIO, Commands);
 		Shooter->CubeManagerInit();
 		//TODO:Add Ramp control system Init
@@ -33,7 +33,7 @@ public:
 
 	void AutonomousPeriodic() {
 		Auto->AutoPeriodic();
-		Drive->DriveManagerPeriodic();
+		Driver->DriveManagerPeriodic();
 	}
 
 	void TeleopInit() {
