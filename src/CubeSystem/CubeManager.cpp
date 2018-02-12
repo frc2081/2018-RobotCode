@@ -52,10 +52,12 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			RioIO->intakermot->Set(0);
 		}
 		if (Commands->cmdmanualshooterarms == true && manualarmsre == false) {
-			RioIO->shooterarmarticulation->Set(!manualarmscurrstate);
+			RioIO->shooterarmarticulationopen->Set(!manualarmscurrstate);
+			RioIO->shooterarmarticulationclose->Set(manualarmscurrstate);
 			manualarmscurrstate = !manualarmscurrstate;
 		}
-		RioIO->solenoidpoker->Set(Commands->cmdmanualshooterpoker);
+		RioIO->solenoidpokeropen->Set(Commands->cmdmanualshooterpoker);
+		RioIO->solenoidpokerclose->Set(!Commands->cmdmanualshooterpoker);
 		manualarmsre = Commands->cmdmanualshooterarms;
 	} else {
 		switch(state)
@@ -201,8 +203,10 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 
 void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
-	RioIO->solenoidpoker->Set(static_cast<bool>(Commands->pokerpos));
-	RioIO->shooterarmarticulation->Set(static_cast<bool>(Commands->shooterArmPos));
+	RioIO->solenoidpokeropen->Set(static_cast<bool>(Commands->pokerpos));
+	RioIO->solenoidpokerclose->Set(!static_cast<bool>(Commands->pokerpos));
+	RioIO->shooterarmarticulationopen->Set(static_cast<bool>(Commands->shooterArmPos));
+	RioIO->shooterarmarticulationclose->Set(!static_cast<bool>(Commands->shooterArmPos));
 	RioIO->intakelmot->Set(Commands->intakepowercmd);
 	RioIO->intakermot->Set(Commands->intakepowercmd);
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);

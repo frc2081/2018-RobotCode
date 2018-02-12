@@ -48,8 +48,10 @@ public:
 	WPI_VictorSPX * ramprmot;
 	WPI_VictorSPX * ramplmot;
 	Compressor *compressor;
-	Solenoid *solenoidpoker;
-	Solenoid *shooterarmarticulation;
+	Solenoid *solenoidpokeropen;
+	Solenoid *solenoidpokerclose;
+	Solenoid *shooterarmarticulationopen;
+	Solenoid *shooterarmarticulationclose;
 	Encoder *encdrvlb;
 	Encoder *encdrvlf;
 	Encoder *encdrvrb;

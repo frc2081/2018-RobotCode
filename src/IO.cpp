@@ -25,8 +25,10 @@ IO::IO() {
 	ramprmot = new WPI_VictorSPX(4);
 	ramplmot = new WPI_VictorSPX(11);
 	compressor = new Compressor();
-	solenoidpoker = new Solenoid(2);
-	shooterarmarticulation = new Solenoid(3);
+	solenoidpokeropen = new Solenoid(0);
+	solenoidpokerclose = new Solenoid(1);
+	shooterarmarticulationopen = new Solenoid(2);
+	shooterarmarticulationclose = new Solenoid(3);
 	encdrvlb = new Encoder(0, 1, false, Encoder::EncodingType::k4X);
 	encdrvlf = new Encoder(2, 3, false, Encoder::EncodingType::k4X);
 	encdrvrb = new Encoder(4, 5, false, Encoder::EncodingType::k4X);
