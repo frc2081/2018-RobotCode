@@ -37,4 +37,3 @@ void CubeManagerInputs::updateInputs(IO *Inputs){
 	if(Inputs->cubechambersensor->Get()) shooterCubeSensor = CubeSensor::CUBE_PRESENT;
 	else shooterCubeSensor = CubeSensor::NO_CUBE_PRESENT;
 }
-

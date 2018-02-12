@@ -23,10 +23,11 @@ RobotCommands::RobotCommands() {
 	cmdautoscaleshot = false;
 	cmdmanualshooterangleraise = 0;
 	cmdmanualshooteranglelower = 0;
-	cmdmanualshooterwheels = false;
+	cmdmanualshooterwheelspos = false;
+	cmdmanualshooterwheelsneg = false;
 	cmdmanualshooterarms = false;
 	cmdmanualshooterpoker = false;
-
+	cmdisinmechmanual = false;
 	drvmag = 0;
 	drvang = 0;
 	drvrot = 0;
