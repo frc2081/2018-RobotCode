@@ -15,24 +15,25 @@ namespace Ramp
 	}
 
 	void RampManager::RampManagerInit() {}
-
 	void RampManager::RampManagerPeriodic(RobotCommands *commands) {
+		SmartDashboard::PutBoolean("Ramp Release", commands->cmdramprelease);
+		SmartDashboard::PutNumber("Right timer", _rightraisetimer);
 		if (commands->cmdramprelease) {
 			_io->shooteranglmot->Set(ControlMode::Position, _rampreleasepos);
 		}
 
 		if (commands->cmdrampraiseleft) {
-			if (_leftraisetimer != 0) {
-				_io->ramplmot->Set(1);
-				--_leftraisetimer;
-			} else _io->ramplmot->Set(0);
-		}
+			--_leftraisetimer;
+			if (_leftraisetimer <= 0) {
+				_io->ramplmot->Set(0);
+			} else _io->ramplmot->Set(1);
+		} else _io->ramplmot->Set(0);
 
 		if (commands->cmdrampraiseright) {
-			if (_rightraisetimer != 0) {
-				_io->ramprmot->Set(1);
-				--_leftraisetimer;
-			} else _io->ramprmot->Set(0);
-		}
+			--_rightraisetimer;
+			if (_rightraisetimer <= 0) {
+				_io->ramprmot->Set(0);
+			} else _io->ramprmot->Set(1);
+		} else _io->ramprmot->Set(0);
 	}
 }

@@ -30,11 +30,11 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	else Commands->cmdramprelease = false;
 
 	//Left Ramp Raise Command
-	if(drivecontroller->LTrig >= trigactivthreshold) Commands->cmdrampraiseleft = true;
+	if(drivecontroller->bLB->State()) Commands->cmdrampraiseleft = true;
 	else Commands->cmdrampraiseleft = false;
 
 	//Right Ramp Raise Command
-	if(drivecontroller->RTrig >= trigactivthreshold) Commands->cmdrampraiseright = true;
+	if(drivecontroller->bRB->State()) Commands->cmdrampraiseright = true;
 	else Commands->cmdrampraiseright = false;
 
 	//Automatic Cube Intake Command
@@ -72,11 +72,11 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	else{
 		Commands->cmdisinmechmanual = false;
 		//High Shot Intake Command
-		if(mechanismcontroller->RTrig >= trigactivthreshold) Commands->cmdintakehighshot = true;
+		if(mechanismcontroller->bRB->State()) Commands->cmdintakehighshot = true;
 		else Commands->cmdintakehighshot = false;
 
 		//Low Shot Intake Command
-		if(mechanismcontroller->LTrig >= trigactivthreshold) Commands->cmdintakelowshot = true;
+		if(mechanismcontroller->bLB->State()) Commands->cmdintakelowshot = true;
 		else Commands->cmdintakelowshot = false;
 
 		//Scale Shot Command

@@ -16,6 +16,7 @@ CubeManager::CubeManager(IO *Output)
 	manualarmscurrstate = false;
 
 	RioIO = Output;
+	SmartDashboard::PutNumber("Current shooter angle", 0);
 }
 
 void CubeManager::CubeManagerInit()
@@ -31,7 +32,18 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	keeps all outputs set to their last value*/
 
 	double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
-
+	SmartDashboard::PutNumber("State machine state: ", (double)state);
+	SmartDashboard::PutNumber("Intake power: ", CubeManagerOutput->intakepowercmd);
+	SmartDashboard::PutBoolean("State done? ", CubeManagerOutput->isdone);
+	SmartDashboard::PutNumber("Poker position: ", (double)CubeManagerOutput->pokerpos);
+	SmartDashboard::PutNumber("Shooter arm position: ", (double)CubeManagerOutput->shooterArmPos);
+	SmartDashboard::PutNumber("Shooter angle command", CubeManagerOutput->shooteranglecmd);
+	SmartDashboard::PutNumber("Shooter power command", CubeManagerOutput->shooterpowercmd);
+	SmartDashboard::PutNumber("Cube present: ", (double)CubeManagerInput->getShooterCubeSensor());
+	SmartDashboard::PutBoolean("High intake command", Commands->cmdintakehighshot);
+	SmartDashboard::PutBoolean("Low intake command", Commands->cmdintakelowshot);
+	SmartDashboard::PutNumber("Low shot aim angle", lowShotAimAngle);
+	curShooterAng = SmartDashboard::GetNumber("Current shooter angle", 0);
 	//Manual commands
 	if (Commands->cmdisinmechmanual) {
 		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise - Commands->cmdmanualshooteranglelower);
@@ -112,7 +124,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 				if(Commands->cmdintakelowshot == false && Commands->cmdintakehighshot == false) {
 					state = STATE::Idle;
-				} else if (Commands->cmdintakelowshot == true && CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT){
+				} else if ((Commands->cmdintakelowshot || Commands->cmdintakehighshot) == true && CubeManagerInput->getShooterCubeSensor() == CubeManagerInputs::CubeSensor::CUBE_PRESENT){
 					state = STATE::Idle;
 				}
 				break;
@@ -147,11 +159,13 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 					state = STATE::Idle;
 				} else if(Commands->cmdswitchshot) {
 					CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
+					lowShotAimAngle = 35;
 				}else if (Commands->cmdexchangeshot) {
 					CubeManagerOutput->shooteranglecmd = exchangeShotAimAngle;
+					lowShotAimAngle = 5;
 				}
 
-				if(Commands->cmdswitchshot && (curShooterAng > lowShotAimAngle - lowShotAimMargin && curShooterAng < lowShotAimAngle + lowShotAimMargin)) {
+				if((Commands->cmdswitchshot || Commands->cmdexchangeshot) && (curShooterAng > lowShotAimAngle - lowShotAimMargin && curShooterAng < lowShotAimAngle + lowShotAimMargin)) {
 					state = STATE::Lowshot;
 				}
 				break;
@@ -163,17 +177,14 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				{
 					CubeManagerOutput->intakepowercmd = lowShotIntakePower;
 					CubeManagerOutput->shooterpowercmd = lowShotShooterPower;
-					if(lowshotexittimer <= 0){
-						lowshotexittimer = lowShotShotDuration;
-						state = STATE::Idle;
-					}
+
 				} else if (Commands->cmdexchangeshot) {
 					CubeManagerOutput->intakepowercmd = exchangeShotIntakePower;
 					CubeManagerOutput->shooterpowercmd = exchangeShotShooterPower;
-					if(lowshotexittimer <= 0){
-						lowshotexittimer = exchangeShotDuration;
-						state = STATE::Idle;
-					}
+				}
+				if(lowshotexittimer <= 0){
+					lowshotexittimer = lowShotShotDuration;
+					state = STATE::Idle;
 				}
 				break;
 
@@ -199,6 +210,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				break;
 		}
 	}
+	AssignIO(CubeManagerOutput);
 }
 
 
