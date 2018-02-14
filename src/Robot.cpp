@@ -24,6 +24,9 @@ public:
 		Talons->TalonConfigInit();
 		Ramps = new Ramp::RampManager(RioIO);
 		Ramps->RampManagerInit();
+		scaleVision = new VisionManager();
+
+
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init
 		//TODO:Add Vision System Init, if needed
@@ -52,6 +55,7 @@ public:
 		//TODO:Add Drive System Periodic call
 		//TODO:Add Vision System Comms Updater, if not multithreade
 		Shooter->CubeManagerPeriodic(Commands);
+		scaleVision->visionPeriodic();
 
 	}
 
