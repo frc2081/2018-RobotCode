@@ -131,8 +131,9 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 			case STATE::Highshotaimandspinup:
 				CubeManagerOutput->shooteranglecmd = highShotAimAngle;
-				CubeManagerOutput->intakepowercmd = highShotShooterPower;
-				CubeManagerOutput->shooterpowercmd = highShotIntakePower;
+				//Ramps up the shooter power so roboRio does not brownout
+				CubeManagerOutput->intakepowercmd = highShotShooterPower - (highshotentertimer / highShotSpinUpDelay);
+				CubeManagerOutput->shooterpowercmd = highShotIntakePower - (highshotentertimer / highShotSpinUpDelay);
 				CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
 
 				--highshotentertimer;

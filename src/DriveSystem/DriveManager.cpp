@@ -60,9 +60,6 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_rbturnpid->SetOutputRange(-1, 1);
 	_rbturnpid->SetContinuous();
 	_rbturnpid->Enable();
-	_comangle = 0;
-	_commagnitude = 0;
-	_comrotation = 0;
 }
 
 void DriveManager::DriveManagerInit() {
