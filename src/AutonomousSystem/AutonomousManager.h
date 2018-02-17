@@ -33,6 +33,7 @@ namespace Autonomous
 		/* These are the ones that our team has */
 		char _ourswitch;
 		char _scale;
+		string _fielddata;
 		bool _waitleft;
 		bool _waitright;
 		bool _buildcommands;

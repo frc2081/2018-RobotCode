@@ -16,6 +16,7 @@ namespace Autonomous
 		_waitleft = false;
 		_waitright = true;
 		_buildcommands = true;
+		_fielddata = "";
 		SmartDashboard::PutNumber("Auto Mode", 0);
 		SmartDashboard::PutNumber("Auto Station", 0);
 		SmartDashboard::PutNumber("Wait Side", 0);
@@ -23,6 +24,7 @@ namespace Autonomous
 
 	void AutonomousManager::AutoInit() {
 		_gyro->start();
+		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
 		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
 		else if (DriverStation::GetInstance().GetAlliance() == DriverStation::kBlue) _team = BLUE;
 		else _team = NONE;
@@ -62,14 +64,16 @@ namespace Autonomous
 	}
 
 	void AutonomousManager::AutoPeriodic() {
-		if (_buildcommands) {
-			string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
-					if (scorelocations.length() >= 2) {
-						_ourswitch = scorelocations.at(0);
-						_scale = scorelocations.at(1);
-					}
-					_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
-					_buildcommands = false;
+		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
+		if (_fielddata != "") {
+			if (_buildcommands) {
+						if (_fielddata.length() >= 2) {
+							_ourswitch = _fielddata.at(0);
+							_scale = _fielddata.at(1);
+						}
+						_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
+						_buildcommands = false;
+			}
 		}
 		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 100;
 		_cominput.RFWhlDrvEnc = _io->encdrvrf->GetDistance() / 100;
