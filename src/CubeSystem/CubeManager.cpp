@@ -39,7 +39,8 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	SmartDashboard::PutNumber("Shooter arm position: ", (double)CubeManagerOutput->shooterArmPos);
 	SmartDashboard::PutNumber("Shooter angle command", CubeManagerOutput->shooteranglecmd);
 	SmartDashboard::PutNumber("Shooter power command", CubeManagerOutput->shooterpowercmd);
-	SmartDashboard::PutNumber("Cube present: ", (double)CubeManagerInput->getShooterCubeSensor());
+	SmartDashboard::PutNumber("Cube Shooter present: ", (double)CubeManagerInput->getShooterCubeSensor());
+	SmartDashboard::PutNumber("Cube Intake present: ", (double)CubeManagerInput->getIntakeCubeSensor());
 	SmartDashboard::PutBoolean("High intake command", Commands->cmdintakehighshot);
 	SmartDashboard::PutBoolean("Low intake command", Commands->cmdintakelowshot);
 	SmartDashboard::PutNumber("Low shot aim angle", lowShotAimAngle);

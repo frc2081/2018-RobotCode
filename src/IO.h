@@ -36,7 +36,7 @@ public:
 	WPI_VictorSPX *drvlfmot;
 	WPI_VictorSPX *drvrfmot;
 	WPI_VictorSPX *intakelmot;
-	WPI_VictorSPX *intakermot;
+	VictorSP *intakermot;
 	WPI_VictorSPX *shooterlmot;
 	WPI_VictorSPX *shooterrmot;
 	TalonSRX *shooteranglmot;
