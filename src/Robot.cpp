@@ -37,6 +37,7 @@ public:
 	void AutonomousPeriodic() {
 		Auto->AutoPeriodic();
 		Driver->DriveManagerAutoPeriodic();
+		Shooter->CubeManagerPeriodic(Commands);
 	}
 
 	void TeleopInit() {
