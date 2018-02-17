@@ -24,7 +24,7 @@ public:
 		Talons->TalonConfigInit();
 		Ramps = new Ramp::RampManager(RioIO);
 		Ramps->RampManagerInit();
-		scaleVision = new VisionManager();
+		//scaleVision = new VisionManager();
 
         std::thread visionThread(&VisionManager::visionThread, VisionManager());
         visionThread.detach();
