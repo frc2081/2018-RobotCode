@@ -34,12 +34,12 @@ public:
 	}
 
 	void AutonomousInit() override {
-		Auto->AutoInit();
+		//Auto->AutoInit();
 	}
 
 	void AutonomousPeriodic() {
-		Auto->AutoPeriodic();
-		Driver->DriveManagerAutoPeriodic();
+		//Auto->AutoPeriodic();
+		//Driver->DriveManagerAutoPeriodic();
 	}
 
 	void TeleopInit() {

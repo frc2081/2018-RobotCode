@@ -26,6 +26,9 @@ private:
 	int height = 240;
 	int width = 320;
 
+	std::shared_ptr<NetworkTable> scaleContourXTable;
+	std::shared_ptr<NetworkTable> scaleContourYTable;
+
 	void updateCameraSettings();
 
 

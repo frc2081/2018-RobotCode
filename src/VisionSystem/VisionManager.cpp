@@ -12,6 +12,9 @@ VisionManager::VisionManager() {
 	camera.SetResolution(width, height);
 	camera.SetExposureManual(exposure);
 	frc::SmartDashboard::PutNumber("Exposure", exposure);
+
+	scaleContourXTable = NetworkTable::GetTable("GRIP/scaleContours");
+	scaleContourYTable = NetworkTable::GetTable("GRIP/scaleContours");
 }
 
 VisionManager::~VisionManager() {}
@@ -28,4 +31,7 @@ void VisionManager::updateCameraSettings()
 void VisionManager::visionPeriodic()
 {
 	updateCameraSettings();
+
+	std::vector<double> scaleContourX = scaleContourXTable->GetNumberArray("centerX", llvm::ArrayRef<double>());
+	std::vector<double> scaleContourY = scaleContourXTable->GetNumberArray("centerY", llvm::ArrayRef<double>());
 }
