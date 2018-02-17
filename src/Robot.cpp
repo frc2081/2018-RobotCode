@@ -26,6 +26,8 @@ public:
 		Ramps->RampManagerInit();
 		scaleVision = new VisionManager();
 
+        std::thread visionThread(&VisionManager::visionThread, VisionManager());
+        visionThread.detach();
 
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init

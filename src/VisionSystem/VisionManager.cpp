@@ -31,6 +31,14 @@ void VisionManager::updateCameraSettings()
 
 void VisionManager::visionThread()
 {
-	updateCameraSettings();
+
+	while(true) {
+
+		std::cout<<"Updating Camera\n";
+		updateCameraSettings();
+		cvSinkShooter.GrabFrame(sourceShooter);
+		//cv::cvtColor(sourceShooter, outputShooter, cv::COLOR_BGR2GRAY);
+		outputStreamShooter.PutFrame(sourceShooter);
+	}
 
 }
