@@ -21,6 +21,8 @@ public:
 	bool cmdshiftcube;
 	bool cmdrampraiseleft;
 	bool cmdrampraiseright;
+	bool cmdramplowerleft;
+	bool cmdramplowerright;
 	bool cmdautopickup;
 	bool cmdautoscaleshot;
 	double cmdmanualshooterangleraise;

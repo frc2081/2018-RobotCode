@@ -37,6 +37,14 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	if(drivecontroller->bRB->State()) Commands->cmdrampraiseright = true;
 	else Commands->cmdrampraiseright = false;
 
+	//Left Ramp Lower Command
+	if (drivecontroller->bX->State()) Commands->cmdramplowerleft = true;
+	else Commands->cmdramplowerleft = false;
+
+	//Right Ramp Lower Command
+	if (drivecontroller->bB->State()) Commands->cmdramplowerright = true;
+	else Commands->cmdramplowerright = false;
+
 	//Automatic Cube Intake Command
 	if(drivecontroller->bA->State() == true) Commands->cmdautopickup = true;
 	else Commands->cmdautopickup = false;

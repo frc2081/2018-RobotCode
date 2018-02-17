@@ -164,9 +164,8 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 					lowShotAimAngle = 35;
 				}else if (Commands->cmdexchangeshot) {
 					CubeManagerOutput->shooteranglecmd = exchangeShotAimAngle;
-					lowShotAimAngle = 5;
-				}
-
+					lowShotAimAngle = 5;				}
+				CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
 				if((Commands->cmdswitchshot || Commands->cmdexchangeshot) && (curShooterAng > lowShotAimAngle - lowShotAimMargin && curShooterAng < lowShotAimAngle + lowShotAimMargin)) {
 					state = STATE::Lowshot;
 				}
@@ -225,6 +224,7 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->intakermot->Set(Commands->intakepowercmd);
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
+	RioIO->shooteranglmot->Set(ControlMode::Position, CubeManagerOutput->shooteranglecmd);
 
 	//TODO: Add Angle commands here
 }

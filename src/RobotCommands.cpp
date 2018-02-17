@@ -19,6 +19,8 @@ RobotCommands::RobotCommands() {
 	cmdshiftcube = false;
 	cmdrampraiseleft = false;
 	cmdrampraiseright = false;
+	cmdramplowerleft = false;
+	cmdramplowerright = false;
 	cmdautopickup = false;
 	cmdautoscaleshot = false;
 	cmdmanualshooterangleraise = 0;

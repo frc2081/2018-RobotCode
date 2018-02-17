@@ -11,9 +11,6 @@ TalonConfiguration::TalonConfiguration(IO *io) {
 	_io = io;
 	_sensorphase = false;
 	_invert = true;
-	_exchangeheight = 1000;
-	_switchheight = 2000;
-	_scaleheight = 3000;
 	_maxtalonvolts = 12;
 	_ramptimeout = 10;
 }

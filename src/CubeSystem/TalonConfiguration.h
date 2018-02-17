@@ -23,7 +23,6 @@ private:
 	IO *_io;
 	bool _invert; /* pick this based on your preference on what positive motor output should spin to */
 	bool _sensorphase; /* pick this so self-test stops reporting sensor-out-of-phase */
-	double _exchangeheight, _switchheight, _scaleheight;
 	double _maxtalonvolts, _ramptimeout;
 };
 
