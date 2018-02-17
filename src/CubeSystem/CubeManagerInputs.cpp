@@ -32,9 +32,8 @@ double CubeManagerInputs::getShooterAngleActualValue() {
 }
 
 void CubeManagerInputs::updateInputs(IO *Inputs){
-	if(Inputs->intakecubesensor->Get()) intakeCubeSensor = CubeSensor::CUBE_PRESENT;
-	else intakeCubeSensor = CubeSensor::NO_CUBE_PRESENT;
-	if(Inputs->cubechambersensor->Get()) shooterCubeSensor = CubeSensor::CUBE_PRESENT;
-	else shooterCubeSensor = CubeSensor::NO_CUBE_PRESENT;
+	if(Inputs->intakecubesensor->Get()) intakeCubeSensor = CubeSensor::NO_CUBE_PRESENT;
+	else intakeCubeSensor = CubeSensor::CUBE_PRESENT;
+	if(Inputs->cubechambersensor->Get()) shooterCubeSensor = CubeSensor::NO_CUBE_PRESENT;
+	else shooterCubeSensor = CubeSensor::CUBE_PRESENT;
 }
-

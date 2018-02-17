@@ -36,7 +36,7 @@ public:
 	VictorSP *drvlfmot;
 	VictorSP *drvrfmot;
 	WPI_VictorSPX *intakelmot;
-	WPI_VictorSPX *intakermot;
+	VictorSP *intakermot;
 	WPI_VictorSPX *shooterlmot;
 	WPI_VictorSPX *shooterrmot;
 	TalonSRX *shooteranglmot;
@@ -48,8 +48,10 @@ public:
 	WPI_VictorSPX * ramprmot;
 	WPI_VictorSPX * ramplmot;
 	Compressor *compressor;
-	Solenoid *solenoidpoker;
-	Solenoid *shooterarmarticulation;
+	Solenoid *solenoidpokeropen;
+	Solenoid *solenoidpokerclose;
+	Solenoid *shooterarmarticulationopen;
+	Solenoid *shooterarmarticulationclose;
 	Encoder *encdrvlb;
 	Encoder *encdrvlf;
 	Encoder *encdrvrb;

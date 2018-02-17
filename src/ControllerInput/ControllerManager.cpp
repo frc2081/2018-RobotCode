@@ -30,12 +30,20 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	else Commands->cmdramprelease = false;
 
 	//Left Ramp Raise Command
-	if(drivecontroller->LTrig >= trigactivthreshold) Commands->cmdrampraiseleft = true;
+	if(drivecontroller->bLB->State()) Commands->cmdrampraiseleft = true;
 	else Commands->cmdrampraiseleft = false;
 
 	//Right Ramp Raise Command
-	if(drivecontroller->RTrig >= trigactivthreshold) Commands->cmdrampraiseright = true;
+	if(drivecontroller->bRB->State()) Commands->cmdrampraiseright = true;
 	else Commands->cmdrampraiseright = false;
+
+	//Left Ramp Lower Command
+	if (drivecontroller->bX->State()) Commands->cmdramplowerleft = true;
+	else Commands->cmdramplowerleft = false;
+
+	//Right Ramp Lower Command
+	if (drivecontroller->bB->State()) Commands->cmdramplowerright = true;
+	else Commands->cmdramplowerright = false;
 
 	//Automatic Cube Intake Command
 	if(drivecontroller->bA->State() == true) Commands->cmdautopickup = true;
@@ -45,16 +53,20 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	//Manipulator Controls
 	if(mechanismcontroller->bLS->Held() == true){
 		//Manual Mode
-
+		Commands->cmdisinmechmanual = true;
 		//Raise Shooter Angle Command
 		Commands->cmdmanualshooterangleraise = mechanismcontroller->LTrig;
 
 		//Lower Shooter Angle Command
 		Commands->cmdmanualshooteranglelower = mechanismcontroller->RTrig;
 
-		//Shooter Wheels Command
-		if(mechanismcontroller->bA->State() == true) Commands->cmdmanualshooterwheels = true;
-		else Commands->cmdmanualshooterwheels = false;
+		//Shooter Wheels Command Positive
+		if(mechanismcontroller->bA->State() == true) Commands->cmdmanualshooterwheelspos = true;
+		else Commands->cmdmanualshooterwheelspos = false;
+
+		//Shooter Wheels Command Negative
+		if (mechanismcontroller->bY->State() == true) Commands->cmdmanualshooterwheelsneg = true;
+		else Commands->cmdmanualshooterwheelsneg = false;
 
 		//Shooter Arms Command
 		if(mechanismcontroller->bB->RE() == true) Commands->cmdmanualshooterarms = true;
@@ -66,12 +78,13 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	}
 
 	else{
+		Commands->cmdisinmechmanual = false;
 		//High Shot Intake Command
-		if(mechanismcontroller->RTrig >= trigactivthreshold) Commands->cmdintakehighshot = true;
+		if(mechanismcontroller->bRB->State()) Commands->cmdintakehighshot = true;
 		else Commands->cmdintakehighshot = false;
 
 		//Low Shot Intake Command
-		if(mechanismcontroller->LTrig >= trigactivthreshold) Commands->cmdintakelowshot = true;
+		if(mechanismcontroller->bLB->State()) Commands->cmdintakelowshot = true;
 		else Commands->cmdintakelowshot = false;
 
 		//Scale Shot Command

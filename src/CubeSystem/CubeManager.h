@@ -17,10 +17,10 @@
 
 #include <CubeSystem/CubeManagerOutputs.h>
 #include "CubeManagerInputs.h"
+#include "CubeManagerOutputs.h"
 #include "RobotCommands.h"
 #include "IO.h"
-#include "CubeCarryShiftStateMachine.h"
-#include "ScaleShotStateMachine.h"
+
 
 class CubeManager
 {
@@ -28,6 +28,10 @@ public:
 	CubeManager(IO *Output);
 	void CubeManagerPeriodic(RobotCommands *Commands);
 	void CubeManagerInit();
+
+	//Object to hold all inputs used by any cube subsystem
+	CubeManagerInputs *CubeManagerInput;
+	CubeManagerOutputs *CubeManagerOutput;
 
 	//Objects to hold the desired output set by each subsystem control
 	CubeManagerOutputs *IntakeHighShotOutput;
@@ -51,21 +55,55 @@ private:
 	IO *RioIO;
 
 	//Defines all possible cube system commands
-	enum class Cmd {
-		CarryShift,
-		ScaleShot,
-		ExchangeShot,
-		SwitchShot,
-		IntakeHighShot,
-		IntakelowShot,
-		Nothing
+	enum class STATE {
+		Idle,
+		Lowshotaim,
+		Lowshot,
+		Waitingforcube,
+		Intakingcube,
+		Shifttolowcarry,
+		shifttohighcarry,
+		Highshotaimandspinup,
+		Highshot,
 	};
-
 	//Currently active cube system command
-	Cmd currCmd;
+	STATE state;
 
-	//Output object to store the output commands set by the last active state machine
-	CubeManagerOutputs *PreviousOutput;
+
+	bool manualarmsre;
+	bool manualarmscurrstate;
+
+	double shooterHomeAngle = 75;
+	double shooterCubePickupAngle = 0;
+	double shooterCubeIntakePower = -.5;
+	double armsCubeIntakePower = -.3;
+
+	double highShotAimAngle = 75;
+	double highShotAimMargin = 1;
+	double highShotShooterPower = 1;
+	double highShotIntakePower = 1;
+	double highShotSpinUpDelay = 2;
+	double highShotShotDuration = 1;
+
+	double lowShotAimAngle = 35;
+	double lowShotAimMargin  = 1;
+	double lowShotShooterPower = .4;
+	double lowShotIntakePower = .4;
+	double lowShotShotDuration = 30;
+
+	double exchangeShotAimAngle = 5;
+	double exchangeShotAimMargin = 1;
+	double exchangeShotIntakePower = .4;
+	double exchangeShotShooterPower = .4;
+	double exchangeShotDuration = 30;
+
+	double shiftDuration = 30;
+	double shiftPower = -.5;
+
+	int highshotentertimer = highShotSpinUpDelay;
+	int highshotexittimer = highShotShotDuration;
+	int lowshotexittimer = lowShotShotDuration;
+	int shifttimer = shiftDuration;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */

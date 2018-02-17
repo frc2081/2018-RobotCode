@@ -13,7 +13,7 @@ IO::IO() {
 	drvlfmot  = new WPI_VictorSPX(14);
 	drvrfmot  = new WPI_VictorSPX(1);
 	intakelmot = new WPI_VictorSPX(12);
-	intakermot = new WPI_VictorSPX(3);
+	intakermot = new VictorSP(9);
 	shooterlmot = new WPI_VictorSPX(13);
 	shooterrmot = new WPI_VictorSPX(2);
 	shooteranglmot = new TalonSRX(8);
@@ -25,16 +25,18 @@ IO::IO() {
 	ramprmot = new WPI_VictorSPX(4);
 	ramplmot = new WPI_VictorSPX(11);
 	compressor = new Compressor();
-	solenoidpoker = new Solenoid(2);
-	shooterarmarticulation = new Solenoid(3);
-	encdrvlb = new Encoder(6, 7, false);//(0, 1, false, Encoder::EncodingType::k4X);//
-	encdrvlf = new Encoder(4, 5, false);//(2, 3, false, Encoder::EncodingType::k4X);//
-	encdrvrb = new Encoder(8, 9, false);//(4, 5, false, Encoder::EncodingType::k4X);//
-	encdrvrf= new Encoder(2, 3, false);//(6, 7, false, Encoder::EncodingType::k4X);//
-	steerencdrvlb = new AnalogPotentiometer(1,360,0);
-	steerencdrvlf = new AnalogPotentiometer(0,360,0);
-	steerencdrvrb = new AnalogPotentiometer(3,360,0);
-	steerencdrvrf = new AnalogPotentiometer(2,360,0);
+	solenoidpokeropen = new Solenoid(0);
+	solenoidpokerclose = new Solenoid(1);
+	shooterarmarticulationopen = new Solenoid(2);
+	shooterarmarticulationclose = new Solenoid(3);
+	encdrvlb = new Encoder(0, 1, false, Encoder::EncodingType::k4X);
+	encdrvlf = new Encoder(2, 3, false, Encoder::EncodingType::k4X);
+	encdrvrb = new Encoder(4, 5, false, Encoder::EncodingType::k4X);
+	encdrvrf= new Encoder(6, 7, false, Encoder::EncodingType::k4X);
+	steerencdrvlb = new AnalogPotentiometer(0,360,0);
+	steerencdrvlf = new AnalogPotentiometer(1,360,0);
+	steerencdrvrb = new AnalogPotentiometer(2,360,0);
+	steerencdrvrf = new AnalogPotentiometer(3,360,0);
 	intakecubesensor = new DigitalInput(8);
 	cubechambersensor = new DigitalInput(9);
 

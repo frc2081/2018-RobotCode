@@ -19,14 +19,17 @@ RobotCommands::RobotCommands() {
 	cmdshiftcube = false;
 	cmdrampraiseleft = false;
 	cmdrampraiseright = false;
+	cmdramplowerleft = false;
+	cmdramplowerright = false;
 	cmdautopickup = false;
 	cmdautoscaleshot = false;
 	cmdmanualshooterangleraise = 0;
 	cmdmanualshooteranglelower = 0;
-	cmdmanualshooterwheels = false;
+	cmdmanualshooterwheelspos = false;
+	cmdmanualshooterwheelsneg = false;
 	cmdmanualshooterarms = false;
 	cmdmanualshooterpoker = false;
-
+	cmdisinmechmanual = false;
 	drvmag = 0;
 	drvang = 0;
 	drvrot = 0;
