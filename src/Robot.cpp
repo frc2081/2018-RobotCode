@@ -55,7 +55,6 @@ public:
 		//TODO:Add Drive System Periodic call
 		//TODO:Add Vision System Comms Updater, if not multithreade
 		Shooter->CubeManagerPeriodic(Commands);
-		scaleVision->visionPeriodic();
 
 	}
 

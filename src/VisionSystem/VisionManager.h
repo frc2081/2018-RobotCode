@@ -17,17 +17,18 @@ public:
 	virtual ~VisionManager();
 
 
-	void visionPeriodic();
+	void visionThread();
 
 private:
-	cs::UsbCamera camera;
+	cs::UsbCamera cameraShooter;
+	cs::CvSink cvSinkShooter;
+	cs::CvSource outputStreamShooter;
+	cv::Mat sourceShooter;
+	cv::Mat outputShooter;
 
 	int exposure =5;
 	int height = 240;
 	int width = 320;
-
-	std::shared_ptr<NetworkTable> scaleContourXTable;
-	std::shared_ptr<NetworkTable> scaleContourYTable;
 
 	void updateCameraSettings();
 

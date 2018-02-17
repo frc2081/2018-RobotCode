@@ -8,30 +8,29 @@
 #include <VisionSystem/VisionManager.h>
 
 VisionManager::VisionManager() {
-	camera = CameraServer::GetInstance()->StartAutomaticCapture();
-	camera.SetResolution(width, height);
-	camera.SetExposureManual(exposure);
+	cameraShooter = CameraServer::GetInstance()->StartAutomaticCapture();
+	cameraShooter.SetResolution(width, height);
+	cameraShooter.SetExposureManual(exposure);
 	frc::SmartDashboard::PutNumber("Exposure", exposure);
 
-	scaleContourXTable = NetworkTable::GetTable("GRIP/scaleContours");
-	scaleContourYTable = NetworkTable::GetTable("GRIP/scaleContours");
+	cvSinkShooter = CameraServer::GetInstance()->GetVideo();
+	outputStreamShooter = CameraServer::GetInstance()->PutVideo("Gray", width, height);
+
 }
 
 VisionManager::~VisionManager() {}
 
 void VisionManager::updateCameraSettings()
 {
-	int dashboardExposure = frc::SmartDashboard::GetNumber("Exposure", 20);
+	int dashboardExposure = frc::SmartDashboard::GetNumber("Exposure", exposure);
 	if( dashboardExposure != exposure) {
 		exposure = dashboardExposure;
-		camera.SetExposureManual(exposure);
+		cameraShooter.SetExposureManual(exposure);
 	}
 }
 
-void VisionManager::visionPeriodic()
+void VisionManager::visionThread()
 {
 	updateCameraSettings();
 
-	std::vector<double> scaleContourX = scaleContourXTable->GetNumberArray("centerX", llvm::ArrayRef<double>());
-	std::vector<double> scaleContourY = scaleContourXTable->GetNumberArray("centerY", llvm::ArrayRef<double>());
 }
