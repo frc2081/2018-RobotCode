@@ -40,6 +40,7 @@
 		ControllerManager *_cntls;
 		PIDController *_lfdrvpid, *_rfdrvpid, *_lbdrvpid, *_rbdrvpid;
 		PIDController *_lfturnpid, *_rfturnpid, *_lbturnpid, *_rbturnpid;
+		Preferences *_prefs;
 		double _drvpidi, _drvpidp, _drvpidd, _drvpidf;
 		double _turnpidi, _turnpidp, _turnpidd;
 		double _pidpollrate;

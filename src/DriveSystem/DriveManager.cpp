@@ -60,6 +60,11 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_rbturnpid->SetOutputRange(-1, 1);
 	_rbturnpid->SetContinuous();
 	_rbturnpid->Enable();
+	_prefs = Preferences::GetInstance();
+	_prefs->GetDouble("LFOffset", _lfwhlangoffset);
+	_prefs->GetDouble("RFOffset", _rfwhlangoffset);
+	_prefs->GetDouble("LBOffset", _lbwhlangoffset);
+	_prefs->GetDouble("RBOffset", _rbwhlangoffset);
 }
 
 void DriveManager::DriveManagerInit() {
@@ -84,6 +89,10 @@ void DriveManager::ZeroEncoders() {
 	_rfwhlangoffset = _io->steerencdrvrf->Get();
 	_lbwhlangoffset = _io->steerencdrvlb->Get();
 	_rbwhlangoffset = _io->steerencdrvrb->Get();
+	_prefs->PutDouble("LFOffset", _lfwhlangoffset);
+	_prefs->PutDouble("RFOffset", _rfwhlangoffset);
+	_prefs->PutDouble("LBOffset", _lbwhlangoffset);
+	_prefs->PutDouble("RBOffset", _rbwhlangoffset);
 }
 
 double DriveManager::WhlAngCalcOffset(double command, double offset) {

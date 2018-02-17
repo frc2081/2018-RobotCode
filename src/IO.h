@@ -31,20 +31,20 @@ public:
 		NOCUBEDETECTED = true
 	};
 
-	VictorSP *drvlbmot;
-	VictorSP *drvrbmot;
-	VictorSP *drvlfmot;
-	VictorSP *drvrfmot;
+	WPI_VictorSPX *drvlbmot;
+	WPI_VictorSPX *drvrbmot;
+	WPI_VictorSPX *drvlfmot;
+	WPI_VictorSPX *drvrfmot;
 	WPI_VictorSPX *intakelmot;
 	VictorSP *intakermot;
 	WPI_VictorSPX *shooterlmot;
 	WPI_VictorSPX *shooterrmot;
 	TalonSRX *shooteranglmot;
 	TalonSRX *shooterangrmot;
-	VictorSP *turnlbmot;
-	VictorSP *turnrbmot;
-	VictorSP *turnlfmot;
-	VictorSP *turnrfmot;
+	WPI_VictorSPX *turnlbmot;
+	WPI_VictorSPX *turnrbmot;
+	WPI_VictorSPX *turnlfmot;
+	WPI_VictorSPX *turnrfmot;
 	WPI_VictorSPX * ramprmot;
 	WPI_VictorSPX * ramplmot;
 	Compressor *compressor;
