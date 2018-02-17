@@ -21,6 +21,7 @@
 			autoRot = 0;
 			takeScaleShot = false;
 			takeSwitchShot = false;
+
 		}
 
 		commandOutput(double mag, double ang, double rot) {
@@ -51,6 +52,7 @@
 		double RBWhlDrvEnc;
 		double LBWhlDrvEnc;
 		double shooterEnc;
+		double straightOffset;
 	};
 
 	enum robotTeam {

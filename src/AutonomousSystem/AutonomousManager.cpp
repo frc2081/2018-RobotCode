@@ -11,33 +11,74 @@ namespace Autonomous
 		_io = io;
 		_commands = commands;
 		_gyro = gyroManager::Get();
-		_actionselector = new AutoSelector(0); //Number is the port things are in
-		_stationselector = new AutoSelector(1);
+		_actionselector = 0;
+		_stationselector = 0;
+		_waitleft = false;
+		_waitright = true;
+		_buildcommands = true;
+		_fielddata = "";
+		SmartDashboard::PutNumber("Auto Mode", 0);
+		SmartDashboard::PutNumber("Auto Station", 0);
+		SmartDashboard::PutNumber("Wait Side", 0);
 	}
 
 	void AutonomousManager::AutoInit() {
 		_gyro->start();
+		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
 		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
 		else if (DriverStation::GetInstance().GetAlliance() == DriverStation::kBlue) _team = BLUE;
 		else _team = NONE;
-		_action = _actionselector->getAction();
-		_station = _stationselector->getFieldPosition();
+		_actionselector = SmartDashboard::GetNumber("Auto Mode", 0);
+		_stationselector = SmartDashboard::GetNumber("Auto Station", 0);
+		_waitselector = SmartDashboard::GetNumber("Wait Side", 0);
+		if (_actionselector == 0) _action = SWITCH_SHOT;
+		else if (_actionselector == 1) _action = SCALE_SHOT;
+		else if (_actionselector == 2) _action = DRIVE_FORWARD;
+		else _action = NO_AUTO;
 
-		_action = SWITCH_SHOT;
-		_station = TWO;
-		string scorelocations = DriverStation::GetInstance().GetGameSpecificMessage();
-		if (scorelocations.length() >= 2) {
-			_ourswitch = scorelocations.at(0);
-			_scale = scorelocations.at(1);
+		if (_stationselector == 1) _station = ONE;
+		else if (_stationselector == 2) _station = TWO;
+		else if (_stationselector == 3) _station = THREE;
+		else _station = UNKNOWN;
+
+		if (_waitselector == 0) {
+			_waitleft = true;
+			_waitright = false;
 		}
-		_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale);
+		else if (_waitselector == 1) {
+			_waitright = true;
+			_waitleft = false;
+		} else {
+			_waitleft = false;
+			_waitright = false;
+		}
+
+		//if (_waitselector->getWaitSide()) {
+		//	_waitleft = true;
+		//} else _waitright = true;
+		//_action = SWITCH_SHOT;
+
+		//Building commands in periodic to make sure the most up to date values are obtained
+		//for more information, visit http://wpilib.screenstepslive.com/s/currentCS/m/getting_started/l/826278-2018-game-data-details
+
 	}
 
 	void AutonomousManager::AutoPeriodic() {
-		_cominput.LFWhlDrvEnc = _io->encdrvlf->Get();
-		_cominput.RFWhlDrvEnc = _io->encdrvrf->Get();
-		_cominput.LBWhlDrvEnc = _io->encdrvlb->Get();
-		_cominput.RBWhlDrvEnc =  _io->encdrvrb->Get();
+		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
+		if (_fielddata != "") {
+			if (_buildcommands) {
+						if (_fielddata.length() >= 2) {
+							_ourswitch = _fielddata.at(0);
+							_scale = _fielddata.at(1);
+						}
+						_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
+						_buildcommands = false;
+			}
+		}
+		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 100;
+		_cominput.RFWhlDrvEnc = _io->encdrvrf->GetDistance() / 100;
+		_cominput.LBWhlDrvEnc = _io->encdrvlb->GetDistance() / 100;
+		_cominput.RBWhlDrvEnc = _io->encdrvrb->GetDistance() / 100;
 
 		_cominput.LFWhlTurnEnc = _io->steerencdrvlf->Get();
 		_cominput.RFWhlTurnEnc = _io->steerencdrvrf->Get();
@@ -45,7 +86,7 @@ namespace Autonomous
 		_cominput.RBWhlTurnEnc = _io->steerencdrvrb->Get();
 
 		_cominput.currentGyroReading = _gyro->getLastValue();
-
+		printf("Station: %.2f\n", _station);
 		_comoutput = _autocommands->tick(_cominput);
 
 		_commands->drvang = _comoutput.autoAng;

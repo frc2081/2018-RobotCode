@@ -10,15 +10,11 @@ robotAction AutoSelector::getAction() {
 	double voltage = autoDials->GetVoltage();
 
 	if (voltage >= rangeOneLow && voltage <= rangeOneHigh) {
-		//action = CROSS_MIDLINE;
+		action = SCALE_SHOT;
 	} else if (voltage >= rangeTwoLow && voltage <= rangeTwoHigh) {
-		//action = GEAR_ONLY;
+		action = SWITCH_SHOT;
 	} else if (voltage >= rangeThreeLow && voltage <= rangeThreeHigh) {
-		//action = SHOOT_ONLY;
-	} else if (voltage >= rangeFourLow && voltage <= rangeFourHigh) {
-		//action = GEAR_AND_SHOOT;
-	} else if (voltage >= rangeFiveLow && voltage <= rangeFiveHigh) {
-		//action = SHOOT_ONLY_BIN;
+		action = DRIVE_FORWARD;
 	} else action = NO_AUTO;
 
 	return action;
@@ -36,4 +32,12 @@ robotStation AutoSelector::getFieldPosition()
 			fieldPosition = THREE;
 		} else fieldPosition = ONE;
 	return fieldPosition;
+}
+
+bool AutoSelector::getWaitSide() {
+	double voltage = autoDials->GetVoltage();
+
+	if (voltage >= rangeOneLow && voltage <= rangeOneHigh) {
+		return true;
+	} else return false;
 }

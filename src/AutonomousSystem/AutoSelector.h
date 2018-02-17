@@ -6,6 +6,7 @@ class AutoSelector{
 		AutoSelector(int Channel);
 		robotAction getAction();
 		robotStation getFieldPosition();
+		bool getWaitSide();
 	
 	private:
 		robotAction action;

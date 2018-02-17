@@ -9,7 +9,7 @@
 DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls) {
 	_io = io;
 	_commands = com;
-	_swervelib = new SwerveLib(25, 25);
+	_swervelib = new SwerveLib(27.5, 32);
 	_cntls = cntls;
 	_drvpidi = 0.0;
 	_drvpidd = 0.0;
@@ -136,7 +136,6 @@ void DriveManager::AutoApplyPIDControl() {
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
-
 	if (_lfturnpid->GetSetpoint() >= 359) {
 		_lfturnpid->SetSetpoint(0);
 	}

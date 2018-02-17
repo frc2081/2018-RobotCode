@@ -15,12 +15,12 @@
 #ifndef SRC_CUBESYSTEM_CUBEMANAGER_H_
 #define SRC_CUBESYSTEM_CUBEMANAGER_H_ 1
 
-
 #include <CubeSystem/CubeManagerOutputs.h>
 #include "CubeManagerInputs.h"
 #include "CubeManagerOutputs.h"
 #include "RobotCommands.h"
 #include "IO.h"
+
 
 class CubeManager
 {
@@ -33,6 +33,20 @@ public:
 	CubeManagerInputs *CubeManagerInput;
 	CubeManagerOutputs *CubeManagerOutput;
 
+	//Objects to hold the desired output set by each subsystem control
+	CubeManagerOutputs *IntakeHighShotOutput;
+	CubeManagerOutputs *IntakeLowShotOutput;
+	CubeManagerOutputs *SwitchShotOutput;
+	CubeManagerOutputs *ScaleShotOutput;
+	CubeManagerOutputs *ExchangeShotOutput;
+	CubeManagerOutputs *CubeCarryShiftOutput;
+
+	//Object to hold all inputs used by any cube subsystem
+	CubeManagerInputs *CubeManagerInput;
+
+	//Instantiation of each cube control subsystem
+	CubeSystem::CubeCarryShiftStateMachine *CubeCarrySwitch;
+	ScaleShotStateMachine *ScaleShot;
 private:
 	//Function that writes the values from a CubeManagerOutputs object to the actual robot outputs
 	void AssignIO(CubeManagerOutputs *Commands);

@@ -225,6 +225,5 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
 	RioIO->shooteranglmot->Set(ControlMode::Position, CubeManagerOutput->shooteranglecmd);
-
 	//TODO: Add Angle commands here
 }

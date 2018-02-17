@@ -27,11 +27,16 @@ namespace Autonomous
 		robotTeam _team;
 		robotStation _station;
 		robotAction _action;
-		AutoSelector *_actionselector;
-		AutoSelector *_stationselector;
+		int _actionselector;
+		int _stationselector;
+		int _waitselector;
 		/* These are the ones that our team has */
 		char _ourswitch;
 		char _scale;
+		string _fielddata;
+		bool _waitleft;
+		bool _waitright;
+		bool _buildcommands;
 		IO *_io;
 		RobotCommands *_commands;
 		gyroManager *_gyro;
