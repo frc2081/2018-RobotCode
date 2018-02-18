@@ -17,7 +17,7 @@ IO::IO() {
 	shooterlmot = new WPI_VictorSPX(13);
 	shooterrmot = new WPI_VictorSPX(2);
 	shooteranglmot = new TalonSRX(8);
-	shooterangrmot = new TalonSRX(7);
+	//shooterangrmot = new TalonSRX(7);
 	turnlbmot = new WPI_VictorSPX(10);
 	turnrbmot = new WPI_VictorSPX(5);
 	turnlfmot = new WPI_VictorSPX(9);
@@ -39,7 +39,13 @@ IO::IO() {
 	steerencdrvrf = new AnalogPotentiometer(3,360,0);
 	intakecubesensor = new DigitalInput(8);
 	cubechambersensor = new DigitalInput(9);
+	swerveresetone = new DigitalInput(10);
+	swerveresettwo = new DigitalInput(11);
 
+	intakelmot->SetInverted(true);
+	intakermot->SetInverted(true);
+	shooterlmot->SetInverted(true);
+	shooterrmot->SetInverted(true);
 	encdrvlb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvrb->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvlf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);

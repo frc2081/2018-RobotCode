@@ -51,6 +51,7 @@ void SwerveLib::CalcWheelVect(double mag,
 	//Constructs a X and Y vector from the given magnitude and angle
 	_centerVecX = mag * cos(degrees_to_radians(ang+90));
 	_centerVecY = mag * sin(degrees_to_radians(ang+90));
+	//printf("Command%.2f\n", this->whl->angleLF);
 
 	//Last commanded wheel angles
 	_currAngRF = this->whl->angleRF;

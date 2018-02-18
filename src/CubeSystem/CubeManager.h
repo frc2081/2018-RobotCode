@@ -58,25 +58,25 @@ private:
 	bool manualarmsre;
 	bool manualarmscurrstate;
 
-	double shooterHomeAngle = 75;
-	double shooterCubePickupAngle = 0;
+	double shooterStartAngle;
+	double shooterCubePickupAngle = shooterStartAngle + 4234;
 	double shooterCubeIntakePower = -.5;
 	double armsCubeIntakePower = -.3;
 
-	double highShotAimAngle = 75;
-	double highShotAimMargin = 1;
+	double highShotAimAngle = shooterStartAngle - 667;
+	double highShotAimMargin = 50;
 	double highShotShooterPower = 1;
 	double highShotIntakePower = 1;
 	double highShotSpinUpDelay = 2;
 	double highShotShotDuration = 1;
 
-	double lowShotAimAngle = 35;
-	double lowShotAimMargin  = 1;
+	double lowShotAimAngle = shooterStartAngle + 3500;
+	double lowShotAimMargin  = 50;
 	double lowShotShooterPower = .4;
 	double lowShotIntakePower = .4;
 	double lowShotShotDuration = 30;
 
-	double exchangeShotAimAngle = 5;
+	double exchangeShotAimAngle = shooterStartAngle + 4000;
 	double exchangeShotAimMargin = 1;
 	double exchangeShotIntakePower = .4;
 	double exchangeShotShooterPower = .4;
@@ -85,6 +85,7 @@ private:
 	double shiftDuration = 30;
 	double shiftPower = -.5;
 
+	double curShooterAngle;
 	int highshotentertimer = highShotSpinUpDelay;
 	int highshotexittimer = highShotShotDuration;
 	int lowshotexittimer = lowShotShotDuration;

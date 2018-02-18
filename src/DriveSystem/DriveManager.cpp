@@ -16,7 +16,7 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_drvpidp = 0.00001;
 	_drvpidf = 0.0;
 	_turnpidi = 0;
-	_turnpidp = 0.04;
+	_turnpidp = -.04;
 	_turnpidd = 0;
 	_pidpollrate = 0.01;
 	_currangrf = 0;
@@ -28,6 +28,9 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_lbwhlangoffset = 0;
 	_rbwhlangoffset = 0;
 	_maxdrivespeed = 91080; //Speed is in encoder pulses
+	SmartDashboard::PutNumber("Turn P: ", _turnpidp);
+	SmartDashboard::PutNumber("Turn I: ", _turnpidi);
+	SmartDashboard::PutNumber("Turn D: ", _turnpidd);
 	_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, _drvpidf, io->encdrvlf, io->drvlfmot, _pidpollrate);
 	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvrf, io->drvrfmot, _pidpollrate);
 	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvlb, io->drvlbmot, _pidpollrate);
@@ -61,20 +64,43 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_rbturnpid->SetContinuous();
 	_rbturnpid->Enable();
 	_prefs = Preferences::GetInstance();
-	_prefs->GetDouble("LFOffset", _lfwhlangoffset);
-	_prefs->GetDouble("RFOffset", _rfwhlangoffset);
-	_prefs->GetDouble("LBOffset", _lbwhlangoffset);
-	_prefs->GetDouble("RBOffset", _rbwhlangoffset);
+	_lfwhlangoffset = _prefs->GetDouble("LFOffset", 0);
+	_rfwhlangoffset = _prefs->GetDouble("RFOffset", 0);
+	_lbwhlangoffset = _prefs->GetDouble("LBOffset", 0);
+	_rbwhlangoffset = _prefs->GetDouble("RBOffset", 0);
 }
 
 void DriveManager::DriveManagerInit() {
-	ZeroEncoders();
+
 }
 
 void DriveManager::DriveManagerPeriodic() {
+	_turnpidp = SmartDashboard::GetNumber("Turn P: ", 0);
+	_turnpidi = SmartDashboard::GetNumber("Turn I: ", 0);
+	_turnpidd = SmartDashboard::GetNumber("Turn D: ", 0);
+	_lfturnpid->SetP(_turnpidp);
+	_rfturnpid->SetP(_turnpidp);
+	_lbturnpid->SetP(_turnpidp);
+	_rbturnpid->SetP(_turnpidp);
+
+	_lfturnpid->SetI(_turnpidi);
+	_rfturnpid->SetI(_turnpidi);
+	_lbturnpid->SetI(_turnpidi);
+	_rbturnpid->SetI(_turnpidi);
+
+	_lfturnpid->SetD(_turnpidd);
+	_rfturnpid->SetD(_turnpidd);
+	_lbturnpid->SetD(_turnpidd);
+	_rbturnpid->SetD(_turnpidd);
 	CalculateVectors();
 	ApplyIntellegintSwerve();
 	ApplyPIDControl();
+
+	//_lfturnpid->SetSetpoint(0);
+	//_lbturnpid->SetSetpoint(0);
+	//_rfturnpid->SetSetpoint(0);
+	//_rbturnpid->SetSetpoint(0);
+
 
 }
 
@@ -93,6 +119,11 @@ void DriveManager::ZeroEncoders() {
 	_prefs->PutDouble("RFOffset", _rfwhlangoffset);
 	_prefs->PutDouble("LBOffset", _lbwhlangoffset);
 	_prefs->PutDouble("RBOffset", _rbwhlangoffset);
+
+	printf("New LF offset: %.2f", _lfwhlangoffset);
+	printf("New RF offset: %.2f", _rfwhlangoffset);
+	printf("New LB offset: %.2f", _lbwhlangoffset);
+	printf("New RB offset: %.2f", _rbwhlangoffset);
 }
 
 double DriveManager::WhlAngCalcOffset(double command, double offset) {
@@ -113,7 +144,9 @@ void DriveManager::CalculateVectors() {
 		_swervelib->whl->speedRF = 0;
 		_swervelib->whl->speedLB = 0;
 		_swervelib->whl->speedRB = 0;
+
 	}
+	//printf("Swerve Calculated: %.2f\n", _swervelib->whl->angleLF);
 }
 
 void DriveManager::ApplyIntellegintSwerve() {
@@ -169,10 +202,7 @@ void DriveManager::AutoApplyPIDControl() {
 	_swervelib->whl->speedLB *= _maxdrivespeed;
 	_swervelib->whl->speedRB *= _maxdrivespeed;
 
-	printf("lf turn encoder: %.2f  lf turn pid: %.2f\n", _io->steerencdrvlf->Get(), _lfturnpid->GetSetpoint());
-	printf("rf turn encoder: %.2f  rf turn pid: %.2f\n", _io->steerencdrvrf->Get(), _rfturnpid->GetSetpoint());
-	printf("lb turn encoder: %.2f  lb turn pid: %.2f\n", _io->steerencdrvlb->Get(), _lbturnpid->GetSetpoint());
-	printf("rb turn encoder: %.2f  rb turn pid: %.2f\n", _io->steerencdrvrb->Get(), _rbturnpid->GetSetpoint());
+
 	//Code to ensure the swerve drive orients it's wheels correctly before attempting to move
 		if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 5) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 5)
 			&& (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 5) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint()  + 5)
@@ -196,6 +226,7 @@ void DriveManager::ApplyPIDControl() {
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
+
 	/*
 	 * 138 pulses/rotation of wheel
 	 * 20 pulses/rotation of cim

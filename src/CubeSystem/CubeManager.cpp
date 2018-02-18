@@ -12,11 +12,27 @@ CubeManager::CubeManager(IO *Output)
 	CubeManagerOutput = new CubeManagerOutputs();
 	state = STATE::Idle;
 
+	shooterStartAngle = 0 ;
 	manualarmsre = false;
 	manualarmscurrstate = false;
+	printf("Before relative get\n");
+	shooterStartAngle = Output->shooteranglmot->GetSelectedSensorPosition(0);
 
+	shooterCubePickupAngle = shooterStartAngle + 4234;
+	highShotAimAngle = shooterStartAngle - 667;
+	lowShotAimAngle = shooterStartAngle + 3500;
+	exchangeShotAimAngle = shooterStartAngle + 4000;
+
+	CubeManagerOutput->shooteranglecmd = shooterStartAngle;
+
+	printf("After relative get\n");
+	curShooterAngle = 0;
 	RioIO = Output;
-	SmartDashboard::PutNumber("Current shooter angle", 0);
+	SmartDashboard::PutNumber("Shooter Setpoint: ", 2500);
+	SmartDashboard::PutNumber("Shooter P: ", 0);
+	SmartDashboard::PutNumber("Shooter I: ", 0);
+	SmartDashboard::PutNumber("Shooter D: ", 0);
+	printf("Cube Init!\n");
 }
 
 void CubeManager::CubeManagerInit()
@@ -28,23 +44,9 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 {
 	//Update all cube system inputs
 	CubeManagerInput->updateInputs(RioIO);
+	curShooterAngle = RioIO->shooteranglmot->GetSensorCollection().GetPulseWidthPosition();
 	/*Chooses which state machine has control of the IO. If no state machine is in control,
 	keeps all outputs set to their last value*/
-
-	double curShooterAng = CubeManagerInput->getShooterAngleActualValue();
-	SmartDashboard::PutNumber("State machine state: ", (double)state);
-	SmartDashboard::PutNumber("Intake power: ", CubeManagerOutput->intakepowercmd);
-	SmartDashboard::PutBoolean("State done? ", CubeManagerOutput->isdone);
-	SmartDashboard::PutNumber("Poker position: ", (double)CubeManagerOutput->pokerpos);
-	SmartDashboard::PutNumber("Shooter arm position: ", (double)CubeManagerOutput->shooterArmPos);
-	SmartDashboard::PutNumber("Shooter angle command", CubeManagerOutput->shooteranglecmd);
-	SmartDashboard::PutNumber("Shooter power command", CubeManagerOutput->shooterpowercmd);
-	SmartDashboard::PutNumber("Cube Shooter present: ", (double)CubeManagerInput->getShooterCubeSensor());
-	SmartDashboard::PutNumber("Cube Intake present: ", (double)CubeManagerInput->getIntakeCubeSensor());
-	SmartDashboard::PutBoolean("High intake command", Commands->cmdintakehighshot);
-	SmartDashboard::PutBoolean("Low intake command", Commands->cmdintakelowshot);
-	SmartDashboard::PutNumber("Low shot aim angle", lowShotAimAngle);
-	curShooterAng = SmartDashboard::GetNumber("Current shooter angle", 0);
 	//Manual commands
 	if (Commands->cmdisinmechmanual) {
 		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise - Commands->cmdmanualshooteranglelower);
@@ -76,7 +78,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 		switch(state)
 		{
 			case STATE::Idle:
-				CubeManagerOutput->shooteranglecmd = shooterHomeAngle;
+				//CubeManagerOutput->shooteranglecmd = shooterStartAngle;
 				CubeManagerOutput->shooterpowercmd = 0;
 				CubeManagerOutput->intakepowercmd = 0;
 
@@ -140,7 +142,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				--highshotentertimer;
 
 				if(Commands->cmdscaleshot == false) {state = STATE::Idle;}
-				else if ((curShooterAng > highShotAimAngle - highShotAimMargin && curShooterAng < highShotAimAngle + highShotAimMargin) && highshotentertimer <= 0){
+				else if ((curShooterAngle > highShotAimAngle - highShotAimMargin && curShooterAngle < highShotAimAngle + highShotAimMargin) && highshotentertimer <= 0){
 					highshotentertimer = highShotSpinUpDelay;
 					state = STATE::Highshot;
 				}
@@ -161,12 +163,12 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 					state = STATE::Idle;
 				} else if(Commands->cmdswitchshot) {
 					CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
-					lowShotAimAngle = 35;
+					lowShotAimAngle = shooterStartAngle + 3500;
 				}else if (Commands->cmdexchangeshot) {
 					CubeManagerOutput->shooteranglecmd = exchangeShotAimAngle;
-					lowShotAimAngle = 5;				}
+					lowShotAimAngle = shooterStartAngle + 4000;}
 				CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
-				if((Commands->cmdswitchshot || Commands->cmdexchangeshot) && (curShooterAng > lowShotAimAngle - lowShotAimMargin && curShooterAng < lowShotAimAngle + lowShotAimMargin)) {
+				if((Commands->cmdswitchshot || Commands->cmdexchangeshot) && (curShooterAngle > lowShotAimAngle - lowShotAimMargin && curShooterAngle < lowShotAimAngle + lowShotAimMargin)) {
 					state = STATE::Lowshot;
 				}
 				break;
@@ -211,6 +213,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				break;
 		}
 	}
+	SmartDashboard::PutNumber("Cube State Machine:  ", (int)state);
 	AssignIO(CubeManagerOutput);
 }
 
@@ -224,6 +227,17 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->intakermot->Set(Commands->intakepowercmd);
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
+	double setpoint = SmartDashboard::GetNumber("Shooter Setpoint: ", 2500);
+	double shooterp = SmartDashboard::GetNumber("Shooter P: ", 1.4);
+	double shooteri = SmartDashboard::GetNumber("Shooter I: ", 0);
+	double shooterd = SmartDashboard::GetNumber("Shooter D: ", 0);
+	RioIO->shooteranglmot->Config_kP(0, shooterp, 0);
+	RioIO->shooteranglmot->Config_kI(0, shooteri, 0);
+	RioIO->shooteranglmot->Config_kD(0, shooterd, 0);
+	//RioIO->shooteranglmot->Set(ControlMode::Position, setpoint);
+	//printf("Position: %i Setpoint: %.1f Error: %i Output: %.2f\n", RioIO->shooteranglmot->GetSelectedSensorPosition(0), setpoint, RioIO->shooteranglmot->GetClosedLoopError(0), RioIO->shooteranglmot->GetMotorOutputPercent());
+	//printf("Shooter Angle Command: %.1f ShooterStartAngle: %.1f\n", CubeManagerOutput->shooteranglecmd, shooterStartAngle);
+	printf("Intake Sensor: %i Shooter Sensor %i\n", (int)CubeManagerInput->getIntakeCubeSensor(), (int)CubeManagerInput->getShooterCubeSensor());
 	RioIO->shooteranglmot->Set(ControlMode::Position, CubeManagerOutput->shooteranglecmd);
 	//TODO: Add Angle commands here
 }

@@ -4,6 +4,7 @@
 #define SWERVELIB_H_
 
 #include <cmath>
+#include <iostream>
 
 const double PI = 3.14159265;
 

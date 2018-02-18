@@ -40,7 +40,7 @@ public:
 	WPI_VictorSPX *shooterlmot;
 	WPI_VictorSPX *shooterrmot;
 	TalonSRX *shooteranglmot;
-	TalonSRX *shooterangrmot;
+	//TalonSRX *shooterangrmot;
 	WPI_VictorSPX *turnlbmot;
 	WPI_VictorSPX *turnrbmot;
 	WPI_VictorSPX *turnlfmot;
@@ -62,6 +62,8 @@ public:
 	AnalogPotentiometer *steerencdrvrf;
 	DigitalInput *intakecubesensor;
 	DigitalInput *cubechambersensor;
+	DigitalInput *swerveresetone;
+	DigitalInput *swerveresettwo;
 
 private:
 

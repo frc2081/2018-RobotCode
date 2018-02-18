@@ -15,13 +15,13 @@ public:
 		RioIO = new IO();
 		DriverControls = new ControllerManager();
 		Commands = new RobotCommands();
+		Talons = new TalonConfiguration(RioIO);
+		Talons->TalonConfigInit();
 		Shooter = new CubeManager(RioIO);
 		Shooter->CubeManagerInit();
 		Driver = new DriveManager(RioIO, Commands, DriverControls);
 		Driver->DriveManagerInit();
 		Auto = new Autonomous::AutonomousManager(RioIO, Commands);
-		Talons = new TalonConfiguration(RioIO);
-		Talons->TalonConfigInit();
 		Ramps = new Ramp::RampManager(RioIO);
 		Ramps->RampManagerInit();
 		//TODO:Add Ramp control system Init
@@ -53,13 +53,20 @@ public:
 		//TODO:Add Drive System Periodic call
 		//TODO:Add Vision System Comms Updater, if not multithreade
 		Shooter->CubeManagerPeriodic(Commands);
-
 	}
 
 	/* Unused */
 	void TestPeriodic() {}
 
-	void DisabledPeriodic() {}
+	void DisabledPeriodic() {
+		//printf("Swerve reset one: %i\n", RioIO->swerveresetone->Get());
+		//printf("Swerve reset two: %i\n", RioIO->swerveresettwo->Get());
+		if (!RioIO->swerveresetone->Get() && !RioIO->swerveresettwo->Get()) {
+			printf("RESET\n");
+			Driver->ZeroEncoders();
+		}
+		printf("Talon value: %i\n", RioIO->shooteranglmot->GetSensorCollection().GetPulseWidthPosition());
+	}
 
 	void DisabledInit() {}
 
