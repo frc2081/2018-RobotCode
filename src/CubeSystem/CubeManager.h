@@ -50,6 +50,7 @@ private:
 		shifttohighcarry,
 		Highshotaimandspinup,
 		Highshot,
+		robotReset,
 	};
 	//Currently active cube system command
 	STATE state;

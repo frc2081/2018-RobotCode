@@ -41,6 +41,7 @@ IO::IO() {
 	cubechambersensor = new DigitalInput(9);
 	swerveresetone = new DigitalInput(10);
 	swerveresettwo = new DigitalInput(11);
+	armhomeswitch = new DigitalInput(12);
 
 	intakelmot->SetInverted(true);
 	intakermot->SetInverted(true);

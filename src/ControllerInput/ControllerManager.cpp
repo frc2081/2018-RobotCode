@@ -105,6 +105,9 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		if(mechanismcontroller->bLB->State() == true && mechanismcontroller->bRB->State() == true) Commands->cmdautoscaleshot = true;
 		else Commands->cmdautoscaleshot = false;
 
+		if(mechanismcontroller->bStart->Held() && mechanismcontroler->bSelect->Held()) Commands->cmdResetRobot = true;
+		else Commands->cmdResetRobot = false;
+
 
 	}
 }

@@ -64,6 +64,7 @@ public:
 	DigitalInput *cubechambersensor;
 	DigitalInput *swerveresetone;
 	DigitalInput *swerveresettwo;
+	DigitalInput *armhomeswitch;
 
 private:
 

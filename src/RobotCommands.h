@@ -32,6 +32,7 @@ public:
 	bool cmdmanualshooterarms;
 	bool cmdmanualshooterpoker;
 	bool cmdisinmechmanual;
+	bool cmdResetRobot;
 
 	double drvang;
 	double drvmag;
