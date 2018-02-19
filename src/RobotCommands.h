@@ -34,6 +34,8 @@ public:
 	bool cmdisinmechmanual;
 	bool cmdresetrobot;
 	bool cmdarmtocarry;
+	bool cmdscalehighshot;
+	bool cmdscalemidshot;
 
 	double drvang;
 	double drvmag;

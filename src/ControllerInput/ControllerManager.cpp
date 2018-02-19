@@ -112,6 +112,12 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		if(mechanismcontroller->bStart->State()) Commands->cmdarmtocarry = true;
 		else Commands->cmdarmtocarry = false;
 
+		if(mechanismcontroller->bBack->State()) Commands->cmdscalehighshot = true;
+		else Commands->cmdscalehighshot = false;
+
+		if(mechanismcontroller->bBack->State()) Commands->cmdscalemidshot = true;
+		else Commands->cmdscalemidshot = false;
+
 
 	}
 }

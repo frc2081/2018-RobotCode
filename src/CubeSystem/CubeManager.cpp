@@ -57,8 +57,11 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	exchangeShotAimAngle = shooterStartAngle + exchangeShotAimAngleOffset;
 	shooterCubePickupAngle = shooterStartAngle + shooterCubePickupAngleOffset;
 
+
 	//Update all cube system inputs
 	CubeManagerInput->updateInputs(RioIO);
+	bool scaleShotCommand = (Commands->cmdscaleshot || Commands->cmdscalehighshot || Commands->cmdscalemidshot);
+
 	CheckArmHome();
 	curShooterAngle = RioIO->shooteranglmot->GetSensorCollection().GetPulseWidthPosition();
 	/*Chooses which state machine has control of the IO. If no state machine is in control,
@@ -261,7 +264,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 					state = STATE::Idle;
 				}
 				Commands = reset;
-				CubeManagerOutput->shooteranglecmd = 10000;
+				CubeManagerOutput->shooteranglecmd = 50000;
 
 				break;
 		}

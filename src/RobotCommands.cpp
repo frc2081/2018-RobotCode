@@ -31,6 +31,8 @@ RobotCommands::RobotCommands() {
 	cmdmanualshooterpoker = false;
 	cmdisinmechmanual = false;
 	cmdarmtocarry = false;
+	cmdscalehighshot = false;
+	cmdscalemidshot = false;
 
 	drvmag = 0;
 	drvang = 0;
