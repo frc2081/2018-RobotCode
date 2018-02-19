@@ -72,14 +72,14 @@ private:
 	double highShotSpinUpDelay = 50;
 	double highShotShotDuration = 100;
 
-	double lowShotAimAngleOffset = 3500;
+	double lowShotAimAngleOffset = 2000;
 	double lowShotAimAngle = 3500;
 	double lowShotAimMargin  = margin;
 	double lowShotShooterPower = .4;
 	double lowShotIntakePower = .4;
 	double lowShotShotDuration = 30;
 
-	double exchangeShotAimAngleOffset = 4000;
+	double exchangeShotAimAngleOffset = 5000;
 	double exchangeShotAimAngle = 4000;
 	double exchangeShotAimMargin = margin;
 	double exchangeShotIntakePower = .4;
