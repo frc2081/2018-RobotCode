@@ -28,9 +28,6 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_lbwhlangoffset = 0;
 	_rbwhlangoffset = 0;
 	_maxdrivespeed = 91080; //Speed is in encoder pulses
-	SmartDashboard::PutNumber("Turn P: ", _turnpidp);
-	SmartDashboard::PutNumber("Turn I: ", _turnpidi);
-	SmartDashboard::PutNumber("Turn D: ", _turnpidd);
 	_lfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidd, _drvpidf, io->encdrvlf, io->drvlfmot, _pidpollrate);
 	_rfdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvrf, io->drvrfmot, _pidpollrate);
 	_lbdrvpid = new PIDController(_drvpidp, _drvpidi, _drvpidp, _drvpidf, io->encdrvlb, io->drvlbmot, _pidpollrate);
@@ -95,12 +92,6 @@ void DriveManager::DriveManagerPeriodic() {
 	CalculateVectors();
 	ApplyIntellegintSwerve();
 	ApplyPIDControl();
-
-	//_lfturnpid->SetSetpoint(0);
-	//_lbturnpid->SetSetpoint(0);
-	//_rfturnpid->SetSetpoint(0);
-	//_rbturnpid->SetSetpoint(0);
-
 
 }
 

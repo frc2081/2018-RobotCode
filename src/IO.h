@@ -66,6 +66,11 @@ public:
 	DigitalInput *swerveresettwo;
 	DigitalInput *armhomeswitch;
 
+	double armP = 1.4;
+	double armI = 0;
+	double armD = 0;
+
+
 private:
 
 };

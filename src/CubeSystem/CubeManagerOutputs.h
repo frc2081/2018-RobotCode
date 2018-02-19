@@ -18,8 +18,8 @@ class CubeManagerOutputs {
 		};
 
 		enum class ShooterArmPosition : bool {
-			CLOSED = true,
-			OPEN = false
+			CLOSED = false,
+			OPEN = true
 		};
 
 

@@ -30,10 +30,12 @@ RobotCommands::RobotCommands() {
 	cmdmanualshooterarms = false;
 	cmdmanualshooterpoker = false;
 	cmdisinmechmanual = false;
+	cmdarmtocarry = false;
+
 	drvmag = 0;
 	drvang = 0;
 	drvrot = 0;
-	cmdResetRobot = false;
+	cmdresetrobot = false;
 
 }
 

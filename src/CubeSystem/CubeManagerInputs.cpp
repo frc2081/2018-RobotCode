@@ -12,6 +12,7 @@ CubeManagerInputs::CubeManagerInputs() {
 	shooterCubeSensor = CubeSensor::NO_CUBE_PRESENT;
 
 	shooterangleactualvalue = 0;
+	armHomeSensor = false;
 }
 
 CubeManagerInputs::~CubeManagerInputs() {
@@ -36,4 +37,6 @@ void CubeManagerInputs::updateInputs(IO *Inputs){
 	else intakeCubeSensor = CubeSensor::CUBE_PRESENT;
 	if(Inputs->cubechambersensor->Get()) shooterCubeSensor = CubeSensor::NO_CUBE_PRESENT;
 	else shooterCubeSensor = CubeSensor::CUBE_PRESENT;
+
+	armHomeSensor = Inputs->armhomeswitch->Get();
 }

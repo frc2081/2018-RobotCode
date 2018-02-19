@@ -52,6 +52,15 @@ IO::IO() {
 	encdrvlf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvrf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 
+	turnlbmot->ConfigOpenloopRamp(0, 10);
+	turnrbmot->ConfigOpenloopRamp(0, 10);
+	turnlfmot->ConfigOpenloopRamp(0, 10);
+	turnrfmot->ConfigOpenloopRamp(0, 10);
+
+	drvlbmot->ConfigOpenloopRamp(.1, 10);
+	drvrbmot->ConfigOpenloopRamp(.1, 10);
+	drvlfmot->ConfigOpenloopRamp(.1, 10);
+	drvrfmot->ConfigOpenloopRamp(.1, 10);
 	//TODO: Add shooter angle conversion from talon angle to real angle
 	//TODO: Add code for determining initial angular position of shooter
 

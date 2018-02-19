@@ -65,7 +65,6 @@ public:
 			printf("RESET\n");
 			Driver->ZeroEncoders();
 		}
-		printf("Talon value: %i\n", RioIO->shooteranglmot->GetSensorCollection().GetPulseWidthPosition());
 	}
 
 	void DisabledInit() {}

@@ -27,6 +27,7 @@ public:
 	CubeSensor getIntakeCubeSensor();
 	CubeSensor getShooterCubeSensor();
 	double getShooterAngleActualValue();
+	bool armHomeSensor;
 
 	//Function to poll all sensors in the cube system and update the stored values in this class
 	void updateInputs(IO *Inputs);

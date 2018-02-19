@@ -19,8 +19,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 
 	drivecontroller->UpdateCntl();
 	mechanismcontroller->UpdateCntl();
-	//Trigger Activation Threshold
-	double trigactivthreshold = 0.6; //subejct to change
+
 	//Drive Commands
 	Commands->drvang = (atan2(-drivecontroller->LX, drivecontroller->LY) * 180/3.14159265);
 	Commands->drvmag = -sqrt(pow(drivecontroller->LX, 2) + pow(drivecontroller->LY, 2));
@@ -55,24 +54,26 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		//Manual Mode
 		Commands->cmdisinmechmanual = true;
 		//Raise Shooter Angle Command
-		Commands->cmdmanualshooterangleraise = mechanismcontroller->LTrig;
+		Commands->cmdmanualshooterangleraise = (double)mechanismcontroller->bLB->State();
 
 		//Lower Shooter Angle Command
-		Commands->cmdmanualshooteranglelower = mechanismcontroller->RTrig;
+		Commands->cmdmanualshooteranglelower = (double)mechanismcontroller->bRB->State();
 
 		//Shooter Wheels Command Positive
 		if(mechanismcontroller->bA->State() == true) Commands->cmdmanualshooterwheelspos = true;
 		else Commands->cmdmanualshooterwheelspos = false;
 
 		//Shooter Wheels Command Negative
-		if (mechanismcontroller->bY->State() == true) Commands->cmdmanualshooterwheelsneg = true;
+		if (mechanismcontroller->bB->State() == true) Commands->cmdmanualshooterwheelsneg = true;
 		else Commands->cmdmanualshooterwheelsneg = false;
 
 		//Shooter Arms Command
-		if(mechanismcontroller->bB->RE() == true) Commands->cmdmanualshooterarms = !Commands->cmdmanualshooterarms;
+		if(mechanismcontroller->bX->RE() == true) Commands->cmdmanualshooterarms = true;
+		else Commands->cmdmanualshooterarms = false;
 
 		//Shooter Poker Command
-		if(mechanismcontroller->bX->RE() == true) Commands->cmdmanualshooterpoker = !Commands->cmdmanualshooterpoker;
+		if(mechanismcontroller->bY ->RE() == true) Commands->cmdmanualshooterpoker = true;
+		else Commands->cmdmanualshooterpoker = false;
 	}
 
 	else{
@@ -105,8 +106,11 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		if(mechanismcontroller->bLB->State() == true && mechanismcontroller->bRB->State() == true) Commands->cmdautoscaleshot = true;
 		else Commands->cmdautoscaleshot = false;
 
-		if(mechanismcontroller->bStart->Held() && mechanismcontroler->bSelect->Held()) Commands->cmdResetRobot = true;
-		else Commands->cmdResetRobot = false;
+		if(mechanismcontroller->bStart->State() && mechanismcontroller->bBack->State()) Commands->cmdresetrobot = true;
+		else Commands->cmdresetrobot = false;
+
+		if(mechanismcontroller->bStart->State()) Commands->cmdarmtocarry = true;
+		else Commands->cmdarmtocarry = false;
 
 
 	}

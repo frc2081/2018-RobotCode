@@ -20,7 +20,7 @@
 #include "CubeManagerOutputs.h"
 #include "RobotCommands.h"
 #include "IO.h"
-
+#include "TalonConfiguration.h"
 
 class CubeManager
 {
@@ -50,35 +50,38 @@ private:
 		shifttohighcarry,
 		Highshotaimandspinup,
 		Highshot,
-		robotReset,
+		RobotReset,
+		ArmToCarry,
 	};
 	//Currently active cube system command
 	STATE state;
 
-
-	bool manualarmsre;
-	bool manualarmscurrstate;
+	double margin = 400;
 
 	double shooterStartAngle;
-	double shooterCubePickupAngle = shooterStartAngle + 4234;
+	double shooterCubePickupAngleOffset = 4500;
+	double shooterCubePickupAngle =  4500;
 	double shooterCubeIntakePower = -.5;
 	double armsCubeIntakePower = -.3;
 
-	double highShotAimAngle = shooterStartAngle - 667;
-	double highShotAimMargin = 50;
+	double highShotAimAngleOffset = -1000;
+	double highShotAimAngle =  -1000;
+	double highShotAimMargin = margin;
 	double highShotShooterPower = 1;
 	double highShotIntakePower = 1;
-	double highShotSpinUpDelay = 2;
-	double highShotShotDuration = 1;
+	double highShotSpinUpDelay = 50;
+	double highShotShotDuration = 100;
 
-	double lowShotAimAngle = shooterStartAngle + 3500;
-	double lowShotAimMargin  = 50;
+	double lowShotAimAngleOffset = 3500;
+	double lowShotAimAngle = 3500;
+	double lowShotAimMargin  = margin;
 	double lowShotShooterPower = .4;
 	double lowShotIntakePower = .4;
 	double lowShotShotDuration = 30;
 
-	double exchangeShotAimAngle = shooterStartAngle + 4000;
-	double exchangeShotAimMargin = 1;
+	double exchangeShotAimAngleOffset = 4000;
+	double exchangeShotAimAngle = 4000;
+	double exchangeShotAimMargin = margin;
 	double exchangeShotIntakePower = .4;
 	double exchangeShotShooterPower = .4;
 	double exchangeShotDuration = 30;
@@ -91,6 +94,9 @@ private:
 	int highshotexittimer = highShotShotDuration;
 	int lowshotexittimer = lowShotShotDuration;
 	int shifttimer = shiftDuration;
+
+	int intakeArmMoveDuration = 20;
+	int intakeArmMoveTimer = 20;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
