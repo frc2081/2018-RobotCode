@@ -47,11 +47,15 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	lowShotIntakePower = SmartDashboard::GetNumber("Shooter low shot power: ", 0);
 	exchangeShotShooterPower = SmartDashboard::GetNumber("Shooter exchange shot power: ", 0);
 	exchangeShotIntakePower = SmartDashboard::GetNumber("Shooter exchange shot power: ", 0);
-	highShotAimAngleOffset = SmartDashboard::GetNumber("Shooter high shot angle offset: ", 0);
-	lowShotAimAngleOffset = SmartDashboard::GetNumber("Shooter low shot angle offset: ", 0);
-	exchangeShotAimAngleOffset = SmartDashboard::GetNumber("Shooter exchange shot angle offset: ", 0);
+
 
 	RobotCommands *reset = new RobotCommands();
+
+
+	highShotAimAngle = shooterStartAngle + highShotAimAngleOffset;
+	lowShotAimAngle = shooterStartAngle + lowShotAimAngleOffset;
+	exchangeShotAimAngle = shooterStartAngle + exchangeShotAimAngleOffset;
+	shooterCubePickupAngle = shooterStartAngle + shooterCubePickupAngleOffset;
 
 	//Update all cube system inputs
 	CubeManagerInput->updateInputs(RioIO);
@@ -59,7 +63,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	curShooterAngle = RioIO->shooteranglmot->GetSensorCollection().GetPulseWidthPosition();
 	/*Chooses which state machine has control of the IO. If no state machine is in control,
 	keeps all outputs set to their last value*/
-	//Manual commands
+
 	if (Commands->cmdisinmechmanual) {
 		if (Commands->cmdmanualshooterwheelspos) {
 			CubeManagerOutput->shooterpowercmd = 1;
@@ -87,7 +91,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	} else {
 		switch(state)
 		{
-			printf("state");
 			case STATE::Idle:
 				//CubeManagerOutput->shooteranglecmd = shooterStartAngle;
 				CubeManagerOutput->shooterpowercmd = 0;
@@ -111,6 +114,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				lowshotexittimer = lowShotShotDuration;
 				shifttimer = shiftDuration;
 				intakeArmMoveTimer = intakeArmMoveDuration;
+
 
 				break;
 
@@ -255,20 +259,9 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 				if(Commands->cmdresetrobot == false) {
 					state = STATE::Idle;
-				} else if(CubeManagerInput->armHomeSensor == false) {
-					CubeManagerOutput->shooteranglecmd = -10000;
-				} else {
-					CubeManagerOutput->shooteranglecmd = shooterStartAngle;
-					shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
-
-					shooterCubePickupAngle = shooterStartAngle + shooterCubePickupAngleOffset;
-					highShotAimAngle = shooterStartAngle + highShotAimAngleOffset;
-					lowShotAimAngle = shooterStartAngle + lowShotAimAngleOffset;
-					exchangeShotAimAngle = shooterStartAngle + exchangeShotAimAngleOffset;
 				}
-
 				Commands = reset;
-				Commands->cmdresetrobot = true;
+				CubeManagerOutput->shooteranglecmd = 10000;
 
 				break;
 		}
@@ -286,8 +279,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 
 	SmartDashboard::PutNumber("Arm Home Sensor", RioIO->armhomeswitch->Get());
 	SmartDashboard::PutNumber("Arm Home Position", shooterStartAngle);
-
-
 
 	AssignIO(CubeManagerOutput);
 
@@ -325,7 +316,8 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 
 bool CubeManager::CheckArmHome()
 {
-	if(RioIO->shooteranglmot->GetOutputCurrent() > 40 && RioIO->shooteranglmot->GetMotorOutputPercent() < 0)
+	printf("Checking Arm position calibrations\n");
+	if(RioIO->shooteranglmot->GetOutputCurrent() > 25 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
 	{
 		shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
 		armHome = true;

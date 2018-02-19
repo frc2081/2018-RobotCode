@@ -60,34 +60,34 @@ private:
 	double margin = 400;
 
 	double shooterStartAngle;
-	double shooterCubePickupAngleOffset = 4500;
-	double shooterCubePickupAngle =  4500;
+	double shooterCubePickupAngleOffset = 300;
+	double shooterCubePickupAngle =  300;
 	double shooterCubeIntakePower = -.5;
 	double armsCubeIntakePower = -.3;
 
-	double highShotAimAngleOffset = -500;
-	double highShotAimAngle =  -1000;
+	double highShotAimAngleOffset = -4874;
+	double highShotAimAngle =  -4874;
 	double highShotAimMargin = margin;
 	double highShotShooterPower = .7;
 	double highShotIntakePower = .7;
 	double highShotSpinUpDelay = 50;
 	double highShotShotDuration = 100;
 
-	double lowShotAimAngleOffset = 1500;
-	double lowShotAimAngle = 3500;
+	double lowShotAimAngleOffset = -3571;
+	double lowShotAimAngle = -3571;
 	double lowShotAimMargin  = margin;
 	double lowShotShooterPower = .3;
 	double lowShotIntakePower = .3;
 	double lowShotShotDuration = 30;
 
-	double exchangeShotAimAngleOffset = 5000;
-	double exchangeShotAimAngle = 4000;
+	double exchangeShotAimAngleOffset = -1400;
+	double exchangeShotAimAngle = -1400;
 	double exchangeShotAimMargin = margin;
 	double exchangeShotIntakePower = .4;
 	double exchangeShotShooterPower = .4;
 	double exchangeShotDuration = 30;
 
-	double shiftDuration = 30;
+	double shiftDuration = 100;
 	double shiftPower = -.5;
 
 	double curShooterAngle;

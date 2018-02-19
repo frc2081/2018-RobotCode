@@ -72,9 +72,6 @@ void DriveManager::DriveManagerInit() {
 }
 
 void DriveManager::DriveManagerPeriodic() {
-	_turnpidp = SmartDashboard::GetNumber("Turn P: ", 0);
-	_turnpidi = SmartDashboard::GetNumber("Turn I: ", 0);
-	_turnpidd = SmartDashboard::GetNumber("Turn D: ", 0);
 	_lfturnpid->SetP(_turnpidp);
 	_rfturnpid->SetP(_turnpidp);
 	_lbturnpid->SetP(_turnpidp);

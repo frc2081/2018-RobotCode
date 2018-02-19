@@ -46,6 +46,7 @@ public:
 	}
 
 	void TeleopPeriodic() {
+
 		DriverControls->pollControllers(Commands);
 		Driver->DriveManagerPeriodic();
 		Ramps->RampManagerPeriodic(Commands);
@@ -53,6 +54,7 @@ public:
 
 		//TODO:Add Drive System Periodic call
 		//TODO:Add Vision System Comms Updater, if not multithreade
+
 		Shooter->CubeManagerPeriodic(Commands);
 	}
 

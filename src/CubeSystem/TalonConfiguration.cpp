@@ -15,7 +15,7 @@ TalonConfiguration::TalonConfiguration(IO *io) {
 	_ramptimeout = 100;
 	printf("Talon Init\n");
 
-	allowableError = 250;
+	allowableError = 100;
 }
 
 void TalonConfiguration::TalonConfigInit() {
