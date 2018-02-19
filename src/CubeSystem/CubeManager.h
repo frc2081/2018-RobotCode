@@ -35,6 +35,7 @@ public:
 private:
 	//Function that writes the values from a CubeManagerOutputs object to the actual robot outputs
 	void AssignIO(CubeManagerOutputs *Commands);
+	bool CheckArmHome();
 
 	//Object that contains all robot Inputs and Outputs
 	IO *RioIO;
@@ -64,19 +65,19 @@ private:
 	double shooterCubeIntakePower = -.5;
 	double armsCubeIntakePower = -.3;
 
-	double highShotAimAngleOffset = -1000;
+	double highShotAimAngleOffset = -500;
 	double highShotAimAngle =  -1000;
 	double highShotAimMargin = margin;
-	double highShotShooterPower = 1;
-	double highShotIntakePower = 1;
+	double highShotShooterPower = .7;
+	double highShotIntakePower = .7;
 	double highShotSpinUpDelay = 50;
 	double highShotShotDuration = 100;
 
-	double lowShotAimAngleOffset = 2000;
+	double lowShotAimAngleOffset = 1500;
 	double lowShotAimAngle = 3500;
 	double lowShotAimMargin  = margin;
-	double lowShotShooterPower = .4;
-	double lowShotIntakePower = .4;
+	double lowShotShooterPower = .3;
+	double lowShotIntakePower = .3;
 	double lowShotShotDuration = 30;
 
 	double exchangeShotAimAngleOffset = 5000;
@@ -97,6 +98,8 @@ private:
 
 	int intakeArmMoveDuration = 20;
 	int intakeArmMoveTimer = 20;
+
+	bool armHome;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */
