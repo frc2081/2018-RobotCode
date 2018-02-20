@@ -7,5 +7,8 @@
 #include "VisionManager.h"
 namespace Vision
 {
-	VisionManager::VisionManager() {}
+	VisionManager::VisionManager() {
+		cameraShooter = CameraServer::GetInstance()->StartAutomaticCapture();
+		cubeCam = CameraServer::GetInstance()->StartAutomaticCapture();
+	}
 }

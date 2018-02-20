@@ -13,6 +13,9 @@ namespace Vision {
 	class VisionManager {
 	public:
 		VisionManager();
+		cs::UsbCamera cameraShooter;
+		cs::UsbCamera cubeCam;
+
 	};
 }
 
