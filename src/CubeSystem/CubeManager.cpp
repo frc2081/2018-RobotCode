@@ -275,6 +275,11 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 		}
 	}
 
+	if(intakeArmsFirstCalDone == true && curShooterAngle > shooterStartAngle + intakeArmsClosedOffset )
+	{
+		CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
+	}
+
 	SmartDashboard::PutNumber("Cube State Machine:  ", (int)state);
 	SmartDashboard::PutNumber("Intake Sensor:  ", (int)CubeManagerInput->getIntakeCubeSensor());
 	SmartDashboard::PutNumber("Shooter Sensor:  ", (int)CubeManagerInput->getShooterCubeSensor());
@@ -305,13 +310,6 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
 
-	double shooterp = SmartDashboard::GetNumber("Shooter P: ", RioIO->armP);
-	double shooteri = SmartDashboard::GetNumber("Shooter I: ", RioIO->armI);
-	double shooterd = SmartDashboard::GetNumber("Shooter D: ", RioIO->armD);
-	//RioIO->shooteranglmot->Config_kP(0, shooterp, 0);
-	//RioIO->shooteranglmot->Config_kI(0, shooteri, 0);
-	//RioIO->shooteranglmot->Config_kD(0, shooterd, 0);
-
 
 
 	//printf("Position: %i Setpoint: %.1f Error: %i Output: %.2f\n", RioIO->shooteranglmot->GetSelectedSensorPosition(0), setpoint, RioIO->shooteranglmot->GetClosedLoopError(0), RioIO->shooteranglmot->GetMotorOutputPercent());
@@ -331,6 +329,7 @@ bool CubeManager::CheckArmHome()
 		shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
 		armHome = true;
 		CubeManagerOutput->shooteranglecmd = shooterStartAngle;
+		intakeArmsFirstCalDone = true;
 	} else { armHome = false; }
 
  return armHome;

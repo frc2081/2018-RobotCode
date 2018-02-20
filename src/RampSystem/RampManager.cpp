@@ -23,40 +23,19 @@ namespace Ramp
 		if (!commands->cmdramprelease) return;
 
 		--_rampOpenTimer;
-		if(_rampOpenTimer <= 0) { commands->cmdrampopen = true;}
+		//if(_rampOpenTimer <= 0) { commands->cmdrampopen = true;}
 
 		_io->ramprelease->SetAngle(0);
 
 		//Raise left ramp
-		if (commands->cmdrampraiseleft) {
-			--_leftraisetimer;
-			if (_leftraisetimer <= 0) {
-				_io->ramplmot->Set(0);
-			} else _io->ramplmot->Set(1);
-		} else _io->ramplmot->Set(0);
 
-		//Raise right ramp
-		if (commands->cmdrampraiseright) {
-			--_rightraisetimer;
-			if (_rightraisetimer <= 0) {
-				_io->ramprmot->Set(0);
-			} else _io->ramprmot->Set(1);
-		} else _io->ramprmot->Set(0);
+		printf("Ramp Command\n");
+		if (commands->cmdrampraiseleft) {_io->ramplmot->Set(-1);
+		} else if (commands->cmdramplowerleft) {_io->ramplmot->Set(1);}
+		else _io->ramplmot->Set(0);
 
-		//Lower left ramp
-		if (commands->cmdramplowerleft) {
-			++_rightraisetimer;
-			if (_rightraisetimer >= _leftraisetimer) {
-				_io->ramprmot->Set(0);
-			} else _io->ramprmot->Set(-1);
-		} else _io->ramprmot->Set(0);
-
-		//Lower right ramp
-		if (commands->cmdramplowerright) {
-			++_rightraisetimer;
-			if (_rightraisetimer >= _rightraisetimer) {
-				_io->ramprmot->Set(0);
-			} else _io->ramprmot->Set(-1);
-		} else _io->ramprmot->Set(0);
+		if (commands->cmdrampraiseright) {_io->ramprmot->Set(-1);
+		} else if (commands->cmdramplowerright) {_io->ramprmot->Set(1);}
+		else _io->ramprmot->Set(0);
 	}
 }

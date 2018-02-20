@@ -99,6 +99,10 @@ private:
 	double exchangeShotShooterPower = .4;
 	double exchangeShotDuration = 30;
 
+	double intakeArmsClosedOffset = -2000;
+
+	bool intakeArmsFirstCalDone = false;
+
 	double shiftDuration = 100;
 	double shiftPower = -.5;
 

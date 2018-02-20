@@ -17,6 +17,7 @@ CommandDrive::CommandDrive(double toTravel, double direction, bool drivestraight
 	_rotcorrection = 0;
 	_drivestraight = drivestraight;
 	_gyrohold = _gyro->getLastValue();
+	_currang = 0;
 }
 
 commandOutput CommandDrive::tick(commandInput input) {

@@ -19,6 +19,11 @@ namespace Autonomous
 		_fielddata = "";
 		_polltimer = 100;
 		_cube = cube;
+		//_action = NONE;
+		//_ourswitch = '';
+		//_scale = '';
+		//_station = NONE;
+		_team = NONE;
 		SmartDashboard::PutNumber("Auto Mode", 0);
 		SmartDashboard::PutNumber("Auto Station", 0);
 		SmartDashboard::PutNumber("Wait Side", 0);

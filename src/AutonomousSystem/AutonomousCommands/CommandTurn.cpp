@@ -12,6 +12,7 @@ CommandTurn::CommandTurn(double toRotate) {
 	// TODO Auto-generated constructor stub
 
 	_toRotate = toRotate;
+	_finalRot = 0;
 	currentState = wheelTurn;
 }
 
