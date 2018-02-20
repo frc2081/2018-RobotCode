@@ -119,6 +119,8 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				shifttimer = shiftDuration;
 				intakeArmMoveTimer = intakeArmMoveDuration;
 
+				if(Commands->cmdrampopen) { CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::OPEN;}
+
 
 				break;
 
@@ -272,8 +274,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				break;
 		}
 	}
-
-	if(Commands->cmdrampopen) { CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::OPEN;}
 
 	SmartDashboard::PutNumber("Cube State Machine:  ", (int)state);
 	SmartDashboard::PutNumber("Intake Sensor:  ", (int)CubeManagerInput->getIntakeCubeSensor());
