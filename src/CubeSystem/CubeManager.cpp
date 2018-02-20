@@ -275,7 +275,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 		}
 	}
 
-	if(intakeArmsFirstCalDone == true && curShooterAngle > shooterStartAngle + intakeArmsClosedOffset )
+	if(intakeArmsFirstCalDone == true && curShooterAngle < shooterStartAngle + intakeArmsClosedOffset )
 	{
 		CubeManagerOutput->shooterArmPos = CubeManagerOutputs::ShooterArmPosition::CLOSED;
 	}
