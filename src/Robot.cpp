@@ -24,6 +24,7 @@ public:
 		Auto = new Autonomous::AutonomousManager(RioIO, Commands, Shooter);
 		Ramps = new Ramp::RampManager(RioIO);
 		Ramps->RampManagerInit();
+		Vision = new VisionManager();
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init
 		//TODO:Add Vision System Init, if needed

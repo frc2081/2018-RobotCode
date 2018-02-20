@@ -12,7 +12,7 @@
 #include <opencv2/imgproc/imgproc.hpp>
 #include <opencv2/core/core.hpp>
 
-namespace Vision {
+
 
 	class VisionManager {
 	public:
@@ -21,8 +21,6 @@ namespace Vision {
 		cs::UsbCamera cubeCam;
 
 	};
-}
-
 
 
 

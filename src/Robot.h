@@ -26,5 +26,6 @@ TalonConfiguration *Talons;
 DriveManager *Driver;
 Autonomous::AutonomousManager *Auto;
 Ramp::RampManager *Ramps;
+VisionManager *Vision;
 
 #endif /* SRC_ROBOT_H_ */
