@@ -240,7 +240,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			case STATE::Shifttolowcarry:
 				CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 				state = STATE::Idle;
-
 				break;
 
 			case STATE::shifttohighcarry:
@@ -254,14 +253,12 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 					CubeManagerOutput->intakepowercmd = 0;
 					CubeManagerOutput->shooterpowercmd = 0;
 				}
-
 				break;
 
 			case STATE::ArmToCarry:
-				CubeManagerOutput->shooteranglecmd = highShotAimAngle;
+				CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
 				state = STATE::Idle;
 				break;
-
 
 			case STATE::RobotReset:
 
@@ -270,7 +267,6 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				}
 				Commands = reset;
 				CubeManagerOutput->shooteranglecmd = 50000;
-
 				break;
 		}
 	}

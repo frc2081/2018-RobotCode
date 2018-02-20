@@ -19,13 +19,13 @@ namespace Ramp
 	void RampManager::RampManagerPeriodic(RobotCommands *commands) {
 		SmartDashboard::PutBoolean("Ramp Release", commands->cmdramprelease);
 		SmartDashboard::PutNumber("Servo angle: ", _io->ramprelease->GetAngle());
-		_io->ramprelease->SetAngle(180);
+		_io->ramprelease->SetAngle(0);
 		if (!commands->cmdramprelease) return;
 
 		--_rampOpenTimer;
 		//if(_rampOpenTimer <= 0) { commands->cmdrampopen = true;}
 
-		_io->ramprelease->SetAngle(0);
+		_io->ramprelease->SetAngle(180);
 
 		//Raise left ramp
 

@@ -9,6 +9,8 @@ namespace Vision
 {
 	VisionManager::VisionManager() {
 		cameraShooter = CameraServer::GetInstance()->StartAutomaticCapture();
+		cameraShooter.SetResolution(320, 240);
 		cubeCam = CameraServer::GetInstance()->StartAutomaticCapture();
+		cubeCam.SetResolution(320, 240);
 	}
 }
