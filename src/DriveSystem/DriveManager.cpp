@@ -125,7 +125,7 @@ void DriveManager::CalculateVectors() {
 	_curranglf = _swervelib->whl->angleLF;
 	_currangrb = _swervelib->whl->angleRB;
 	_curranglb = _swervelib->whl->angleLB;
-	if (_commands->drvmag != 0 || _commands->drvang != 0 || _commands->drvrot != 0) {
+	if (_commands->drvmag != 0 || _commands->drvrot != 0) {
 		_swervelib->CalcWheelVect(_commands->drvmag, _commands->drvang, _commands->drvrot);
 	} else {
 		_swervelib->whl->speedLF = 0;
@@ -133,8 +133,14 @@ void DriveManager::CalculateVectors() {
 		_swervelib->whl->speedLB = 0;
 		_swervelib->whl->speedRB = 0;
 
+
+		_swervelib->whl->angleRF = _currangrf;
+		_swervelib->whl->angleLF = _curranglf;
+		_swervelib->whl->angleRB = _currangrb;
+		_swervelib->whl->angleLB = _curranglb;
+
 	}
-	//printf("Swerve Calculated: %.2f\n", _swervelib->whl->angleLF);
+	printf("Swerve mag: %.2f  Swerve Ang %.2f\n", _swervelib->whl->speedLF, _swervelib->whl->angleLF);
 }
 
 void DriveManager::ApplyIntellegintSwerve() {
@@ -206,6 +212,8 @@ void DriveManager::AutoApplyPIDControl() {
 				_rfdrvpid->SetSetpoint(0);
 				_lbdrvpid->SetSetpoint(0);
 				_rbdrvpid->SetSetpoint(0);
+
+
 		}
 }
 void DriveManager::ApplyPIDControl() {

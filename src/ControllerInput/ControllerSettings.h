@@ -11,7 +11,7 @@
 
 //***********DRIVE CONTROLLER CONFIGS****************
 const int drivecontrollernumber = 0;
-const double drivecontrollerdeadband = .15;
+const double drivecontrollerdeadband = .2;
 const double drivecontrollerupperlimit = 100;
 
 
