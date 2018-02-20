@@ -12,15 +12,20 @@ namespace Ramp
 		_rampreleasepos = 5000;
 		_leftraisetimer = 100;
 		_rightraisetimer= 100;
+		_rampOpenTimer = 200;
 	}
 
 	void RampManager::RampManagerInit() {}
 	void RampManager::RampManagerPeriodic(RobotCommands *commands) {
 		SmartDashboard::PutBoolean("Ramp Release", commands->cmdramprelease);
+		SmartDashboard::PutNumber("Servo angle: ", _io->ramprelease->GetAngle());
+		_io->ramprelease->SetAngle(180);
 		if (!commands->cmdramprelease) return;
 
-		//Move shooter to ramp release position
-		_io->shooteranglmot->Set(ControlMode::Position, _rampreleasepos);
+		--_rampOpenTimer;
+		if(_rampOpenTimer <= 0) { commands->cmdrampopen = true;}
+
+		_io->ramprelease->SetAngle(0);
 
 		//Raise left ramp
 		if (commands->cmdrampraiseleft) {

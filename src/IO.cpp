@@ -42,7 +42,7 @@ IO::IO() {
 	swerveresetone = new DigitalInput(10);
 	swerveresettwo = new DigitalInput(11);
 	armhomeswitch = new DigitalInput(12);
-
+	ramprelease = new Servo(0);
 	intakelmot->SetInverted(true);
 	intakermot->SetInverted(true);
 	shooterlmot->SetInverted(true);

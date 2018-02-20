@@ -33,6 +33,7 @@ RobotCommands::RobotCommands() {
 	cmdarmtocarry = false;
 	cmdscalehighshot = false;
 	cmdscalemidshot = false;
+	cmdrampopen = false;
 
 	drvmag = 0;
 	drvang = 0;

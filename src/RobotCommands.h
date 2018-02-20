@@ -36,6 +36,7 @@ public:
 	bool cmdarmtocarry;
 	bool cmdscalehighshot;
 	bool cmdscalemidshot;
+	bool cmdrampopen;
 
 	double drvang;
 	double drvmag;

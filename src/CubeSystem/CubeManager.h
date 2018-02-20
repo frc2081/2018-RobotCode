@@ -32,6 +32,8 @@ public:
 	//Object to hold all inputs used by any cube subsystem
 	CubeManagerInputs *CubeManagerInput;
 	CubeManagerOutputs *CubeManagerOutput;
+
+	bool armHome;
 private:
 	//Function that writes the values from a CubeManagerOutputs object to the actual robot outputs
 	void AssignIO(CubeManagerOutputs *Commands);
@@ -61,27 +63,37 @@ private:
 
 	double shooterStartAngle;
 	double shooterCubePickupAngleOffset = 300;
-	double shooterCubePickupAngle =  300;
+	double shooterCubePickupAngle =  shooterCubePickupAngleOffset;
 	double shooterCubeIntakePower = -.5;
 	double armsCubeIntakePower = -.3;
 
 	double highShotAimAngleOffset = -4874;
-	double highShotAimAngle =  -4874;
+	double highShotAimAngle =  highShotAimAngleOffset;
 	double highShotAimMargin = margin;
 	double highShotShooterPower = .7;
 	double highShotIntakePower = .7;
-	double highShotSpinUpDelay = 50;
-	double highShotShotDuration = 100;
+	double highShotSpinUpDelay = 75;
+	double highShotShotDuration = 50;
+
+	double highShotMidAimAngleOffset = -5900;
+	double highShotMidAimAngle = highShotMidAimAngleOffset ;
+	double highShotMidShooterPower = .6;
+	double highShotMidIntakePower = .6;
+
+	double highShotHighAimAngleOffset = -6200;
+	double highShotHighAimAngle = highShotHighAimAngleOffset;
+	double highShotHighShooterPower = .8;
+	double highShotHighIntakePower = .8;
 
 	double lowShotAimAngleOffset = -3571;
-	double lowShotAimAngle = -3571;
+	double lowShotAimAngle = lowShotAimAngleOffset;
 	double lowShotAimMargin  = margin;
 	double lowShotShooterPower = .3;
 	double lowShotIntakePower = .3;
 	double lowShotShotDuration = 30;
 
 	double exchangeShotAimAngleOffset = -1400;
-	double exchangeShotAimAngle = -1400;
+	double exchangeShotAimAngle = exchangeShotAimAngleOffset;
 	double exchangeShotAimMargin = margin;
 	double exchangeShotIntakePower = .4;
 	double exchangeShotShooterPower = .4;
@@ -98,8 +110,6 @@ private:
 
 	int intakeArmMoveDuration = 20;
 	int intakeArmMoveTimer = 20;
-
-	bool armHome;
 };
 
 #endif /* SRC_CUBESYSTEM_CUBEMANAGER_H_ */

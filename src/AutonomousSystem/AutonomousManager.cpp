@@ -7,7 +7,7 @@
 #include "AutonomousManager.h"
 namespace Autonomous
 {
-	AutonomousManager::AutonomousManager(IO *io, RobotCommands *commands) {
+	AutonomousManager::AutonomousManager(IO *io, RobotCommands *commands, CubeManager *cube) {
 		_io = io;
 		_commands = commands;
 		_gyro = gyroManager::Get();
@@ -17,12 +17,15 @@ namespace Autonomous
 		_waitright = true;
 		_buildcommands = true;
 		_fielddata = "";
+		_polltimer = 100;
+		_cube = cube;
 		SmartDashboard::PutNumber("Auto Mode", 0);
 		SmartDashboard::PutNumber("Auto Station", 0);
 		SmartDashboard::PutNumber("Wait Side", 0);
 	}
 
 	void AutonomousManager::AutoInit() {
+		printf("Starting auto");
 		_gyro->start();
 		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
 		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
@@ -52,7 +55,6 @@ namespace Autonomous
 			_waitleft = false;
 			_waitright = false;
 		}
-
 		//if (_waitselector->getWaitSide()) {
 		//	_waitleft = true;
 		//} else _waitright = true;
@@ -64,15 +66,18 @@ namespace Autonomous
 	}
 
 	void AutonomousManager::AutoPeriodic() {
-		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
-		if (_fielddata != "") {
-			if (_buildcommands) {
-						if (_fielddata.length() >= 2) {
-							_ourswitch = _fielddata.at(0);
-							_scale = _fielddata.at(1);
-						}
-						_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
-						_buildcommands = false;
+		//if (_cube->armHome == false) _io->shooteranglmot->Set(ControlMode::Position, 50000);
+		if(_buildcommands) {
+			_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
+			printf("Checking for data\n");
+			if (_fielddata.length() > 0) {
+					if (_fielddata.length() >= 2) {
+						_ourswitch = _fielddata.at(0);
+						_scale = _fielddata.at(1);
+					}
+					printf("Building commands");
+					_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
+					_buildcommands = false;
 			}
 		}
 		_cominput.LFWhlDrvEnc = _io->encdrvlf->GetDistance() / 100;
@@ -88,6 +93,7 @@ namespace Autonomous
 		_cominput.currentGyroReading = _gyro->getLastValue();
 		printf("Station: %.2f\n", _station);
 		_comoutput = _autocommands->tick(_cominput);
+		printf("Ticked\n");
 
 		_commands->drvang = _comoutput.autoAng;
 		_commands->drvrot = _comoutput.autoRot;

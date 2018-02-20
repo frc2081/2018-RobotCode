@@ -12,12 +12,13 @@
 #include "AutoSelector.h"
 #include <IO.h>
 #include <RobotCommands.h>
+#include "../CubeSystem/CubeManager.h"
 
 namespace Autonomous
 {
 	class AutonomousManager {
 	public:
-		AutonomousManager(IO *io, RobotCommands *commands);
+		AutonomousManager(IO *io, RobotCommands *commands, CubeManager *cube);
 
 		void AutoPeriodic();
 
@@ -30,6 +31,7 @@ namespace Autonomous
 		int _actionselector;
 		int _stationselector;
 		int _waitselector;
+		int _polltimer;
 		/* These are the ones that our team has */
 		char _ourswitch;
 		char _scale;
@@ -43,6 +45,7 @@ namespace Autonomous
 		CommandManager *_autocommands;
 		commandInput _cominput;
 		commandOutput _comoutput;
+		CubeManager *_cube;
 	};
 }
 

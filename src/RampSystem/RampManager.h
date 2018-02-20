@@ -26,6 +26,7 @@ namespace Ramp {
 
 		double _leftraisetimer;
 		double _rightraisetimer;
+		double _rampOpenTimer;
 	};
 }
 

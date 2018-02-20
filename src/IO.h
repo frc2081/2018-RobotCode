@@ -65,6 +65,7 @@ public:
 	DigitalInput *swerveresetone;
 	DigitalInput *swerveresettwo;
 	DigitalInput *armhomeswitch;
+	Servo *ramprelease;
 
 	double armP = .7;
 	double armI = 0;

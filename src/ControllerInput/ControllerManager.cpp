@@ -87,8 +87,8 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		else Commands->cmdintakelowshot = false;
 
 		//Scale Shot Command
-		if(mechanismcontroller->bX->State() == true) Commands->cmdscaleshot = true;
-		else Commands->cmdscaleshot = false;
+		//if(mechanismcontroller->bX->State() == true) Commands->cmdscaleshot = true;
+		//else Commands->cmdscaleshot = false;
 
 		//Switch Shot Command
 		if(mechanismcontroller->bY->State() == true) Commands->cmdswitchshot = true;
@@ -99,23 +99,23 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 		else Commands->cmdexchangeshot = false;
 
 		//Shift Cube Carry Position Command
-		if(mechanismcontroller->bA->RE() == true) Commands->cmdshiftcube = true;
+		if(mechanismcontroller->bA->State() == true) Commands->cmdshiftcube = true;
 		else Commands->cmdshiftcube = false;
 
 		//Automatic Scale Shot Command
 		if(mechanismcontroller->bLB->State() == true && mechanismcontroller->bRB->State() == true) Commands->cmdautoscaleshot = true;
 		else Commands->cmdautoscaleshot = false;
 
-		if(mechanismcontroller->bStart->State() && mechanismcontroller->bBack->State()) Commands->cmdresetrobot = true;
+		if(mechanismcontroller->bRS->State()) Commands->cmdresetrobot = true;
 		else Commands->cmdresetrobot = false;
 
-		if(mechanismcontroller->bStart->State()) Commands->cmdarmtocarry = true;
+		if(mechanismcontroller->bBack->State()) Commands->cmdarmtocarry = true;
 		else Commands->cmdarmtocarry = false;
 
-		if(mechanismcontroller->bBack->State()) Commands->cmdscalehighshot = true;
+		if(mechanismcontroller->bStart->State()) Commands->cmdscalehighshot = true;
 		else Commands->cmdscalehighshot = false;
 
-		if(mechanismcontroller->bBack->State()) Commands->cmdscalemidshot = true;
+		if(mechanismcontroller->bX->State()) Commands->cmdscalemidshot = true;
 		else Commands->cmdscalemidshot = false;
 
 

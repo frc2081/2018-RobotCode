@@ -7,11 +7,11 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
+#include "AutonomousSystem/Gyro/gyroManager.h"
 
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
-
 		RioIO = new IO();
 		DriverControls = new ControllerManager();
 		Commands = new RobotCommands();
@@ -21,7 +21,7 @@ public:
 		Shooter->CubeManagerInit();
 		Driver = new DriveManager(RioIO, Commands, DriverControls);
 		Driver->DriveManagerInit();
-		Auto = new Autonomous::AutonomousManager(RioIO, Commands);
+		Auto = new Autonomous::AutonomousManager(RioIO, Commands, Shooter);
 		Ramps = new Ramp::RampManager(RioIO);
 		Ramps->RampManagerInit();
 		//TODO:Add Ramp control system Init
