@@ -70,10 +70,10 @@ private:
 	double highShotAimAngleOffset = -4874;
 	double highShotAimAngle =  highShotAimAngleOffset;
 	double highShotAimMargin = margin;
-	double highShotShooterPower = .7;
-	double highShotIntakePower = .7;
-	double highShotSpinUpDelay = 75;
-	double highShotShotDuration = 50;
+	double highShotShooterPower = .6;
+	double highShotIntakePower = .6;
+	double highShotSpinUpDelay = 40;
+	double highShotShotDuration = 25;
 
 	double highShotMidAimAngleOffset = -5900;
 	double highShotMidAimAngle = highShotMidAimAngleOffset ;
@@ -95,11 +95,11 @@ private:
 	double exchangeShotAimAngleOffset = -1800;
 	double exchangeShotAimAngle = exchangeShotAimAngleOffset;
 	double exchangeShotAimMargin = margin;
-	double exchangeShotIntakePower = .4;
-	double exchangeShotShooterPower = .4;
+	double exchangeShotIntakePower = .6;
+	double exchangeShotShooterPower = .6;
 	double exchangeShotDuration = 30;
 
-	double intakeArmsClosedOffset = -2300;
+	double intakeArmsClosedOffset = -3500;
 
 	bool intakeArmsFirstCalDone = false;
 
