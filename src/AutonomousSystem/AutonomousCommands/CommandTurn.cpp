@@ -25,8 +25,8 @@ void CommandTurn::init (commandInput input) {
 	if (_finalRot >= 360) _finalRot -= 360;
 	else if (_finalRot < 0) _finalRot += 360;
 
-	if(_toRotate >= 0) _turnDirection = -1;
-	else _turnDirection = 1;
+	if(_toRotate >= 0) _turnDirection = 1;
+	else _turnDirection = -1;
 }
 
 const char* CommandTurn::getCommandName()

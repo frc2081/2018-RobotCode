@@ -9,7 +9,6 @@
 #define SRC_AUTONOMOUSSYSTEM_AUTONOMOUSMANAGER_H_ 1
 #include "AutonomousCommands/CommandManager.h"
 #include "Gyro/gyroManager.h"
-#include "AutoSelector.h"
 #include <IO.h>
 #include <RobotCommands.h>
 #include "../CubeSystem/CubeManager.h"

@@ -13,20 +13,20 @@ CommandDrive::CommandDrive(double toTravel, double direction, bool drivestraight
 	// TODO Auto-generated constructor stub
 	_toTravel = toTravel;
 	_direction = direction;
-	_gyro = gyroManager::Get();
+	//_gyro = gyroManager::Get();
 	_rotcorrection = 0;
 	_drivestraight = drivestraight;
-	_gyrohold = _gyro->getLastValue();
+	//_gyrohold = _gyro->getLastValue();
 	_currang = 0;
 }
 
 commandOutput CommandDrive::tick(commandInput input) {
 	printf("DRIVING\n");
 	if (_drivestraight) {
-		if (_gyro->getLastValue()  > 180) {
-			_currang - (_gyro->getLastValue() - 360) / 360;
-			printf("Correcting by %f\n", _rotcorrection);
-		} else _currang = _gyro->getLastValue() / 360;
+		//if (_gyro->getLastValue()  > 180) {
+		//	_currang - (_gyro->getLastValue() - 360) / 360;
+		//	printf("Correcting by %f\n", _rotcorrection);
+		//} else _currang = _gyro->getLastValue() / 360;
 		_rotcorrection = -_currang * 4;
 	} else _rotcorrection = 0;
 	if (checkDistance(input) >= _toTravel) {
@@ -34,7 +34,7 @@ commandOutput CommandDrive::tick(commandInput input) {
 		printf("DRIVE COMPLETE\n");
 		return doNothing();
 	}
-	return commandOutput(1, _direction, _rotcorrection);
+	return commandOutput(0.5, _direction, _rotcorrection);
 }
 
 void CommandDrive::init(commandInput input) {

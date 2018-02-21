@@ -256,7 +256,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 				break;
 
 			case STATE::ArmToCarry:
-				CubeManagerOutput->shooteranglecmd = lowShotAimAngle;
+				CubeManagerOutput->shooteranglecmd = exchangeShotAimAngle;
 				state = STATE::Idle;
 				break;
 

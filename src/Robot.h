@@ -17,6 +17,7 @@
 #include "VisionSystem/VisionManager.h"
 #include "RobotCommands.h"
 #include "CubeSystem/TalonConfiguration.h"
+#include "AutonomousSystem/Gyro/gyroManager.h"
 
 IO *RioIO;
 ControllerManager *DriverControls;

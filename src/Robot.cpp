@@ -7,11 +7,12 @@
 #include <iostream>
 #include <IterativeRobot.h>
 #include "Robot.h"
-#include "AutonomousSystem/Gyro/gyroManager.h"
+
 
 class Robot : public frc::IterativeRobot {
 public:
 	void RobotInit() {
+
 		RioIO = new IO();
 		DriverControls = new ControllerManager();
 		Commands = new RobotCommands();
@@ -28,7 +29,6 @@ public:
 		//TODO:Add Ramp control system Init
 		//TODO:Add Drive System Init
 		//TODO:Add Vision System Init, if needed
-		printf("testPrint\n");
 
 	}
 
@@ -63,15 +63,14 @@ public:
 	void TestPeriodic() {}
 
 	void DisabledPeriodic() {
-		//printf("Swerve reset one: %i\n", RioIO->swerveresetone->Get());
-		//printf("Swerve reset two: %i\n", RioIO->swerveresettwo->Get());
 		if (!RioIO->swerveresetone->Get() && !RioIO->swerveresettwo->Get()) {
 			printf("RESET\n");
 			Driver->ZeroEncoders();
 		}
 	}
 
-	void DisabledInit() {}
+	void DisabledInit() {
+	}
 
 	void TestInit() {}
 

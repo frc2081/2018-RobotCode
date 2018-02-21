@@ -51,6 +51,8 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 
 	//Manipulator Controls
 	if(mechanismcontroller->bLS->Held() == true){
+
+		manualModeDeactivationTimer = manualModeDeactivationDelay;
 		//Manual Mode
 		Commands->cmdisinmechmanual = true;
 		//Raise Shooter Angle Command
@@ -77,48 +79,54 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	}
 
 	else{
-		Commands->cmdisinmechmanual = false;
-		//High Shot Intake Command
-		if(mechanismcontroller->bRB->State()) Commands->cmdintakehighshot = true;
-		else Commands->cmdintakehighshot = false;
+		--manualModeDeactivationTimer;
 
-		//Low Shot Intake Command
-		if(mechanismcontroller->bLB->State()) Commands->cmdintakelowshot = true;
-		else Commands->cmdintakelowshot = false;
+		if(manualModeDeactivationTimer <= 0)
+		{
+			Commands->cmdisinmechmanual = false;
+			//High Shot Intake Command
+			if(mechanismcontroller->bRB->State()) Commands->cmdintakehighshot = true;
+			else Commands->cmdintakehighshot = false;
 
-		//Scale Shot Command
-		//if(mechanismcontroller->bX->State() == true) Commands->cmdscaleshot = true;
-		//else Commands->cmdscaleshot = false;
+			//Low Shot Intake Command
+			if(mechanismcontroller->bLB->State()) Commands->cmdintakelowshot = true;
+			else Commands->cmdintakelowshot = false;
 
-		//Switch Shot Command
-		if(mechanismcontroller->bY->State() == true) Commands->cmdswitchshot = true;
-		else Commands->cmdswitchshot = false;
+			//Scale Shot Command
+			//if(mechanismcontroller->bX->State() == true) Commands->cmdscaleshot = true;
+			//else Commands->cmdscaleshot = false;
 
-		//Exchange Shot Command
-		if(mechanismcontroller->bB->State() == true) Commands->cmdexchangeshot = true;
-		else Commands->cmdexchangeshot = false;
+			//Switch Shot Command
+			if(mechanismcontroller->bY->State() == true) Commands->cmdswitchshot = true;
+			else Commands->cmdswitchshot = false;
 
-		//Shift Cube Carry Position Command
-		if(mechanismcontroller->bA->State() == true) Commands->cmdshiftcube = true;
-		else Commands->cmdshiftcube = false;
+			//Exchange Shot Command
+			if(mechanismcontroller->bB->State() == true) Commands->cmdexchangeshot = true;
+			else Commands->cmdexchangeshot = false;
 
-		//Automatic Scale Shot Command
-		if(mechanismcontroller->bLB->State() == true && mechanismcontroller->bRB->State() == true) Commands->cmdautoscaleshot = true;
-		else Commands->cmdautoscaleshot = false;
+			//Shift Cube Carry Position Command
+			if(mechanismcontroller->bA->State() == true) Commands->cmdshiftcube = true;
+			else Commands->cmdshiftcube = false;
 
-		if(mechanismcontroller->bRS->State()) Commands->cmdresetrobot = true;
-		else Commands->cmdresetrobot = false;
+			//Automatic Scale Shot Command
+			if(mechanismcontroller->bLB->State() == true && mechanismcontroller->bRB->State() == true) Commands->cmdautoscaleshot = true;
+			else Commands->cmdautoscaleshot = false;
 
-		if(mechanismcontroller->bBack->State()) Commands->cmdarmtocarry = true;
-		else Commands->cmdarmtocarry = false;
+			if(mechanismcontroller->bRS->State()) Commands->cmdresetrobot = true;
+			else Commands->cmdresetrobot = false;
 
-		if(mechanismcontroller->bStart->State()) Commands->cmdscalehighshot = true;
-		else Commands->cmdscalehighshot = false;
+			if(mechanismcontroller->bBack->State()) Commands->cmdarmtocarry = true;
+			else Commands->cmdarmtocarry = false;
 
-		if(mechanismcontroller->bX->State()) Commands->cmdscalemidshot = true;
-		else Commands->cmdscalemidshot = false;
+			if(mechanismcontroller->bStart->State()) Commands->cmdscalehighshot = true;
+			else Commands->cmdscalehighshot = false;
 
-
+			if(mechanismcontroller->bX->State()) Commands->cmdscalemidshot = true;
+			else Commands->cmdscalemidshot = false;
+		} else {
+			Commands->cmdmanualshooteranglelower = false;
+			Commands->cmdmanualshooterangleraise = false;
+		}
 	}
 }
 

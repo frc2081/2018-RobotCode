@@ -92,14 +92,14 @@ private:
 	double lowShotIntakePower = .3;
 	double lowShotShotDuration = 30;
 
-	double exchangeShotAimAngleOffset = -1400;
+	double exchangeShotAimAngleOffset = -1800;
 	double exchangeShotAimAngle = exchangeShotAimAngleOffset;
 	double exchangeShotAimMargin = margin;
 	double exchangeShotIntakePower = .4;
 	double exchangeShotShooterPower = .4;
 	double exchangeShotDuration = 30;
 
-	double intakeArmsClosedOffset = -2000;
+	double intakeArmsClosedOffset = -2300;
 
 	bool intakeArmsFirstCalDone = false;
 

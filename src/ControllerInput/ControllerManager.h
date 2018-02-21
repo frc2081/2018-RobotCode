@@ -19,6 +19,8 @@ public:
 	ControllerManager();
 
 	void pollControllers(RobotCommands *Commands);
+	int manualModeDeactivationDelay = 20;
+	int manualModeDeactivationTimer = 0;
 
 private:
 	cntl *drivecontroller;

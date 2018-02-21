@@ -140,7 +140,7 @@ void DriveManager::CalculateVectors() {
 		_swervelib->whl->angleLB = _curranglb;
 
 	}
-	printf("Swerve mag: %.2f  Swerve Ang %.2f\n", _swervelib->whl->speedLF, _swervelib->whl->angleLF);
+	//printf("Swerve mag: %.2f  Swerve Ang %.2f\n", _swervelib->whl->speedLF, _swervelib->whl->angleLF);
 }
 
 void DriveManager::ApplyIntellegintSwerve() {

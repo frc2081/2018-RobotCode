@@ -10,7 +10,6 @@ namespace Autonomous
 	AutonomousManager::AutonomousManager(IO *io, RobotCommands *commands, CubeManager *cube) {
 		_io = io;
 		_commands = commands;
-		_gyro = gyroManager::Get();
 		_actionselector = 0;
 		_stationselector = 0;
 		_waitleft = false;
@@ -19,6 +18,7 @@ namespace Autonomous
 		_fielddata = "";
 		_polltimer = 100;
 		_cube = cube;
+		_gyro = gyroManager::Get();
 		//_action = NONE;
 		//_ourswitch = '';
 		//_scale = '';
@@ -30,8 +30,9 @@ namespace Autonomous
 	}
 
 	void AutonomousManager::AutoInit() {
-		printf("Starting auto");
+		printf("Starting auto\n");
 		_gyro->start();
+
 		_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
 		if (DriverStation::GetInstance().GetAlliance() == DriverStation::kRed) _team = RED;
 		else if (DriverStation::GetInstance().GetAlliance() == DriverStation::kBlue) _team = BLUE;
@@ -80,7 +81,7 @@ namespace Autonomous
 						_ourswitch = _fielddata.at(0);
 						_scale = _fielddata.at(1);
 					}
-					printf("Building commands");
+					printf("Building commands\n");
 					_autocommands = new CommandManager(_team, _station, _action, _ourswitch, _scale, _waitleft, _waitright);
 					_buildcommands = false;
 			}
@@ -96,7 +97,7 @@ namespace Autonomous
 		_cominput.RBWhlTurnEnc = _io->steerencdrvrb->Get();
 
 		_cominput.currentGyroReading = _gyro->getLastValue();
-		printf("Station: %.2f\n", _station);
+		printf("Gyro value %.2f", _gyro->getLastValue());
 		_comoutput = _autocommands->tick(_cominput);
 		printf("Ticked\n");
 
