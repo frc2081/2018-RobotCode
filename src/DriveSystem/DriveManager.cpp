@@ -16,7 +16,8 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_drvpidp = 0.00001;
 	_drvpidf = 0.0;
 	_turnpidi = 0;
-	_turnpidp = -.04;
+	//_turnpidp = -.04;
+	_turnpidp = 0.04;
 	_turnpidd = 0;
 	_pidpollrate = 0.01;
 	_currangrf = 0;
@@ -93,6 +94,7 @@ void DriveManager::DriveManagerPeriodic() {
 }
 
 void DriveManager::DriveManagerAutoPeriodic() {
+	printf("Entering DriveManagerAutoPeriodic\n\n");
 	CalculateVectors();
 	ApplyIntellegintSwerve();
 	AutoApplyPIDControl();
@@ -167,7 +169,6 @@ void DriveManager::ApplyIntellegintSwerve() {
 }
 
 void DriveManager::AutoApplyPIDControl() {
-
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
@@ -198,16 +199,18 @@ void DriveManager::AutoApplyPIDControl() {
 
 
 	//Code to ensure the swerve drive orients it's wheels correctly before attempting to move
-		if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 5) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 5)
-			&& (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 5) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint()  + 5)
-			&& (_io->steerencdrvlb->Get() >= _lbturnpid->GetSetpoint() - 5) && (_io->steerencdrvlb->Get() <= _lbturnpid->GetSetpoint()  + 5)
-			&& (_io->steerencdrvrf->Get() >= _rfturnpid->GetSetpoint() - 5) && (_io->steerencdrvrf->Get() <= _rfturnpid->GetSetpoint()  + 5)) {
+		if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 10) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 10)
+			&& (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 10) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint()  + 10)
+			&& (_io->steerencdrvlb->Get() >= _lbturnpid->GetSetpoint() - 10) && (_io->steerencdrvlb->Get() <= _lbturnpid->GetSetpoint()  + 10)
+			&& (_io->steerencdrvrf->Get() >= _rfturnpid->GetSetpoint() - 10) && (_io->steerencdrvrf->Get() <= _rfturnpid->GetSetpoint()  + 10)) {
 
 				_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
 				_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
 				_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
 				_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+				printf("LF Setpoint: %.2f  RF Setpoint: %.2f  LB Setpoint: %.2f  RB Setpoint: %.2f\n", _lfdrvpid->GetSetpoint(), _rfdrvpid->GetSetpoint(), _lbdrvpid->GetSetpoint(), _rbdrvpid->GetSetpoint());
 			} else {
+				printf("Setpoint 0\n");
 				_lfdrvpid->SetSetpoint(0);
 				_rfdrvpid->SetSetpoint(0);
 				_lbdrvpid->SetSetpoint(0);

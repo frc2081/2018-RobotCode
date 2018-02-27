@@ -72,6 +72,7 @@ namespace Autonomous
 	}
 
 	void AutonomousManager::AutoPeriodic() {
+		printf("Entering Autoperiodic\n\n");
 		//if (_cube->armHome == false) _io->shooteranglmot->Set(ControlMode::Position, 50000);
 		if(_buildcommands) {
 			_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
@@ -97,10 +98,12 @@ namespace Autonomous
 		_cominput.RBWhlTurnEnc = _io->steerencdrvrb->Get();
 
 		_cominput.currentGyroReading = _gyro->getLastValue();
-		printf("Gyro value %.2f", _gyro->getLastValue());
+		//printf("Gyro value %.2f", _gyro->getLastValue());
 		_comoutput = _autocommands->tick(_cominput);
-		printf("Ticked\n");
+		//printf("Ticked\n");
 
+		//printf("Magnitude: %.2f  Angle: %.2f  Rotation: %.2\n", _commands->drvmag, _commands->drvang, _commands->drvrot);
+		//printf("LFDrive: %.2f  RFDrive: %.2f  LBDrive: %.2f, RBDrive: %.2f\n", _io->drvlfmot->Get(), _io->drvrfmot->Get(), _io->drvlbmot->Get(), _io->drvrbmot->Get());
 		_commands->drvang = _comoutput.autoAng;
 		_commands->drvrot = _comoutput.autoRot;
 		_commands->drvmag = _comoutput.autoSpeed;

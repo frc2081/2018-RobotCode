@@ -37,9 +37,12 @@ public:
 	}
 
 	void AutonomousPeriodic() {
+		printf("Calling AutoPeriodic\n");
 		Auto->AutoPeriodic();
+		printf("Calling DriveMangerAutoPeriodic\n");
 		Driver->DriveManagerAutoPeriodic();
 		Shooter->CubeManagerPeriodic(Commands);
+		printf("\n");
 	}
 
 	void TeleopInit() {

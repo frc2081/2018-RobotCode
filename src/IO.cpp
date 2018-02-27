@@ -8,20 +8,20 @@
 #include "IO.h"
 
 IO::IO() {
-	drvlbmot = new WPI_VictorSPX(15);
-	drvrbmot  = new WPI_VictorSPX(0);
-	drvlfmot  = new WPI_VictorSPX(14);
-	drvrfmot  = new WPI_VictorSPX(1);
+	drvlbmot = new VictorSP(4);//WPI_VictorSPX(15);
+	drvrbmot  = new VictorSP(7);//WPI_VictorSPX(0);
+	drvlfmot  = new VictorSP(9);//WPI_VictorSPX(14);
+	drvrfmot  = new VictorSP(13);//WPI_VictorSPX(1);
 	intakelmot = new WPI_VictorSPX(12);
 	intakermot = new VictorSP(9);
 	shooterlmot = new WPI_VictorSPX(13);
 	shooterrmot = new WPI_VictorSPX(2);
 	shooteranglmot = new TalonSRX(8);
 	//shooterangrmot = new TalonSRX(7);
-	turnlbmot = new WPI_VictorSPX(10);
-	turnrbmot = new WPI_VictorSPX(5);
-	turnlfmot = new WPI_VictorSPX(9);
-	turnrfmot = new WPI_VictorSPX(6);
+	turnlbmot = new VictorSP(3);//WPI_VictorSPX(10);
+	turnrbmot = new VictorSP(6);//WPI_VictorSPX(5);
+	turnlfmot = new VictorSP(8);//WPI_VictorSPX(9);
+	turnrfmot = new VictorSP(12);//WPI_VictorSPX(6);
 	ramprmot = new WPI_VictorSPX(4);
 	ramplmot = new WPI_VictorSPX(11);
 	compressor = new Compressor();
@@ -29,14 +29,14 @@ IO::IO() {
 	solenoidpokerclose = new Solenoid(1);
 	shooterarmarticulationopen = new Solenoid(2);
 	shooterarmarticulationclose = new Solenoid(3);
-	encdrvlb = new Encoder(0, 1, false, Encoder::EncodingType::k4X);
-	encdrvlf = new Encoder(2, 3, false, Encoder::EncodingType::k4X);
-	encdrvrb = new Encoder(4, 5, false, Encoder::EncodingType::k4X);
-	encdrvrf= new Encoder(6, 7, false, Encoder::EncodingType::k4X);
-	steerencdrvlb = new AnalogPotentiometer(0,360,0);
-	steerencdrvlf = new AnalogPotentiometer(1,360,0);
-	steerencdrvrb = new AnalogPotentiometer(2,360,0);
-	steerencdrvrf = new AnalogPotentiometer(3,360,0);
+	encdrvlb = new Encoder(6, 7);//Encoder(0, 1, false, Encoder::EncodingType::k4X);
+	encdrvlf = new Encoder(4, 5);//Encoder(2, 3, false, Encoder::EncodingType::k4X);
+	encdrvrb = new Encoder(8, 9);//Encoder(4, 5, false, Encoder::EncodingType::k4X);
+	encdrvrf= new Encoder(2, 3);//Encoder(6, 7, false, Encoder::EncodingType::k4X);
+	steerencdrvlb = new AnalogPotentiometer(1,360,0);//AnalogPotentiometer(0,360,0);
+	steerencdrvlf = new AnalogPotentiometer(0,360,0);//AnalogPotentiometer(1,360,0);
+	steerencdrvrb = new AnalogPotentiometer(3,360,0);//AnalogPotentiometer(2,360,0);
+	steerencdrvrf = new AnalogPotentiometer(2,360,0);//AnalogPotentiometer(3,360,0);
 	intakecubesensor = new DigitalInput(8);
 	cubechambersensor = new DigitalInput(9);
 	swerveresetone = new DigitalInput(10);
@@ -52,15 +52,15 @@ IO::IO() {
 	encdrvlf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 	encdrvrf->SetDistancePerPulse(swerveencodercountstodistancecentimeters);
 
-	turnlbmot->ConfigOpenloopRamp(0, 10);
-	turnrbmot->ConfigOpenloopRamp(0, 10);
-	turnlfmot->ConfigOpenloopRamp(0, 10);
-	turnrfmot->ConfigOpenloopRamp(0, 10);
+	//turnlbmot->ConfigOpenloopRamp(0, 10);
+	//turnrbmot->ConfigOpenloopRamp(0, 10);
+	//turnlfmot->ConfigOpenloopRamp(0, 10);
+	//turnrfmot->ConfigOpenloopRamp(0, 10);
 
-	drvlbmot->ConfigOpenloopRamp(.1, 10);
-	drvrbmot->ConfigOpenloopRamp(.1, 10);
-	drvlfmot->ConfigOpenloopRamp(.1, 10);
-	drvrfmot->ConfigOpenloopRamp(.1, 10);
+	//drvlbmot->ConfigOpenloopRamp(.1, 10);
+	//drvrbmot->ConfigOpenloopRamp(.1, 10);
+	//drvlfmot->ConfigOpenloopRamp(.1, 10);
+	//drvrfmot->ConfigOpenloopRamp(.1, 10);
 	//TODO: Add shooter angle conversion from talon angle to real angle
 	//TODO: Add code for determining initial angular position of shooter
 
