@@ -168,23 +168,25 @@ void DriveManager::ApplyIntellegintSwerve() {
 	}
 }
 
+void CheckSetpoint(PIDController *pid, double setpoint, double encoder, double speed) {
+	/*
+	 * if encoder value within 10 degrees of setpoint &&
+	 * if setpoint near 0 -> detect values near 360
+	 * set speed setpoint to speed
+	 * else speed setpoint to 0
+	 */
+	if  (encoder < setpoint + 10 && encoder > setpoint - 10) {
+		pid->SetSetpoint(speed);
+	} else if ((360 - encoder) < setpoint + 10 && (360 - encoder) > setpoint + 10) {
+		pid->SetSetpoint(speed);
+	} else pid->SetSetpoint(0);
+}
+
 void DriveManager::AutoApplyPIDControl() {
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));
 	_rfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRF, _rfwhlangoffset));
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
-	if (_lfturnpid->GetSetpoint() >= 359) {
-		_lfturnpid->SetSetpoint(0);
-	}
-	if (_rfturnpid->GetSetpoint() >= 359) {
-			_rfturnpid->SetSetpoint(0);
-		}
-	if (_lbturnpid->GetSetpoint() >= 359) {
-			_lbturnpid->SetSetpoint(0);
-		}
-	if (_rbturnpid->GetSetpoint() >= 359) {
-			_rbturnpid->SetSetpoint(0);
-		}
 	/*
 	 * 138 pulses/rotation of wheel
 	 * 20 pulses/rotation of cim
@@ -199,7 +201,14 @@ void DriveManager::AutoApplyPIDControl() {
 
 
 	//Code to ensure the swerve drive orients it's wheels correctly before attempting to move
-		if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 10) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 10)
+	system("clear");
+	printf("LF Setpoint: %.2f  RF Setpoint: %.2f  LB Setpoint: %.2f  RB Setpoint: %.2f\n", _lfdrvpid->GetSetpoint(), _rfdrvpid->GetSetpoint(), _lbdrvpid->GetSetpoint(), _rbdrvpid->GetSetpoint());
+	printf("LF Encoder: %.2f  RF Encoder: %.2f  LB Encoder: %.2f  RB Encoder: %.2f\n", _io->steerencdrvlf->Get(), _io->steerencdrvrf->Get(), _io->steerencdrvlb->Get(), _io->steerencdrvrb->Get());
+	CheckSetpoint(_lfdrvpid, _lfturnpid->GetSetpoint(), _io->steerencdrvlf->Get(), _swervelib->whl->speedLF);
+	CheckSetpoint(_rfdrvpid, _rfturnpid->GetSetpoint(), _io->steerencdrvrf->Get(), _swervelib->whl->speedRF);
+	CheckSetpoint(_lbdrvpid, _lbturnpid->GetSetpoint(), _io->steerencdrvlb->Get(), _swervelib->whl->speedLB);
+	CheckSetpoint(_rbdrvpid, _rbturnpid->GetSetpoint(), _io->steerencdrvrb->Get(), _swervelib->whl->speedRB);
+	/*	if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 10) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 10)
 			&& (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 10) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint()  + 10)
 			&& (_io->steerencdrvlb->Get() >= _lbturnpid->GetSetpoint() - 10) && (_io->steerencdrvlb->Get() <= _lbturnpid->GetSetpoint()  + 10)
 			&& (_io->steerencdrvrf->Get() >= _rfturnpid->GetSetpoint() - 10) && (_io->steerencdrvrf->Get() <= _rfturnpid->GetSetpoint()  + 10)) {
@@ -208,7 +217,6 @@ void DriveManager::AutoApplyPIDControl() {
 				_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
 				_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
 				_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
-				printf("LF Setpoint: %.2f  RF Setpoint: %.2f  LB Setpoint: %.2f  RB Setpoint: %.2f\n", _lfdrvpid->GetSetpoint(), _rfdrvpid->GetSetpoint(), _lbdrvpid->GetSetpoint(), _rbdrvpid->GetSetpoint());
 			} else {
 				printf("Setpoint 0\n");
 				_lfdrvpid->SetSetpoint(0);
@@ -217,8 +225,9 @@ void DriveManager::AutoApplyPIDControl() {
 				_rbdrvpid->SetSetpoint(0);
 
 
-		}
+		}*/
 }
+
 void DriveManager::ApplyPIDControl() {
 
 	_lfturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLF, _lfwhlangoffset));

@@ -111,9 +111,8 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 			queue->push(new CommandDrive(0.3, 0, false));
 		} else if (station == THREE) {
 			queue->push(new CommandDrive(5.5, 0, false));
-			queue->push(new CommandTurn(-90));
-			queue->push(new CommandDrive(4, 0, false));
-			queue->push(new CommandTurn(-90));
+			queue->push(new CommandDrive(4, 90, false));
+			queue->push(new CommandTurn(180));
 			queue->push(new CommandDrive(0.254, 0, false));
 		}
 	} else if (_ourswitch == 'R') {
@@ -123,9 +122,8 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 			queue->push(new CommandDrive(1, 0, false));
 		} else if (station == ONE) {
 			queue->push(new CommandDrive(5.5, 0, false));
-			queue->push(new CommandTurn(90));
-			queue->push(new CommandDrive(4, 0, false));
-			queue->push(new CommandTurn(90));
+			queue->push(new CommandDrive(4, 270, false));
+			queue->push(new CommandTurn(180));
 			queue->push(new CommandDrive(0.254, 0, false));
 		} else if (station == THREE) {
 			queue->push(new CommandDrive(3.5, 0, false));
