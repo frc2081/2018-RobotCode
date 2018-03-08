@@ -330,3 +330,17 @@ bool CubeManager::CheckArmHome()
 
  return armHome;
 }
+
+bool CubeManager::SetArmHome()
+{
+	RioIO->shooteranglmot->Set(ControlMode::Position, 50000);
+	if(RioIO->shooteranglmot->GetOutputCurrent() > 25 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
+	{
+		shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
+		armHome = true;
+		CubeManagerOutput->shooteranglecmd = shooterStartAngle;
+		intakeArmsFirstCalDone = true;
+	} else { armHome = false; }
+
+ return armHome;
+}

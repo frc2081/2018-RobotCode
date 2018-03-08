@@ -22,7 +22,6 @@ namespace Autonomous
 		void AutoPeriodic();
 
 		void AutoInit();
-
 	private:
 		robotTeam _team;
 		robotStation _station;

@@ -16,8 +16,7 @@ DriveManager::DriveManager(IO *io, RobotCommands *com, ControllerManager *cntls)
 	_drvpidp = 0.00001;
 	_drvpidf = 0.0;
 	_turnpidi = 0;
-	//_turnpidp = -.04;
-	_turnpidp = 0.04;
+	_turnpidp = -.04;
 	_turnpidd = 0;
 	_pidpollrate = 0.01;
 	_currangrf = 0;

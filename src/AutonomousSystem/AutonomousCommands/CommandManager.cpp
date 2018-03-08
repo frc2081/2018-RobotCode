@@ -47,11 +47,9 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 			queue->push(new CommandTurn(90));
 			queue->push(new CommandDrive(1, 180, false));
 		} else if (station == THREE) {
-			queue->push(new CommandDrive(5.5, 0, false));
-			queue->push(new CommandTurn(-90));
-			queue->push(new CommandDrive(6, 0, false));
-			queue->push(new CommandTurn(90));
-			queue->push(new CommandDrive(2.5, 0, false));
+			queue->push(new CommandDrive(4.5, 0, false));
+			queue->push(new CommandDrive(5.5, 90, false));
+			queue->push(new CommandDrive(2, 0, false));
 			queue->push(new CommandTurn(-90));
 		} else if(station == TWO) {
 			if (_waitleft) {
@@ -74,9 +72,9 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 			queue->push(new CommandTurn(-90));
 			queue->push(new CommandDrive(1, 180, false));
 		} else if (station == ONE) {
-			queue->push(new CommandDrive(5.5, 0, false));
+			queue->push(new CommandDrive(4.5, 0, false));
 			queue->push(new CommandDrive(6, 270, false));
-			queue->push(new CommandDrive(2.5, 0, false));
+			queue->push(new CommandDrive(2, 0, false));
 			queue->push(new CommandTurn(90));
 		} else if (station == TWO) {
 			if (_waitright) {
@@ -110,7 +108,7 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 			queue->push(new CommandTurn(90));
 			queue->push(new CommandDrive(0.3, 0, false));
 		} else if (station == THREE) {
-			queue->push(new CommandDrive(5.5, 0, false));
+			queue->push(new CommandDrive(5.2, 0, false));
 			queue->push(new CommandDrive(4, 90, false));
 			queue->push(new CommandTurn(180));
 			queue->push(new CommandDrive(0.254, 0, false));
@@ -121,7 +119,7 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 			queue->push(new CommandDrive(2.3, 315, false));
 			queue->push(new CommandDrive(1, 0, false));
 		} else if (station == ONE) {
-			queue->push(new CommandDrive(5.5, 0, false));
+			queue->push(new CommandDrive(5.2, 0, false));
 			queue->push(new CommandDrive(4, 270, false));
 			queue->push(new CommandTurn(180));
 			queue->push(new CommandDrive(0.254, 0, false));

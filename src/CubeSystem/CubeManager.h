@@ -33,6 +33,8 @@ public:
 	CubeManagerInputs *CubeManagerInput;
 	CubeManagerOutputs *CubeManagerOutput;
 
+	bool SetArmHome();
+
 	bool armHome;
 private:
 	//Function that writes the values from a CubeManagerOutputs object to the actual robot outputs
