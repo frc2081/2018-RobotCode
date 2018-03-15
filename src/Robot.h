@@ -29,4 +29,6 @@ Autonomous::AutonomousManager *Auto;
 Ramp::RampManager *Ramps;
 VisionManager *Vision;
 
+bool autoArmHome;
+
 #endif /* SRC_ROBOT_H_ */

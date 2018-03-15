@@ -8,12 +8,13 @@
 #include "CommandShoot.h"
 #include <iostream>
 
-CommandShoot::CommandShoot(double fireTimeSec, bool scaleshot, bool switchshot) {
+CommandShoot::CommandShoot(double fireTimeSec, bool scaleshot, bool switchshot, bool armtocarry) {
 	// TODO Auto-generated constructor stub
 
 	_toWaitSec = fireTimeSec + 2;
 	_scale = scaleshot;
 	_switch = switchshot;
+	_armtocarry = armtocarry;
 }
 
 void CommandShoot::init(commandInput input) {
@@ -39,9 +40,10 @@ commandOutput CommandShoot::tick(commandInput input) {
 		return doNothing();
 	}
 
-	if (_scale) return commandOutput(true, false);
-	else if (_switch) return commandOutput(false, true);
-	else return commandOutput(false, false);
+	if (_scale) return commandOutput(true, false, false);
+	else if (_switch) return commandOutput(false, true, false);
+	else if (_armtocarry) return commandOutput(false, false, true);
+	else return commandOutput(false, false, false);
 }
 
 CommandShoot::~CommandShoot() {

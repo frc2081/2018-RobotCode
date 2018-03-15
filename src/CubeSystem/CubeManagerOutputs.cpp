@@ -10,7 +10,7 @@
 CubeManagerOutputs::CubeManagerOutputs() {
 
 	shooterArmPos = ShooterArmPosition::CLOSED;
-	pokerpos = PokerPosition::RETRACTED;
+	pokerpos = PokerPosition::EXTENDED;
 
 	intakepowercmd = 0;
 	shooterpowercmd = 0;

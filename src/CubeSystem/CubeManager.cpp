@@ -89,8 +89,8 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 			else CubeManagerOutput->pokerpos = CubeManagerOutputs::PokerPosition::EXTENDED;
 		}
 
-		if(Commands->cmdmanualshooterangleraise > 0.5) { CubeManagerOutput->shooteranglecmd += 50; }
-		else if ( Commands->cmdmanualshooteranglelower > 0.5) { CubeManagerOutput->shooteranglecmd -= 50; }
+		if(Commands->cmdmanualshooterangleraise > 0.5) { CubeManagerOutput->shooteranglecmd += 75; }
+		else if ( Commands->cmdmanualshooteranglelower > 0.5) { CubeManagerOutput->shooteranglecmd -= 75; }
 
 	} else {
 		switch(state)
@@ -166,9 +166,15 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 					CubeManagerOutput->intakepowercmd = highShotShooterPower;
 					CubeManagerOutput->shooterpowercmd = highShotIntakePower;
 				} else if(Commands->cmdscalehighshot) {
-					CubeManagerOutput->shooteranglecmd = highShotHighAimAngle;
-					CubeManagerOutput->intakepowercmd = highShotHighShooterPower;
-					CubeManagerOutput->shooterpowercmd = highShotHighIntakePower;
+					if (CubeManagerOutput->pokerpos == CubeManagerOutput->PokerPosition::EXTENDED) {
+						CubeManagerOutput->shooteranglecmd = highShotHighAimAngle;
+						CubeManagerOutput->intakepowercmd = highShotHighShooterPower;
+						CubeManagerOutput->shooterpowercmd = highShotHighIntakePower;
+					} else {
+						CubeManagerOutput->shooteranglecmd = highShotHighAimAngle;
+						CubeManagerOutput->intakepowercmd = highShotHighShooterPower - .1;
+						CubeManagerOutput->shooterpowercmd = highShotHighIntakePower - .1;
+					}
 				} else if(Commands->cmdscalemidshot) {
 					CubeManagerOutput->shooteranglecmd = highShotMidAimAngle;
 					CubeManagerOutput->intakepowercmd = highShotMidShooterPower;
@@ -299,12 +305,20 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 	RioIO->solenoidpokeropen->Set(static_cast<bool>(Commands->pokerpos));
 	RioIO->solenoidpokerclose->Set(!static_cast<bool>(Commands->pokerpos));
+	printf("Arm Position: %.2f\n", static_cast<double>(Commands->shooterArmPos));
 	RioIO->shooterarmarticulationopen->Set(static_cast<bool>(Commands->shooterArmPos));
 	RioIO->shooterarmarticulationclose->Set(!static_cast<bool>(Commands->shooterArmPos));
 	RioIO->intakelmot->Set(Commands->intakepowercmd);
 	RioIO->intakermot->Set(Commands->intakepowercmd);
 	RioIO->shooterlmot->Set(Commands->shooterpowercmd);
 	RioIO->shooterrmot->Set(Commands->shooterpowercmd);
+
+	if(firstRunArmOpen == false)
+	{
+		firstRunArmOpen = true;
+		RioIO->shooterarmarticulationopen->Set(false);
+		RioIO->shooterarmarticulationclose->Set(true);
+	}
 
 
 
@@ -320,6 +334,7 @@ void CubeManager::AssignIO(CubeManagerOutputs *Commands) {
 
 bool CubeManager::CheckArmHome()
 {
+	printf("Current: %.2f\n", RioIO->shooteranglmot->GetOutputCurrent());
 	if(RioIO->shooteranglmot->GetOutputCurrent() > 25 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
 	{
 		shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
@@ -333,13 +348,16 @@ bool CubeManager::CheckArmHome()
 
 bool CubeManager::SetArmHome()
 {
-	RioIO->shooteranglmot->Set(ControlMode::Position, 50000);
-	if(RioIO->shooteranglmot->GetOutputCurrent() > 25 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
+	if(RioIO->shooteranglmot->GetOutputCurrent() > 10 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
 	{
 		shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
 		armHome = true;
 		CubeManagerOutput->shooteranglecmd = shooterStartAngle;
 		intakeArmsFirstCalDone = true;
+
+		printf("**********************************************ARM HOME SUCCESSFUL************************************************************\n\n");
+		printf("**********************************************ARM HOME SUCCESSFUL************************************************************\n\n");
+		printf("**********************************************ARM HOME SUCCESSFUL************************************************************\n\n");
 	} else { armHome = false; }
 
  return armHome;

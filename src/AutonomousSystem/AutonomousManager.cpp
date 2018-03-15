@@ -74,7 +74,7 @@ namespace Autonomous
 	void AutonomousManager::AutoPeriodic() {
 		printf("Entering Autoperiodic\n\n");
 		//if (_cube->armHome == false) _io->shooteranglmot->Set(ControlMode::Position, 50000);
-		if (!_cube->armHome) _cube->SetArmHome();
+
 		if(_buildcommands) {
 			_fielddata = DriverStation::GetInstance().GetGameSpecificMessage();
 			printf("Checking for data\n");
@@ -110,6 +110,7 @@ namespace Autonomous
 		_commands->drvmag = _comoutput.autoSpeed;
 		_commands->cmdscaleshot = _comoutput.takeScaleShot;
 		_commands->cmdswitchshot = _comoutput.takeSwitchShot;
+		_commands->cmdarmtocarry = _comoutput.takeArmToCarry;
 	}
 }
 

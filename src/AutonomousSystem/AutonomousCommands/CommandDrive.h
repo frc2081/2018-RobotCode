@@ -40,6 +40,7 @@ private:
 	double _gyrohold;
 	double _currang;
 	bool _drivestraight;
+	double _prevdistance;
 	gyroManager *_gyro;
 	//infinite ducks
 };

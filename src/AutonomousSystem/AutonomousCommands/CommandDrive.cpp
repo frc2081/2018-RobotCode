@@ -18,6 +18,7 @@ CommandDrive::CommandDrive(double toTravel, double direction, bool drivestraight
 	_drivestraight = drivestraight;
 	//_gyrohold = _gyro->getLastValue();
 	_currang = 0;
+	_prevdistance = 0;
 }
 
 commandOutput CommandDrive::tick(commandInput input) {
@@ -34,7 +35,13 @@ commandOutput CommandDrive::tick(commandInput input) {
 		printf("DRIVE COMPLETE\n");
 		return doNothing();
 	}
-	return commandOutput(0.5, _direction, _rotcorrection);
+	if (checkDistance(input) >= (_toTravel/4) && (checkDistance(input) >= _prevdistance - .03 && checkDistance(input) <= _prevdistance + .03)) {
+		setComplete();
+		printf("DRIVE COMPLETE TO WALL\n");
+		return doNothing();
+	}
+	_prevdistance = checkDistance(input);
+	return commandOutput(0.75, _direction, _rotcorrection);
 }
 
 void CommandDrive::init(commandInput input) {

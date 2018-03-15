@@ -14,6 +14,7 @@
 		double autoRot;
 		bool takeScaleShot;
 		bool takeSwitchShot;
+		bool takeArmToCarry;
 
 		commandOutput() {
 			autoAng = 0;
@@ -32,12 +33,13 @@
 			takeSwitchShot = false;
 		}
 
-		commandOutput(bool scaleShot, bool switchShot) {
+		commandOutput(bool scaleShot, bool switchShot, bool armToCarry) {
 			autoAng = 0;
 			autoSpeed = 0;
 			autoRot = 0;
 			takeScaleShot = scaleShot;
 			takeSwitchShot = switchShot;
+			takeArmToCarry = armToCarry;
 		}
 	};
 

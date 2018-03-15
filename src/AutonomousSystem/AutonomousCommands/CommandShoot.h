@@ -12,7 +12,7 @@
 
 class CommandShoot : public CommandBase {
 public:
-	CommandShoot(double fireTimeSec, bool scaleshot, bool swtichshot);
+	CommandShoot(double fireTimeSec, bool scaleshot, bool swtichshot, bool armtocarry);
 	virtual ~CommandShoot();
 
 	void init(commandInput input);
@@ -26,6 +26,7 @@ private:
 	double _shootAng;
 	bool _scale;
 	bool _switch;
+	bool _armtocarry;
 
 };
 

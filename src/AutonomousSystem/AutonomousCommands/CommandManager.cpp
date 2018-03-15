@@ -39,7 +39,7 @@ commandOutput CommandManager::tick(commandInput input) {
 }
 
 void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
-	/* ALL NUMBERS ARE PLACEHOLDERS UNTIL THE TRUE ONES ARE MEASURED */
+	queue->push(new CommandShoot(0.5, false, false, true));
 	queue->push(new CommandDrive(.5, 0, false));
 	if (_scale == 'L') {
 		if (station == ONE) {
@@ -93,16 +93,17 @@ void CommandManager::scaleOnly(queue<CommandBase*> *queue,robotTeam team, robotS
 			}
 		}
 	}
-	queue->push(new CommandShoot(10, true, false));
+	queue->push(new CommandShoot(10, true, false, false));
 }
 
 void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robotStation station) {
+	queue->push(new CommandShoot(0.5, false, false, true));
 	if (_ourswitch == 'L') {
 		printf("LEFT\n");
 		if (station == TWO) {
-			queue->push(new CommandDrive(2, 45, false));
-			queue->push(new CommandDrive(1, 90, false));
-			queue->push(new CommandDrive(.5, 0, false));
+			queue->push(new CommandDrive(1.85, 45, false));
+			//queue->push(new CommandDrive(1.5, 90, false));
+			queue->push(new CommandDrive(1.5, 0, false));
 		} else if (station == ONE) {
 			queue->push(new CommandDrive(3.5, 0, false));
 			queue->push(new CommandTurn(90));
@@ -116,8 +117,8 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 	} else if (_ourswitch == 'R') {
 		printf("RIGHT\n");
 		if (station == TWO) {
-			queue->push(new CommandDrive(2.3, 315, false));
-			queue->push(new CommandDrive(1, 0, false));
+			queue->push(new CommandDrive(2, 315, false));
+			queue->push(new CommandDrive(1.5, 0, false));
 		} else if (station == ONE) {
 			queue->push(new CommandDrive(5.2, 0, false));
 			queue->push(new CommandDrive(4, 270, false));
@@ -129,7 +130,7 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 			queue->push(new CommandDrive(0.27, 0, false));
 		}
 	}
-	queue->push(new CommandShoot(10, false, true));
+	queue->push(new CommandShoot(10, false, true, false));
 }
 
 void CommandManager::crossLine(queue<CommandBase*> *queue,robotTeam team, robotStation station) {

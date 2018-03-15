@@ -34,6 +34,7 @@ public:
 
 	void AutonomousInit() override {
 		Auto->AutoInit();
+		autoArmHome = false;
 	}
 
 	void AutonomousPeriodic() {
@@ -42,6 +43,11 @@ public:
 		printf("Calling DriveMangerAutoPeriodic\n");
 		Driver->DriveManagerAutoPeriodic();
 		Shooter->CubeManagerPeriodic(Commands);
+		if (!autoArmHome) {
+			RioIO->shooteranglmot->Set(ControlMode::PercentOutput, .75);
+			printf("Setting home\n");
+			autoArmHome = Shooter->SetArmHome();
+		}
 		printf("\n");
 	}
 
