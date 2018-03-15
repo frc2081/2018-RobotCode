@@ -44,9 +44,9 @@ public:
 		Driver->DriveManagerAutoPeriodic();
 		Shooter->CubeManagerPeriodic(Commands);
 		if (!autoArmHome) {
-			RioIO->shooteranglmot->Set(ControlMode::PercentOutput, .75);
+			//RioIO->shooteranglmot->Set(ControlMode::PercentOutput, .75);
 			printf("Setting home\n");
-			autoArmHome = Shooter->SetArmHome();
+			//autoArmHome = Shooter->SetArmHome();
 		}
 		printf("\n");
 	}

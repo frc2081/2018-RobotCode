@@ -103,9 +103,9 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 	if (_ourswitch == 'L') {
 		printf("LEFT\n");
 		if (station == TWO) {
-			queue->push(new CommandDrive(1.85, 45, false));
+			queue->push(new CommandDrive(1.75, 45, false));
 			//queue->push(new CommandDrive(1.5, 90, false));
-			queue->push(new CommandDrive(1.5, 0, false));
+			queue->push(new CommandDrive(.75, 0, false));
 		} else if (station == ONE) {
 			queue->push(new CommandDrive(3.5, 0, false));
 			queue->push(new CommandTurn(90));
@@ -119,8 +119,8 @@ void CommandManager::switchOnly(queue<CommandBase*> *queue,robotTeam team, robot
 	} else if (_ourswitch == 'R') {
 		printf("RIGHT\n");
 		if (station == TWO) {
-			queue->push(new CommandDrive(2, 315, false));
-			queue->push(new CommandDrive(1.5, 0, false));
+			queue->push(new CommandDrive(1.75, 315, false));
+			queue->push(new CommandDrive(.75, 0, false));
 		} else if (station == ONE) {
 			queue->push(new CommandDrive(5.2, 0, false));
 			queue->push(new CommandDrive(4, 270, false));
@@ -166,18 +166,21 @@ CommandBase *CommandManager::getNextCommand(commandInput input) {
 void CommandManager::buildCommands(queue<CommandBase*> *queue, robotTeam team, robotStation station, robotAction action) {
 	switch(action) {
 	case SWITCH_SHOT:
-		switchOnly(queue, team, station);
+		//switchOnly(queue, team, station);
 		break;
 	case SCALE_SHOT:
-		scaleOnly(queue, team, station);
+		//scaleOnly(queue, team, station);
 		break;
 	case DRIVE_FORWARD:
-		crossLine(queue, team, station);
+		//crossLine(queue, team, station);
 		break;
 	default:
 		break;
 	}
 	printf("Built\n");
+	queue->push(new CommandDrive(1, 0, false));
+	queue->push(new CommandDrive(.1, 90, false));
+	//queue->push(new CommandTurn(90));
 	queue->push(new CommandPause(-1));
 }
 
