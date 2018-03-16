@@ -39,6 +39,5 @@ const char* CommandPause::getCommandName()
 }
 
 CommandPause::~CommandPause() {
-	// TODO Auto-generated destructor stub
 }
 

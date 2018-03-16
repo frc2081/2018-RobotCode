@@ -21,6 +21,7 @@
 
 		void CalculateVectors();
 
+		// :eyes: Intelligent
 		void ApplyIntellegintSwerve();
 
 		void AutoApplyPIDControl();

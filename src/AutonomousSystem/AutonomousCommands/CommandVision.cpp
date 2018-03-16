@@ -8,7 +8,6 @@
 #include "CommandVision.h"
 
 CommandVision::CommandVision(SwerveLib *swerveLib) {
-	// TODO Auto-generated constructor stub
 	autoMag = 0;
 	autoAng = 0;
 	autoRot = 0;
@@ -29,6 +28,5 @@ commandOutput CommandVision::tick(commandInput input) {
 }
 
 CommandVision::~CommandVision() {
-	// TODO Auto-generated destructor stub
 }
 

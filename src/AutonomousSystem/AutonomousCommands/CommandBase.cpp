@@ -10,7 +10,6 @@
 
 
 CommandBase::CommandBase() {
-	// TODO Auto-generated constructor stub
 	commandComplete = false;
 }
 
@@ -32,6 +31,5 @@ bool CommandBase::compareDouble(double x, double y) {
 	return difference <= 1;
 }
 CommandBase::~CommandBase() {
-	// TODO Auto-generated destructor stub
 }
 

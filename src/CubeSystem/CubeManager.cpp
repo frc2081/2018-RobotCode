@@ -43,7 +43,7 @@ void CubeManager::CubeManagerPeriodic(RobotCommands *Commands)
 	SmartDashboard::PutBoolean("High intake command", Commands->cmdintakehighshot);
 	SmartDashboard::PutBoolean("Low intake command", Commands->cmdintakelowshot);
 	SmartDashboard::PutNumber("Low shot aim angle", lowShotAimAngle);
-	curShooterAng = SmartDashboard::GetNumber("Current shooter angle", 0);
+	//curShooterAng = SmartDashboard::GetNumber("Current shooter angle", 0);
 	//Manual commands
 	if (Commands->cmdisinmechmanual) {
 		RioIO->shooteranglmot->Set(ControlMode::PercentOutput, Commands->cmdmanualshooterangleraise - Commands->cmdmanualshooteranglelower);

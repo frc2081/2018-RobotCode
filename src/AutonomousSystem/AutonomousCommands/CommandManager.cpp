@@ -193,6 +193,5 @@ double CommandManager::configShooterAng(robotTeam team, robotStation RS)
 }
 
 CommandManager::~CommandManager() {
-	// TODO Auto-generated destructor stub
 }
 

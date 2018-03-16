@@ -8,6 +8,8 @@
 #ifndef SRC_IO_H_
 #define SRC_IO_H_ 1
 
+// This is in IO because IO is included basically everywhere
+#define DEBUG_PRINTS 1
 
 #include <WPILib.h>
 #include "ctre/Phoenix.h"

@@ -100,6 +100,9 @@ void DriveManager::CalculateVectors() {
 	_curranglf = _swervelib->whl->angleLF;
 	_currangrb = _swervelib->whl->angleRB;
 	_curranglb = _swervelib->whl->angleLB;
+	// TODO Could be reduced:
+	// 	if (_commands->drvmag + _commands->drvang + _commands->drvrot != 0) {
+	// Also should probably cast the sum to int to reduce possible jitter (not really needed)
 	if (_commands->drvmag != 0 || _commands->drvang != 0 || _commands->drvrot != 0) {
 		_swervelib->CalcWheelVect(_commands->drvmag, _commands->drvang, _commands->drvrot);
 	} else {
@@ -110,26 +113,34 @@ void DriveManager::CalculateVectors() {
 	}
 }
 
+static bool _CheckAngleDifference(double wheelangle, double currentangle) {
+	// Reordered for speed optimizations
+	return (wheelangle - currentangle < 270) && (fabs(wheelangle - currentangle) > 90);
+}
+
 void DriveManager::ApplyIntellegintSwerve() {
-	if (fabs(_swervelib->whl->angleRF - _currangrf) > 90 &&
-			(_swervelib->whl->angleRF - _currangrf < 270)) {
+	// TODO: Optimize math
+	if(_CheckAngleDifference(_swervelib->whl->angleRF, _currangrf)) {
 		_swervelib->whl->angleRF = ((int)_swervelib->whl->angleRF + 180) % 360;
 		_swervelib->whl->speedRF *= -1;
 	}
-	if (fabs(_swervelib->whl->angleLF - _curranglf) > 90 &&
-			(_swervelib->whl->angleLF - _curranglf < 270)) {
+	if(_CheckAngleDifference(_swervelib->whl->angleLF, _curranglf)) {
 		_swervelib->whl->angleLF = ((int)_swervelib->whl->angleLF + 180) % 360;
 		_swervelib->whl->speedLF *= -1;
 	}
-	if (fabs(_swervelib->whl->angleRB - _currangrb) > 90 &&
-			(_swervelib->whl->angleRB - _currangrb < 270)) {
+	if(_CheckAngleDifference(_swervelib->whl->angleRB, _currangrb)) {
 		_swervelib->whl->angleRB = ((int)_swervelib->whl->angleRB + 180) % 360;
 		_swervelib->whl->speedRB *= -1;
 	}
-	if (fabs(_swervelib->whl->angleLB - _curranglb) > 90 &&
-			(_swervelib->whl->angleLB - _curranglb < 270)) {
+	if(_CheckAngleDifference(_swervelib->whl->angleLB, _curranglb)) {
 		_swervelib->whl->angleLB = ((int)_swervelib->whl->angleLB + 180) % 360;
 		_swervelib->whl->speedLB *= -1;
+	}
+}
+
+void WrapPID(PIDController *pid) {
+	if (pid->GetSetpoint() >= 359) {
+		pid->SetSetpoint(0);
 	}
 }
 
@@ -140,18 +151,11 @@ void DriveManager::AutoApplyPIDControl() {
 	_lbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleLB, _lbwhlangoffset));
 	_rbturnpid->SetSetpoint(WhlAngCalcOffset(_swervelib->whl->angleRB, _rbwhlangoffset));
 
-	if (_lfturnpid->GetSetpoint() >= 359) {
-		_lfturnpid->SetSetpoint(0);
-	}
-	if (_rfturnpid->GetSetpoint() >= 359) {
-			_rfturnpid->SetSetpoint(0);
-		}
-	if (_lbturnpid->GetSetpoint() >= 359) {
-			_lbturnpid->SetSetpoint(0);
-		}
-	if (_rbturnpid->GetSetpoint() >= 359) {
-			_rbturnpid->SetSetpoint(0);
-		}
+	WrapPID(_lfturnpid);
+	WrapPID(_rfturnpid);
+	WrapPID(_lbturnpid);
+	WrapPID(_rbturnpid);
+
 	/*
 	 * 138 pulses/rotation of wheel
 	 * 20 pulses/rotation of cim
@@ -164,26 +168,27 @@ void DriveManager::AutoApplyPIDControl() {
 	_swervelib->whl->speedLB *= _maxdrivespeed;
 	_swervelib->whl->speedRB *= _maxdrivespeed;
 
-	printf("lf turn encoder: %.2f  lf turn pid: %.2f\n", _io->steerencdrvlf->Get(), _lfturnpid->GetSetpoint());
-	printf("rf turn encoder: %.2f  rf turn pid: %.2f\n", _io->steerencdrvrf->Get(), _rfturnpid->GetSetpoint());
-	printf("lb turn encoder: %.2f  lb turn pid: %.2f\n", _io->steerencdrvlb->Get(), _lbturnpid->GetSetpoint());
-	printf("rb turn encoder: %.2f  rb turn pid: %.2f\n", _io->steerencdrvrb->Get(), _rbturnpid->GetSetpoint());
-	//Code to ensure the swerve drive orients it's wheels correctly before attempting to move
-		if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 5) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 5)
-			&& (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 5) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint()  + 5)
-			&& (_io->steerencdrvlb->Get() >= _lbturnpid->GetSetpoint() - 5) && (_io->steerencdrvlb->Get() <= _lbturnpid->GetSetpoint()  + 5)
-			&& (_io->steerencdrvrf->Get() >= _rfturnpid->GetSetpoint() - 5) && (_io->steerencdrvrf->Get() <= _rfturnpid->GetSetpoint()  + 5)) {
-
-				_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
-				_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
-				_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
-				_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
-			} else {
-				_lfdrvpid->SetSetpoint(0);
-				_rfdrvpid->SetSetpoint(0);
-				_lbdrvpid->SetSetpoint(0);
-				_rbdrvpid->SetSetpoint(0);
-		}
+	if(DEBUG_PRINTS) {
+		printf("lf turn encoder: %.2f  lf turn pid: %.2f\n", _io->steerencdrvlf->Get(), _lfturnpid->GetSetpoint());
+		printf("rf turn encoder: %.2f  rf turn pid: %.2f\n", _io->steerencdrvrf->Get(), _rfturnpid->GetSetpoint());
+		printf("lb turn encoder: %.2f  lb turn pid: %.2f\n", _io->steerencdrvlb->Get(), _lbturnpid->GetSetpoint());
+		printf("rb turn encoder: %.2f  rb turn pid: %.2f\n", _io->steerencdrvrb->Get(), _rbturnpid->GetSetpoint());
+	}
+	//Code to ensure the swerve drive orients its wheels correctly before attempting to move
+	if ((_io->steerencdrvlf->Get() >= _lfturnpid->GetSetpoint() - 5) && (_io->steerencdrvlf->Get() <= _lfturnpid->GetSetpoint() + 5)
+	 && (_io->steerencdrvrb->Get() >= _rbturnpid->GetSetpoint() - 5) && (_io->steerencdrvrb->Get() <= _rbturnpid->GetSetpoint() + 5)
+	 && (_io->steerencdrvlb->Get() >= _lbturnpid->GetSetpoint() - 5) && (_io->steerencdrvlb->Get() <= _lbturnpid->GetSetpoint() + 5)
+	 && (_io->steerencdrvrf->Get() >= _rfturnpid->GetSetpoint() - 5) && (_io->steerencdrvrf->Get() <= _rfturnpid->GetSetpoint() + 5)) {
+		_lfdrvpid->SetSetpoint(_swervelib->whl->speedLF);
+		_rfdrvpid->SetSetpoint(_swervelib->whl->speedRF);
+		_lbdrvpid->SetSetpoint(_swervelib->whl->speedLB);
+		_rbdrvpid->SetSetpoint(_swervelib->whl->speedRB);
+	} else {
+		_lfdrvpid->SetSetpoint(0);
+		_rfdrvpid->SetSetpoint(0);
+		_lbdrvpid->SetSetpoint(0);
+		_rbdrvpid->SetSetpoint(0);
+	}
 }
 void DriveManager::ApplyPIDControl() {
 

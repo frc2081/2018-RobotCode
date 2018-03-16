@@ -9,8 +9,6 @@
 #include <iostream>
 
 CommandShoot::CommandShoot(double fireTimeSec) {
-	// TODO Auto-generated constructor stub
-
 	_toWaitSec = fireTimeSec + 2;
 }
 
@@ -41,6 +39,5 @@ commandOutput CommandShoot::tick(commandInput input) {
 }
 
 CommandShoot::~CommandShoot() {
-	// TODO Auto-generated destructor stub
 }
 

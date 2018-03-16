@@ -40,6 +40,5 @@ void TalonConfiguration::TalonConfigInit() {
 		_io->shooteranglmot->Config_kD(0, 0.0, 0);
 	}
 TalonConfiguration::~TalonConfiguration() {
-	// TODO Auto-generated destructor stub
 }
 

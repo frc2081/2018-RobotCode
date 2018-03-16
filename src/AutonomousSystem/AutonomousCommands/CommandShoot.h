@@ -24,7 +24,6 @@ private:
 	double _toWaitSec;
 	double _shootSpd;
 	double _shootAng;
-
 };
 
 #endif /* SRC_AUTOCOMMANDS_COMMANDSHOOT_H_ */

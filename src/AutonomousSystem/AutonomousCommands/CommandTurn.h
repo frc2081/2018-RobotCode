@@ -30,13 +30,13 @@ private:
 	currentActivity currentState;
 
 	double _toRotate;
-	double _finalRot;
+	double _finalRot = 0;
 
-	double gyroReadingInit;
+	double gyroReadingInit = NULL;
 
-	double gyroReading;
+	double gyroReading = NULL;
 
-	double _toTravel;
+	double _toTravel = 0;
 
 	double _turnDirection = 1; //positive = clockwise, negative = counterClockwise;
 	double _turnRate = 0.4; //radians per sec

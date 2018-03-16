@@ -9,20 +9,29 @@
 #include <iostream>
 
 CommandTurn::CommandTurn(double toRotate) {
-	// TODO Auto-generated constructor stub
-
 	_toRotate = toRotate;
 	currentState = wheelTurn;
 }
 
+double _BoundFinalRot(double finalrot) {
+	if (finalrot >= 360)   finalrot -= 360;
+	else if (finalrot < 0) finalrot += 360;
+
+	if(finalrot >= 360)   return _BoundFinalRot(finalrot);
+	else if(finalrot < 0) return _BoundFinalRot(finalrot);
+
+	return finalrot;
+}
+
 void CommandTurn::init (commandInput input) {
 	//After rotating 720 degrees clockwise (positive), robot will spin in a circle if told to turn that way again
+	// ^ This is because the >= 360 check wass only performed once. This bug is now fixed
 	gyroReadingInit = input.currentGyroReading;
 
 	_finalRot = gyroReadingInit + _toRotate;
 
-	if (_finalRot >= 360) _finalRot -= 360;
-	else if (_finalRot < 0) _finalRot += 360;
+	// This should fix the spinning bug
+	_finalRot = _BoundFinalRot(_finalRot);
 
 	if(_toRotate >= 0) _turnDirection = 1;
 	else _turnDirection = -1;
@@ -49,6 +58,5 @@ commandOutput CommandTurn::tick(commandInput input) {
 }
 
 CommandTurn::~CommandTurn() {
-	// TODO Auto-generated destructor stub
 }
 

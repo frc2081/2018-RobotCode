@@ -60,6 +60,5 @@ double CommandDrive::checkDistance(commandInput input) {
 }
 
 CommandDrive::~CommandDrive() {
-	// TODO Auto-generated destructor stub
 }
 
