@@ -52,6 +52,8 @@ public:
 	Solenoid *solenoidpokerclose;
 	Solenoid *shooterarmarticulationopen;
 	Solenoid *shooterarmarticulationclose;
+	Solenoid *solenoidraisehookopen;
+	Solenoid *solenoidraisehookclose;
 	Encoder *encdrvlb;
 	Encoder *encdrvlf;
 	Encoder *encdrvrb;

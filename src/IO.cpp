@@ -27,6 +27,8 @@ IO::IO() {
 	compressor = new Compressor();
 	solenoidpokeropen = new Solenoid(0);
 	solenoidpokerclose = new Solenoid(1);
+	solenoidraisehookopen = new Solenoid(2);
+	solenoidraisehookclose = new Solenoid(3);
 	shooterarmarticulationopen = new Solenoid(2);
 	shooterarmarticulationclose = new Solenoid(3);
 	encdrvlb = new Encoder(0, 1, false, Encoder::EncodingType::k4X);
