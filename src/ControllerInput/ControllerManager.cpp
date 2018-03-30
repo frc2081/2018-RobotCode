@@ -48,6 +48,9 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	if(drivecontroller->bA->State() == true) Commands->cmdautopickup = true;
 	else Commands->cmdautopickup = false;
 
+	//Arm to carry position - duplicated for ease of driving
+	if(drivecontroller->bY->State()) Commands->cmdarmtocarry = true;
+	else Commands->cmdarmtocarry = false;
 
 	//Manipulator Controls
 	if(mechanismcontroller->bLS->Held() == true){
@@ -112,15 +115,19 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 			if(mechanismcontroller->bLB->State() == true && mechanismcontroller->bRB->State() == true) Commands->cmdautoscaleshot = true;
 			else Commands->cmdautoscaleshot = false;
 
+			//Home arm on the ground
 			if(mechanismcontroller->bRS->State()) Commands->cmdresetrobot = true;
 			else Commands->cmdresetrobot = false;
 
+			//Arm to carry position
 			if(mechanismcontroller->bBack->State()) Commands->cmdarmtocarry = true;
 			else Commands->cmdarmtocarry = false;
 
+			//Shot for highest scale
 			if(mechanismcontroller->bStart->State()) Commands->cmdscalehighshot = true;
 			else Commands->cmdscalehighshot = false;
 
+			//Shot for lowest scale
 			if(mechanismcontroller->bX->State()) Commands->cmdscalemidshot = true;
 			else Commands->cmdscalemidshot = false;
 		} else {
