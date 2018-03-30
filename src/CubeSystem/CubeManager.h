@@ -73,7 +73,7 @@ private:
 	double highShotAimMargin = margin;
 	double highShotShooterPower = .6;
 	double highShotIntakePower = .6;
-	double highShotSpinUpDelay = 40;
+	double highShotSpinUpDelay = 30;
 	double highShotShotDuration = 25;
 
 	double highShotMidAimAngleOffset = -5900;

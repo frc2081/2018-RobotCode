@@ -348,7 +348,7 @@ bool CubeManager::CheckArmHome()
 
 bool CubeManager::SetArmHome()
 {
-	if(RioIO->shooteranglmot->GetOutputCurrent() > 10 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
+	if(RioIO->shooteranglmot->GetOutputCurrent() > 15 && RioIO->shooteranglmot->GetMotorOutputPercent() > 0)
 	{
 		shooterStartAngle = RioIO->shooteranglmot->GetSelectedSensorPosition(0);
 		armHome = true;
