@@ -32,6 +32,10 @@ namespace Ramp
 			_io->ramplmot->Set(1);
 			//Unsure if one or two motor controllers running winch
 			_io->ramprmot->Set(1);
+
+			//Run wheels slightly to reduce drag on wall
+			commands->drvang(270);
+			commands->drvmag(0.1);
 		}
 
 		/*
