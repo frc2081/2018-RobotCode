@@ -25,7 +25,7 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	Commands->drvmag = sqrt(pow(drivecontroller->LX, 2) + pow(drivecontroller->LY, 2));
 	Commands->drvrot = drivecontroller->RX;
 	//Ramp Release Command
-	if(drivecontroller->bStart->State() == true && drivecontroller->bBack->State() == true) Commands->cmdramprelease = true;
+	if(drivecontroller->bA->State()) Commands->cmdramprelease = true;
 	else Commands->cmdramprelease = false;
 
 	//Left Ramp Raise Command
@@ -33,8 +33,8 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	else Commands->cmdrampraiseleft = false;
 
 	//Right Ramp Raise Command
-	if(drivecontroller->bRB->State()) Commands->cmdrampraiseright = true;
-	else Commands->cmdrampraiseright = false;
+	if(drivecontroller->bRB->State() && drivecontroller->bStart->State()&& drivecontroller->bBack->State()) Commands->cmdwinch = true;
+	else Commands->cmdwinch = false;
 
 	//Left Ramp Lower Command
 	if (drivecontroller->bX->State()) Commands->cmdramplowerleft = true;
@@ -45,8 +45,8 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	else Commands->cmdramplowerright = false;
 
 	//Automatic Cube Intake Command
-	if(drivecontroller->bA->State() == true) Commands->cmdautopickup = true;
-	else Commands->cmdautopickup = false;
+	//if(drivecontroller->bA->State() == true) Commands->cmdautopickup = true;
+	//else Commands->cmdautopickup = false;
 
 	//Arm to carry position - duplicated for ease of driving
 	if(drivecontroller->bY->State()) Commands->cmdarmtocarry = true;

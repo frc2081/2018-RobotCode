@@ -20,7 +20,7 @@ public:
 	bool cmdintakelowshot;
 	bool cmdshiftcube;
 	bool cmdrampraiseleft;
-	bool cmdrampraiseright;
+	bool cmdwinch;
 	bool cmdramplowerleft;
 	bool cmdramplowerright;
 	bool cmdautopickup;

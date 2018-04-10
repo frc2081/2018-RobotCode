@@ -22,21 +22,20 @@ namespace Ramp
 		//Set raising solenoid to be down unless being commanded up
 		_io->solenoidraisehookopen->Set(false);
 		_io->solenoidraisehookclose->Set(true);
-		if (!commands->cmdramprelease) return;
-		//Raise hook
-		_io->solenoidraisehookopen->Set(true);
-		_io->solenoidraisehookclose->Set(false);
-
 		//Right bumper raise winch
-		if (commands->cmdrampraiseright) {
+		if (commands->cmdwinch) {
 			_io->ramplmot->Set(1);
 			//Unsure if one or two motor controllers running winch
 			_io->ramprmot->Set(1);
 
 			//Run wheels slightly to reduce drag on wall
-			commands->drvang(270);
-			commands->drvmag(0.1);
+			commands->drvang = 270;
+			commands->drvmag = 0.1;
 		}
+		if (!commands->cmdramprelease) return;
+		//Raise hook
+		_io->solenoidraisehookopen->Set(true);
+		_io->solenoidraisehookclose->Set(false);
 
 		/*
 		 * Code for ramps, no longer on robot
