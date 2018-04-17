@@ -13,6 +13,8 @@ namespace Ramp
 		_leftraisetimer = 100;
 		_rightraisetimer= 100;
 		_rampOpenTimer = 200;
+		_io->solenoidraisehookopen->Set(false);
+		_io->solenoidraisehookclose->Set(true);
 	}
 
 	void RampManager::RampManagerInit() {}
@@ -20,8 +22,6 @@ namespace Ramp
 		SmartDashboard::PutBoolean("Ramp Release", commands->cmdramprelease);
 		SmartDashboard::PutNumber("Servo angle: ", _io->ramprelease->GetAngle());
 		//Set raising solenoid to be down unless being commanded up
-		_io->solenoidraisehookopen->Set(false);
-		_io->solenoidraisehookclose->Set(true);
 		//Right bumper raise winch
 		if (commands->cmdwinch) {
 			_io->ramplmot->Set(1);
@@ -32,10 +32,14 @@ namespace Ramp
 			commands->drvang = 270;
 			commands->drvmag = 0.1;
 		}
-		if (!commands->cmdramprelease) return;
+		if (commands->cmdramprelease) {
+			_io->solenoidraisehookopen->Set(true);
+			_io->solenoidraisehookclose->Set(false);
+		} else {
+			_io->solenoidraisehookopen->Set(false);
+			_io->solenoidraisehookclose->Set(true);
+		}
 		//Raise hook
-		_io->solenoidraisehookopen->Set(true);
-		_io->solenoidraisehookclose->Set(false);
 
 		/*
 		 * Code for ramps, no longer on robot

@@ -25,14 +25,14 @@ void ControllerManager::pollControllers(RobotCommands *Commands){
 	Commands->drvmag = sqrt(pow(drivecontroller->LX, 2) + pow(drivecontroller->LY, 2));
 	Commands->drvrot = drivecontroller->RX;
 	//Ramp Release Command
-	if(drivecontroller->bA->State()) Commands->cmdramprelease = true;
-	else Commands->cmdramprelease = false;
+	if(drivecontroller->bStart->State && drivecontroller->bBack->State && drivecontroller->bLB->RE)
+		Commands->cmdramprelease = !Commands->cmdramprelease;
 
 	//Left Ramp Raise Command
 	if(drivecontroller->bLB->State()) Commands->cmdrampraiseleft = true;
 	else Commands->cmdrampraiseleft = false;
 
-	//Right Ramp Raise Command
+	//Right Ramp Raise Command || raise winch
 	if(drivecontroller->bRB->State() && drivecontroller->bStart->State()&& drivecontroller->bBack->State()) Commands->cmdwinch = true;
 	else Commands->cmdwinch = false;
 

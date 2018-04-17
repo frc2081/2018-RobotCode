@@ -30,7 +30,8 @@ enum RANGELIMITS {
 	kLX = 100,
 	kLY = 100,
 	kRX = 100,
-	kRY = 100
+	kRY = 100,
+	kRTrig = 100
 };
 
 typedef JoystickButton Btn_t;
